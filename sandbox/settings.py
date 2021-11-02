@@ -1,6 +1,7 @@
 import os
 import environ
 import oscar
+from django.utils.translation import ugettext_lazy as _
 
 env = environ.Env()
 
@@ -8,7 +9,7 @@ env = environ.Env()
 location = lambda x: os.path.join(
     os.path.dirname(os.path.realpath(__file__)), x)
 
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = True
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
@@ -264,19 +265,22 @@ INSTALLED_APPS = [
     'oscar.apps.checkout.apps.CheckoutConfig',
     'oscar.apps.address.apps.AddressConfig',
     'oscar.apps.shipping.apps.ShippingConfig',
-    'oscar.apps.catalogue.apps.CatalogueConfig',
+    #'oscar.apps.catalogue.apps.CatalogueConfig',
+    'catalogue.apps.CatalogueConfig',
     'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig',
     'oscar.apps.communication.apps.CommunicationConfig',
     'oscar.apps.partner.apps.PartnerConfig',
     'oscar.apps.basket.apps.BasketConfig',
     'oscar.apps.payment.apps.PaymentConfig',
-    'oscar.apps.offer.apps.OfferConfig',
+    #'oscar.apps.offer.apps.OfferConfig',
+    'offer.apps.OfferConfig',
     'oscar.apps.order.apps.OrderConfig',
     'oscar.apps.customer.apps.CustomerConfig',
     'oscar.apps.search.apps.SearchConfig',
     'oscar.apps.voucher.apps.VoucherConfig',
     'oscar.apps.wishlists.apps.WishlistsConfig',
-    'oscar.apps.dashboard.apps.DashboardConfig',
+    #'oscar.apps.dashboard.apps.DashboardConfig',
+    'dashboard.apps.DashboardConfig',
     'oscar.apps.dashboard.reports.apps.ReportsDashboardConfig',
     'oscar.apps.dashboard.users.apps.UsersDashboardConfig',
     'oscar.apps.dashboard.orders.apps.OrdersDashboardConfig',
@@ -297,6 +301,11 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'easy_thumbnails',
     'django_tables2',
+    'paypal',
+    'paypal.express_checkout',
+    'paypal.express.dashboard.apps.ExpressDashboardApplication',
+    'paypal.express_checkout.dashboard.apps.ExpressCheckoutDashboardApplication',
+    'paypal.payflow.dashboard.apps.PayFlowDashboardApplication',
 
     # Django apps that the sandbox depends on
     'django.contrib.sitemaps',
@@ -304,7 +313,31 @@ INSTALLED_APPS = [
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
     'debug_toolbar',
+    'settings',
 ]
+
+OSCAR_PAYMENT_METHODS = (
+    ('cod', _('Cash on delivery')),
+    ('paypal', _('Paypal')),
+    ('VISA', 'Visa'),
+    ('MASTERCARD', 'MasterCard'),
+)
+
+from oscar.defaults import *
+# Add Payflow dashboard stuff to settings
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': _('Settings'),
+        'icon': 'icon-globe',
+        'children': [
+
+            {
+                #'label': _('Globalsettings'),
+                #'url_name': 'settings:GlobalsettingsUpdateView',
+            },
+        ]
+    })
+
 
 # Add Oscar's custom auth backend so users can sign in using their email
 # address.
