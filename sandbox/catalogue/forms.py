@@ -2,11 +2,11 @@
 
 from oscar.core.loading import get_model
 
-from .Widgets import *
+from bibliothek.Widgets import *
 from .models import colorchoices,brandchoices,sizechoices,materialchoices
 from oscar.apps.dashboard.catalogue.forms import _attr_text_field,_attr_textarea_field,_attr_integer_field,_attr_boolean_field,_attr_float_field,_attr_date_field,_attr_datetime_field,_attr_option_field,_attr_multi_option_field,_attr_entity_field,_attr_numeric_field,_attr_file_field,_attr_image_field
 from oscar.apps.dashboard.catalogue.forms import ProductForm as Productformold
-from .FormMixins import *
+from bibliothek.FormMixins import *
 
 
 Product = get_model('catalogue', 'Product')

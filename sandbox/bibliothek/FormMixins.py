@@ -1,7 +1,7 @@
 from PIL import Image
 from django import forms
 from django.contrib.auth.models import User
-from .Widgets import *
+from bibliothek.Widgets import *
 
 from .middleware import RequestMiddleware
 from django.contrib import messages

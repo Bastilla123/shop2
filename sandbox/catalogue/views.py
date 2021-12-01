@@ -1,5 +1,5 @@
 from django.template.loader import render_to_string
-
+#from settings.views import *
 from oscar.apps.dashboard.catalogue.views import ProductCreateUpdateView as CoreProductCreateUpdateView
 
 from oscar.apps.catalogue.views import ProductDetailView as CoreProductDetailView
@@ -23,7 +23,7 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from .Mixins import SingleFormMixin,Deletesuccessmixin,ListviewMixin
+from bibliothek.Mixins import SingleFormMixin,Deletesuccessmixin,ListviewMixin
 from .forms import *
 
 

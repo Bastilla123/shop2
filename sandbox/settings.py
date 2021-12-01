@@ -112,6 +112,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = env.str('SECRET_KEY', default='UajFCuyjDKmWHe29neauXzHi9eZoRXr6RMbT5JyAdPiACBP6Cra2')
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -119,6 +121,9 @@ TEMPLATES = [
             location('templates'),
         ],
         'OPTIONS': {
+            'libraries': {
+                'tags': 'bibliothek.templatetags.tags'
+            },
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
@@ -313,7 +318,8 @@ INSTALLED_APPS = [
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
     'debug_toolbar',
-    'settings',
+    'globalsettings',
+    'photo',
 ]
 
 OSCAR_PAYMENT_METHODS = (
@@ -332,11 +338,11 @@ OSCAR_DASHBOARD_NAVIGATION.append(
         'children': [
 
             {
-                #'label': _('Globalsettings'),
-                #'url_name': 'settings:GlobalsettingsUpdateView',
+                'label': _('Globalsettings'),
+                'url_name': 'globalsettings:Test',
             },
         ]
-    })
+   })
 
 
 # Add Oscar's custom auth backend so users can sign in using their email
@@ -462,3 +468,4 @@ try:
     from settings_local import *
 except ImportError:
     pass
+
