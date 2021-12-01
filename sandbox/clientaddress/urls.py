@@ -1,4 +1,4 @@
-from address import views
+from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path, include
@@ -8,13 +8,13 @@ from django.conf.urls import url
 
 urlpatterns = [
 
-    path('test',views.test,name="test"),
+
     path('list/address/', views.AddressListView.as_view(), name="addresslist"),  # Liste aller Addressen
 
     url(r"^edit/Address/(?P<pk>.*)/$", views.AddressUpdateView.as_view(),name="AddressUpdateView"),
     url(r"^edit/address/(?P<pk>.*)/$", views.AddressUpdateView.as_view(),name="AddressUpdateView"),
     url(r"^create/address/$", views.AddressCreateView.as_view(),name="AddressCreateView"),
-    url(r"^create/address2/$", views.AddressCreateView2.as_view(),name="AddressCreateView"),
+    #url(r"^create/address2/$", views.AddressCreateView2.as_view(),name="AddressCreateView"),
     url(r'^$', views.AddressListView.as_view(), name="home"),  # Liste aller Addressen
     url(r"^delete/address/(?P<pk>\d+)/$", views.DeleteAddressView.as_view() ,name="delete_address",), #Löscht eine Adresse
     url(r"^delete/Address/(?P<pk>\d+)/$", views.DeleteAddressView.as_view() ,name="delete_address",), #Löscht eine Adresse
@@ -22,6 +22,10 @@ urlpatterns = [
 
     url(r'^subscriptionactivate/([0-9A-Za-z]*)/$',
         views.subscriptionactivate, name='subscriptionactivate'),
+
+    #Newsletter
+    path('submitnewsletter/', views.submitnewsletter, name='submitnewsletter'),
+    path('validate/', views.validate_email, name='validate_email'),
 
     #Email CRUD
     path("list/email/<int:addressid>/", views.EmailListView.as_view(),

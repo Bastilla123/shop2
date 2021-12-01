@@ -100,21 +100,21 @@ class ProductFilterForm(forms.Form):
         super(ProductFilterForm, self).__init__(*args, **kwargs)
 
         self.fields['price'] = forms.IntegerField(label="",widget=RangeWidget(eav=False,title='Price',valuemin=0,valuemax=100,valuenow=50,initmin=min_price,initmax=max_price))
-        self.fields['colorchoices'] = forms.MultipleChoiceField(label="Color",required=False,
-                                                  widget=forms.SelectMultiple(attrs={'class': "form-control selectpicker"}),choices=[(m.id,m.name) for m in colorchoices.objects.all()])
+        #self.fields['colorchoices'] = forms.MultipleChoiceField(label="Color",required=False,
+        #                                          widget=forms.SelectMultiple(attrs={'class': "form-control selectpicker"}),choices=[(m.id,m.name) for m in colorchoices.objects.all()])
 
-        self.fields['brand'] = forms.MultipleChoiceField(label="Brand",required=False,
-                                                         widget=forms.SelectMultiple(
-                                                             attrs={'class': "form-control selectpicker"}),
-                                                         choices=[(m.id, m.name) for m in brandchoices.objects.all()])
-        self.fields['size'] = forms.MultipleChoiceField(label="Size",required=False,
-                                                         widget=forms.SelectMultiple(
-                                                             attrs={'class': "form-control selectpicker"}),
-                                                         choices=[(m.id, m.name) for m in sizechoices.objects.all()])
-        self.fields['material'] = forms.MultipleChoiceField(label="Material",required=False,
-                                                        widget=forms.SelectMultiple(
-                                                            attrs={'class': "form-control selectpicker"}),
-                                                        choices=[(m.id, m.name) for m in materialchoices.objects.all()])
+        #self.fields['brand'] = forms.MultipleChoiceField(label="Brand",required=False,
+        #                                                 widget=forms.SelectMultiple(
+        #                                                     attrs={'class': "form-control selectpicker"}),
+        #                                                 choices=[(m.id, m.name) for m in brandchoices.objects.all()])
+        #self.fields['size'] = forms.MultipleChoiceField(label="Size",required=False,
+        #                                                 widget=forms.SelectMultiple(
+        #                                                     attrs={'class': "form-control selectpicker"}),
+        #                                                 choices=[(m.id, m.name) for m in sizechoices.objects.all()])
+        #self.fields['material'] = forms.MultipleChoiceField(label="Material",required=False,
+        #                                                widget=forms.SelectMultiple(
+        #                                                    attrs={'class': "form-control selectpicker"}),
+        #                                                choices=[(m.id, m.name) for m in materialchoices.objects.all()])
         #if (catalogview):
           #  self.fields['color'].initial =
 

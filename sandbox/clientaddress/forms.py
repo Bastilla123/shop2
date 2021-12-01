@@ -1,19 +1,11 @@
 from django.urls import reverse
-from emailmarketing.FormMixins import StandardMixin,IndividualfieldsformMixin
-from settings.models import Tabs,IndividualFields
+from bibliothek.FormMixins import StandardMixin
+
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+
 from .models import *
-from emailmarketing.Widget import *
-from emailmarketing.choicesenum import *
-
-from marketing.models import *
-from django.db.models import Prefetch
-from mptt.forms import TreeNodeChoiceField,TreeNodeMultipleChoiceField
-from settings.models import Choices
-from emailmarketing.RightsMixins import RightsFormMixin
-
+from bibliothek.Widgets import *
+#from bibliothek.choicesenum import *
 
 
 def replacestringinlist(list,searchstring,replacestring):
@@ -71,36 +63,17 @@ def getliste():
 
 
 
+
+
 #Form for create/edit Adress
-class Addressform(RightsFormMixin,IndividualfieldsformMixin,StandardMixin):
+class Addressform(forms.ModelForm):
 
     class Meta:
 
-        model = Address
+        model = Clientaddress
         exclude = ["id","trash","is_deleteable","is_editable","create_date","modified_date","create_user","modified_user","delete_user",'user_rights_link','addressindividualfields','searchvriteria_address_link','Telefon_address_link','Email_address_link','Telefax_address_link','group_rights-link','change_date','owner','occurrence','searchcriteria_address_link','task_assigned_to']
 
         labels = {"kurzname":'Kurzname','homepage':"Homepage",'telefon':"Telefon",'telefax':"Telefax",'email':"Email",'firstname':"Vorname",'lastname':"Nachname",'birthdate':"Geburtsdatum",'company':"Firma",'country':"Land",'city':"Ort",'zip':"PLZ",'street':"Straße",'salutation':'Anrede','letter_salutation':"Briefanrede",'is_active':'Aktiv'}
-
-    def rearrange_field_order(self):
-        import collections
-
-        original_fields = self.fields
-        new_fields = collections.OrderedDict()
-
-        Fieldlistmappingobjects = Field_to_box_mapping.objects.filter(modul=0, is_active=True).order_by(
-            "box_link",
-            "position")
-
-        liste = []
-
-        if (Fieldlistmappingobjects is not None):
-            for entry in Fieldlistmappingobjects:
-                liste.append(entry.fieldname)
-
-        for field_name in liste:
-            field = original_fields.get(field_name)
-            if field:
-                new_fields[field_name] = field
 
 
 
@@ -146,7 +119,18 @@ class Addressform(RightsFormMixin,IndividualfieldsformMixin,StandardMixin):
 
         instance = kwargs.get('instance', None)
         super(Addressform, self).__init__(*args, **kwargs)
-        
+
+        self.fields['interest_in_link'].queryset = Addressproperties.objects.filter(fieldname='interest_in')
+        self.fields['properties_link'].queryset = Addressproperties.objects.filter(fieldname='properties')
+        self.fields['salutation'].queryset = Addresschoices.objects.filter(fieldname='salutation')
+        self.fields['title'].queryset = Addresschoices.objects.filter(fieldname='title')
+        self.fields['preferred_contacttype'].queryset = Addresschoices.objects.filter(fieldname='preferred_contacttype')
+        self.fields['origin_contact'].queryset = Addresschoices.objects.filter(fieldname='origin_contact')
+        self.fields['dsgvo_status'].queryset = Addresschoices.objects.filter(fieldname='dsgvo_status')
+
+
+
+
 
 
         if (instance is not None):
@@ -170,6 +154,7 @@ class Addressform(RightsFormMixin,IndividualfieldsformMixin,StandardMixin):
                                                    required=False)
 
             self.fields['telefon'].initial = listtocommaseperated(Telefon.objects.filter(address_link=instance))
+
             self.fields['telefax'].initial = listtocommaseperated(Telefax.objects.filter(address_link=instance))
             self.fields['email'].initial = listtocommaseperated(Email.objects.filter(address_link=instance))
         else:
@@ -182,6 +167,7 @@ class Addressform(RightsFormMixin,IndividualfieldsformMixin,StandardMixin):
             self.fields['email'] = forms.CharField(label="Email", initial="",
                                                    widget=textinputfeld(),
                                                    required=False)
+
 
 
 class Emailform(forms.ModelForm):

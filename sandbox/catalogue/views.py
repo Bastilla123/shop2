@@ -1,3 +1,4 @@
+from django_filters.views import FilterView
 from django.template.loader import render_to_string
 #from settings.views import *
 from oscar.apps.dashboard.catalogue.views import ProductCreateUpdateView as CoreProductCreateUpdateView
@@ -190,12 +191,6 @@ class sizeCreateView(SingleFormMixin,CreateView):
     form_class = Sizeform
 
 
-
-
-
-
-
-
 def getvariant(request):
     if request.method == "GET":
         size = request.GET.get("sizeId",None)
@@ -228,7 +223,7 @@ def getvariant(request):
                 context['size'] = str(size)
                 context['colors'] = variants.order_by('color').distinct('color').exclude(color__isnull=True)
                 context['color'] = str(color)
-                print("Context " + str(context))
+                #print("Context " + str(context))
                 html = render_to_string('oscar/catalogue/partials/productdetailview.html', context, request=request)
 
                 return JsonResponse({"producthtml": html},
@@ -295,27 +290,17 @@ class ProductCreateUpdateView(CoreProductCreateUpdateView):
 
 
 def getcataloguecontext(self):
+        #ctx = {'summary': _("All products"),
+        #       'colors': [(m.id, m.name) for m in colorchoices.objects.all()],
+        #       'brands': [(m.id, m.name) for m in brandchoices.objects.all()],
+        #       'sizes': [(m.id, m.name) for m in sizechoices.objects.all()],
+        #       'materials': [(m.id, m.name) for m in materialchoices.objects.all()],
+        #       }
+
         ctx = {'summary': _("All products"),
-               'colors': [(m.id, m.name) for m in colorchoices.objects.all()],
-               'brands': [(m.id, m.name) for m in brandchoices.objects.all()],
-               'sizes': [(m.id, m.name) for m in sizechoices.objects.all()],
-               'materials': [(m.id, m.name) for m in materialchoices.objects.all()],
+
                }
         productslist = Product.objects.all()
-        color = self.request.GET.getlist('color', None)
-        if color:
-            productslist = productslist.filter(color__in=color)
-
-        brand = self.request.GET.getlist('brand', None)
-        if brand:
-            productslist = productslist.filter(brand__in=brand)
-
-        size = self.request.GET.getlist('size', None)
-        if size:
-            productslist = productslist.filter(size__in=size)
-        material = self.request.GET.getlist('material', None)
-        if material:
-            productslist = productslist.filter(material__in=material)
 
         min_price = self.request.GET.get('Price_min', None)
         if min_price:
@@ -337,10 +322,12 @@ def getcataloguecontext(self):
 
         parentproducts = Product.objects.filter(pk__in=list)
         ctx['products'] = parentproducts
-        ctx['Filterform'] = ProductFilterForm(self, initial={'colorchoices': color, 'brand': brand, 'material': material,
-                                                             'size': size})
+        #ctx['Filterform'] = ProductFilterForm(self, initial={'colorchoices': color, 'brand': brand, 'material': material,
+        #                                                     'size': size})
+        ctx['Filterform'] = ProductFilterForm(self,
+                                              )
 
-        # print("Context "+str(ctx))
+        #print("Context "+str(ctx))
         return ctx
 
 

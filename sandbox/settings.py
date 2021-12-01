@@ -1,3 +1,4 @@
+from decouple import config
 import os
 import environ
 import oscar
@@ -142,6 +143,9 @@ TEMPLATES = [
                 'oscar.apps.communication.notifications.context_processors.notifications',
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.core.context_processors.metadata',
+
+                #my middleware
+                'bibliothek.middleware.NewsletterMiddleware',
             ],
             'debug': DEBUG,
         }
@@ -320,6 +324,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'globalsettings',
     'photo',
+    'clientaddress',
+    'standard_form',
 ]
 
 OSCAR_PAYMENT_METHODS = (
@@ -337,10 +343,10 @@ OSCAR_DASHBOARD_NAVIGATION.append(
         'icon': 'icon-globe',
         'children': [
 
-            {
-                'label': _('Globalsettings'),
-                'url_name': 'globalsettings:Test',
-            },
+            #{
+             #   'label': _('Globalsettings'),
+             #   'url_name': 'globalsettings:Test',
+            #},
         ]
    })
 
@@ -469,3 +475,13 @@ try:
 except ImportError:
     pass
 
+EMAIL_BACKEND = config('EMAIL_BACKEND', None)
+EMAIL_HOST = config('EMAIL_HOST', None)
+EMAIL_PORT = config('EMAIL_PORT', None)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', None)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', None)
+
+
+THUMBNAIL_COLORSPACE = None
+THUMBNAIL_PRESERVE_FORMAT = True

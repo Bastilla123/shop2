@@ -6,7 +6,5 @@ from mptt.admin import MPTTModelAdmin
 
 # Register your models here.
 
-admin.site.register(Address)
-
 
 

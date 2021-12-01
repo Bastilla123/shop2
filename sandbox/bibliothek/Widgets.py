@@ -73,7 +73,7 @@ class TreeCheckboxSelectMultiple(ChoiceWidget):
 def getallactivefields(model, exclude):
     fieldlist = [f.fieldname for f in
                  Fieldlist.objects.filter(fieldisactive=True, modelname=model)]
-    print("Fieldlist " + str(model))
+
     return list(set(fieldlist) - set(exclude))
 
 
@@ -785,7 +785,7 @@ class emailfield(forms.EmailInput):
         super(emailfield, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None, renderer=None):
-        print("Render")
+
         final_attrs = self.build_attrs(self.attrs, attrs)
         flat_attrs = flatatt(attrs)
 

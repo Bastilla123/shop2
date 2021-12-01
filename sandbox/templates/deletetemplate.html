@@ -1,0 +1,19 @@
+
+
+{% load static %}
+{% block detailcss %}
+
+{% endblock %}
+
+
+{% block formscontent %}
+
+<h1>Löschen?</h1>
+Bist du sicher das der Datensatz gelöscht werden kann?
+
+<form method="post">{% csrf_token %}
+    <input type="hidden" id="referer" name="referer" value="{{ request.META.HTTP_REFERER }}">
+    <input type="submit" value="Löschen">
+    <input type="submit" name="cancel" value="Abbrechen">
+</form>
+{% endblock %}

@@ -1,0 +1,147 @@
+
+{% extends "oscar/layout.html" %}
+{% load i18n %}
+{% load standard_form %}
+
+{% comment %}
+Keep the same header and footer as the standard layout template but override the
+main content area to split it into a sidebar and a content block
+{% endcomment %}
+{% block content_wrapper %}
+<div class="row">
+  <!-- left column -->
+<div class="col-2">
+<form enctype="multipart/form-data" method="POST" action="" id="newsletterform" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label>{% trans 'Filter' %}</label>
+                {{ Filterform }}
+            </div>
+
+        <input type="submit" id="submit_filter" class="btn" value="{% trans 'Filter anwenden' %}" />
+
+        </form>
+  </div>
+<div class="{% block content_wrapper_classes %}page col-8{% endblock %}">
+    <div class="page_inner">
+        {% block breadcrumbs %}{% endblock %}
+        <div class="row">
+
+          {% comment %}
+            <aside class="sidebar col-sm-4 col-md-3">
+                {% block column_left %}{% endblock %}
+                {% block column_left_extra %}{% endblock %}
+            </aside>
+          {% endcomment %}
+
+            <div class="col-sm-8 col-md-9">
+                {% block header %}
+                <div class="page-header">
+                    <h1>{% block headertext %}{% endblock %}</h1>
+                </div>
+                {% endblock %}
+
+                {% include "oscar/partials/alert_messages.html" %}
+
+                {% block pre_content %}{% endblock %}
+                {% block content %}{% endblock %}
+            </div>
+
+        </div><!-- /row -->
+    </div><!-- /page_inner -->
+</div><!-- /container -->
+  <!-- right column -->
+  <div class="col-2 card">
+    <form enctype="multipart/form-data" method="POST" action="" id="newsletterform" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label>{% trans 'Subscribe to our Newsletter.' %}</label>
+                {% standard_form newsletter %}
+            </div>
+
+        <input type="submit" id="submit" class="btn" value="{% trans 'Übermitteln' %}" />
+
+        </form>
+  </div>
+  </div>
+{% endblock %}
+
+{% block extrascripts %}
+<script>
+    const validateEmail = function(email) {
+    var formData = new FormData();
+    formData.append('email', email)
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/validate/',
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        processData: false,
+        contentType: false,
+        data: formData,
+        error: function (xhr) {
+            console.error(xhr.statusText);
+        },
+        success: function (res) {
+            $('.error').text(res.msg);
+        }
+    });
+};
+
+const subscribeUser = function(email, name) {
+    var formData = new FormData();
+
+
+
+    formData = $('#newsletterform').serialize();
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/submitnewsletter/',
+        type: 'POST',
+
+
+        data: formData,
+        error: function (xhr) {
+            alert(xhr.statusText);
+        },
+        success: function (res) {
+            $("#newsletterform").trigger("reset");
+            alert(res.msg)
+
+
+        }
+    });
+};
+
+(function ($) {
+    $('#submit').on('click', () => {
+
+        event.preventDefault();
+        const userEmail = $('#id_email').val();
+        const userName = $('#id_lastname').val();
+        if (userEmail && userName) {
+            subscribeUser(userEmail, userName);
+        }
+        else{
+            alert("Bitte Nachnamen und E-Mail eingeben")
+        }
+    });
+
+    $('#id_email').on('change', (event) => {
+        event.preventDefault();
+        const email = event.target.value;
+        validateEmail(email);
+    });
+})(jQuery);
+</script>
+{% endblock %}

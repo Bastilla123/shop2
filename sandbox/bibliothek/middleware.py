@@ -1,4 +1,32 @@
 import threading
+#from clientaddress.forms import Newsletterform
+from django import forms
+from clientaddress.models import Clientaddress
+from bibliothek.Widgets import *
+
+class Newsletterform(forms.ModelForm):
+  class Meta:
+    model = Clientaddress
+    fields = ["interest_in_link","salutation","title","firstname","lastname","street","zip","city"]
+
+  def __init__(self, *args, **kwargs):
+
+    super().__init__(*args, **kwargs)
+
+    self.fields['telefon'] = forms.CharField(label="Telefon", initial="",
+                                             widget=textinputfeld(),
+                                             required=False)
+    self.fields['email'] = forms.CharField(label="E-Mail *", initial="",
+                                             widget=textinputfeld(),
+                                             required=False)
+
+
+def NewsletterMiddleware(request):
+  context = {}
+  context["newsletter"] = Newsletterform()
+  return context
+
+
 
 class RequestMiddleware:
 

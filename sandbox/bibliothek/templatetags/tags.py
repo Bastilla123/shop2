@@ -1,9 +1,8 @@
+from clientaddress.models import Clientaddress
 
-from catalogue.models import sizechoices,colorchoices,materialchoices,brandchoices
 from django import template
 register = template.Library()
-from photo.models import Photo
-from catalogue.models import Tax
+
 
 @register.filter
 def get_type(value):
@@ -15,7 +14,7 @@ def substract(originalvalue,substractvalue):
 
 @register.filter
 def getform(forms, key):
-    print("Drin "+str(key))
+
     if (key in forms):
 
 
@@ -78,7 +77,7 @@ def getvaluefromfield(dictionary,fieldname):
     try:
         fieldtype = eval(dictionary._meta.object_name)._meta.get_field(fieldname).get_internal_type()
     except Exception as e:
-        print("Exception "+str(e))
+
         return ""
 
     if (fieldtype == "DateTimeField"):
@@ -119,10 +118,74 @@ def replace(value, arg):
 #    return randint(0,999)
 
 
+@register.filter(name='getcheckboxes')
+def getcheckboxes(allfieldlist,activefieldlist):
 
-@register.filter(name='getlogo')
-def getlogo():
-    logo = Photo.objects.filter(imagetype=1).first()
-    if (logo is not None):
-        return logo.file
-    return
+    deletelist = ['is_deleteable','is_editable','trash','create_date','is_active','modified_date','create_user','modified_user','delete_user','change_date']
+    html = '<div class="custom-control ">'
+
+    for field in allfieldlist:
+        if (field in deletelist):
+            continue
+        html += '<div class="form-group"><label for="id_homepage">'+str(translateheader(field))+':</label><div class="form-group">'
+        found = False
+
+        for activefield in activefieldlist:
+
+            if (field.strip()==activefield.strip().replace('"','')):
+
+                found = True
+
+                html += '<input type="checkbox" name="id_'+str(field)+'" id="id_'+str(field)+'" style="border-radius: 4px;" checked="">'
+                break
+        if (found==False):
+            html += '<input type="checkbox" name="id_'+str(field)+'" id="id_'+str(field)+'" style="border-radius: 4px;" >'
+
+
+        html += '</div></div>'
+
+
+
+    return html
+
+
+@register.filter(name='getlinkfromfield')
+def getlinkfromfield(instance,fieldname):
+    attr = get_attr(instance, fieldname)
+    model = attr._meta.model_name
+    return '<a href="/edit/' + str(model) + "/" + str(attr.id) + '">' + str(attr) + "</a>"
+
+@register.filter(name='times')
+def times(number):
+    if (number is None):
+        return None
+    number += 1
+    return range(1,int(number))
+
+@register.filter(name='getallfieldsfrommodel')
+def getallfieldsfrommodel(modelname):
+
+    model = eval('Clientaddress')
+    allfields = [f.name for f in model._meta.get_fields()]
+
+
+    return allfields
+
+
+@register.filter(name='translateheader')
+def translateheader(fieldname):
+    fieldname = fieldname.replace('"','').replace(' ','')
+
+    translatedict = {'kurzname': 'Kurzname', 'firstname': 'Vorname', 'lastname': 'Nachname', 'city': 'Ort', 'id': 'Id','zip':'PLZ','letter_salutation':'Briefanrede','birthdate':'Geburtstag',
+              'is_active': 'Aktiv', 'country': 'Land',"status":"Status","title":'Überschrift','description':"Beschreibung",'date':"Datum",'assigned_to':"Zugordneter Benutzer",'queue_link':"Zugeordnete Queue",'address_link':"Zugeordnete Adresse","priority":"Priorität"
+              }
+    for key,value in translatedict.items():
+
+        if (key==fieldname):
+
+
+                    return value
+
+
+
+    return fieldname

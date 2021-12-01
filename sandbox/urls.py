@@ -10,7 +10,7 @@ from oscar.views import handler403, handler404, handler500
 
 from apps.sitemaps import base_sitemaps
 from globalsettings.urls import urlpatterns as main_urls
-print("Main "+str(main_urls))
+
 admin.autodiscover()
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('globalsettings/', include((main_urls, 'globalsettings'), namespace='globalsettings')),
     path('globalsettings/', include('globalsettings.urls')),
+    path('clientaddress/', include('clientaddress.urls')),
     path('', include('photo.urls')),
 
     # i18n URLS need to live outside of i18n_patterns scope of Oscar
@@ -40,7 +41,7 @@ urlpatterns += i18n_patterns(
 )
 
 if settings.DEBUG:
-    print("urlpatterns "+str(urlpatterns))
+
     import debug_toolbar
 
     # Server statics and uploaded media

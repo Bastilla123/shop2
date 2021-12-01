@@ -11,10 +11,8 @@ class StandardMixin(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print("Self " + str(dir(self)))
-        print("Neu " + str(self.base_fields))
-        for field in self:
-            print("Field " + str(field))
+
+
         fieldlist = self.Meta.model._meta.get_fields()
         excludelist = self.Meta.exclude
 
@@ -22,7 +20,7 @@ class StandardMixin(forms.ModelForm):
             if (field in self.fields):
                 self.fields.pop(field)
 
-        print("Charfield " + str(list(set(fieldlist) - set(excludelist))))
+
         for field in list(set(fieldlist) - set(excludelist)):
             # for field in self:
 
@@ -30,7 +28,7 @@ class StandardMixin(forms.ModelForm):
 
                 self.Meta.model._meta.get_field(field)
             except Exception as e:
-                print("Exception e " + str(e))
+
                 continue
 
             if (field not in self.fields):
@@ -59,7 +57,7 @@ class StandardMixin(forms.ModelForm):
                 continue
 
             if (str(self.Meta.model._meta.get_field(field).get_internal_type()) == "ForeignKey"):
-                # print("Field " + str(field) + " Choices " + str(self.Meta.model._meta.get_field(field).get_choices()))
+
 
                 if (str(type(
                         self.Meta.model._meta.get_field(field).related_model())) == "<class 'address.models.Address'>"):

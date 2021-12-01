@@ -1,60 +1,106 @@
+from bibliothek.middleware import Newsletterform
+from django.http import JsonResponse
+from django.conf import settings
+from django.core.mail import send_mail
 
-from searchcriteria.models import Searchcriteria
-from emailmarketing.ViewsMixins import Viewindividualfields
-from django.db.models import Max
 from django.contrib.messages.views import SuccessMessageMixin
-from settings.models import UserSettings
-from settings.models import Tabs,IndividualFields,Box
-from django.http import HttpResponse
-from settings.models import Globalsettings
-from emailmarketing.Mixins import ListviewMixin,Deletesuccessmixin,SingleFormMixin
-from emailmarketing.RightsMixins import ListRightsModel,DeleteRightsModel,UpdateRightsModel
-from historie.helpers import newHistorie_create_update
-from django.http import (
-    Http404,
-    HttpResponseBadRequest,
-    HttpResponseRedirect,
-    JsonResponse,
-)
+from bibliothek.Mixins import ListviewMixin,Deletesuccessmixin,SingleFormMixin
+
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import (
     CreateView,
     DeleteView,
-    ModelFormMixin,
-    ProcessFormView,
     UpdateView,
 )
-from django.views.generic import ListView
-from django_filters.views import FilterView
-from django.shortcuts import render
-from .forms import *
-from .filters import *
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.contrib import messages
-from django.http.response import HttpResponseRedirect,  JsonResponse
-from django.utils.encoding import force_bytes, force_text
 
+from django_filters.views import FilterView
+
+#from .filters import *
+
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import *
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .tokens import account_activation_token
-from datetime import *
-from django.utils import timezone
-from django.template import Template, Context
 
-from django.db.models import Q
-from historie.models import Historie,Historietype,Historiesubtype
+from datetime import *
+
+
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from searchcriteria.views import immomatchingaddress
+
 
 #from dynamic_preferences.registries import global_preferences_registry
 # We instantiate a manager for our global preferences
 #global_preferences = global_preferences_registry.manager()
 
-def test(request):
-    return render(request,'test2.html')
+def submitnewsletter(request):
+    if request.method == 'POST':
+        #post_data = request.POST.copy()
+        #email = post_data.get("email", None)
+        #name = post_data.get("name", None)
+        #subscribedUsers = Clientaddress()
+        #subscribedUsers.email = email
+        #subscribedUsers.name = name
+        #subscribedUsers.save()
 
+        form = Newsletterform(request.POST)
+
+        if form.is_valid():
+
+            adresse = form.save(commit=True)
+
+
+            #Save E-Mail
+            email = form.cleaned_data["email"]
+            if (email is not None):
+                Email(address_link=adresse,eintrag=email,is_standard=True).save()
+            #Save Telefon
+            telefon = form.cleaned_data["telefon"]
+            if (email is not None):
+                Telefon(address_link=adresse, eintrag=email, is_standard=True).save()
+
+            # send a confirmation mail
+            subject = 'Bestätigung NewsLetter'
+            message = 'Hallo ' + form.cleaned_data["lastname"] + ', Danke für das Interesse an unserem Newsletter. Sie bekommen zukünftig regelmäßig die neuesten News von uns. '
+
+            email_from = settings.EMAIL_HOST_USER
+
+            recipient_list = [email, ]
+            try:
+                send_mail(subject, message, email_from, recipient_list)
+            except Exception as e:
+                response = JsonResponse({"msg": "Es konnte keine E-Mail verschickt werden. Error: " + str(e)})
+                response.status_code = 403  # To announce that the user isn't allowed to publish
+                return response
+
+
+            res = JsonResponse({'msg': 'Danke. Wir haben Ihnen eine E-Mail zugeschickt. Um den Newsletter zu bestätigen klicken Sie den Link in der E-Mail'})
+            return res
+        else:
+            response = JsonResponse({"msg": "Form ist nicht valide. Error: "+str(form.errors(escape_html=False))})
+            response.status_code = 403  # To announce that the user isn't allowed to publish
+            return response
+
+
+
+    return render(request, 'index.html')
+
+def validate_email(request):
+    email = request.POST.get("email", None)
+    from .models import Email
+    import re
+    if email is None:
+        res = JsonResponse({'msg': 'Emailadresse ist zwingend nötig.'})
+    elif not re.match(r"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", email):
+        res = JsonResponse({'msg': 'Ungültige E-Mail Adresse'})
+    elif Email.objects.filter(eintrag = email).exists():
+        response = JsonResponse({"msg": "Es gibt bereits ein Adressdatensatz mit dieser E-Mail Adresse"})
+        response.status_code = 403  # To announce that the user isn't allowed to publish
+        return response
+
+
+    else:
+        res = JsonResponse({'msg': ''})
+    return res
 
 # gibt die errors aus einer Form zurück als HTML Quellcode
 def gethtmlerrortext(form):
@@ -103,56 +149,28 @@ def savecommunication(form,Model,post):
 
 
 @method_decorator(login_required, name='dispatch')
-class AddressCreateView2(SingleFormMixin,CreateView):
-    model = Address
+class AddressCreateView(SingleFormMixin,CreateView):
+    model = Clientaddress
 
     form_class = Addressform
     success_url = reverse_lazy('addresslist')
 
+
+
     def form_invalid(self, form):
-        print("Form "+str(form))
+
         """If the form is invalid, render the invalid form."""
         return self.render_to_response(self.get_context_data(form=form))
 
 
-@method_decorator(login_required, name='dispatch')
-class AddressCreateView(SingleFormMixin,CreateView):
-    model = Address
 
+@method_decorator(login_required, name='dispatch')
+class AddressUpdateView(SingleFormMixin,UpdateView):
+    model = Clientaddress
     form_class = Addressform
     success_url = reverse_lazy('addresslist')
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handle POST requests: instantiate a form instance with the passed
-        POST variables and then check if it's valid.
-        """
-
-        form = self.get_form()
-        
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-
-
-
-@method_decorator(login_required, name='dispatch')
-class AddressUpdateView(UpdateRightsModel,SingleFormMixin,UpdateView):
-    model = Address
-    form_class = Addressform
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-
-
-        context['searchcriterialist'] = Searchcriteria.objects.filter(address_link=context['object'])
-        context['searchcriteriamodel'] = Searchcriteria
-        context['matchinglist'] = immomatchingaddress(context['object'])
-        #print("Type "+str(context['object'])))
-        #print("Context "+str(context))
         return context
 
 
@@ -196,19 +214,20 @@ def subscriptionactivate(request, token):
         messages.error(request, 'Beim löschen es tokens ist folgender Fehler aufgetetreten: ' + str(e))
         return render(request, 'marketing/message.html')
     save_successfull(request, messages)
-    Historie(is_deleteable=False,create_date = datetime.now(),modified_date= datetime.now(),modified_user = request.user,create_user =request.user,owner = request.user).save()
+
     return render(request, 'marketing/message.html')
 
 @method_decorator(login_required, name='dispatch')
-class AddressListView(ListRightsModel,ListviewMixin, FilterView):
-    model = Address
-    filterset_class = AddressFilter
+class AddressListView(ListviewMixin, FilterView):
+    model = Clientaddress
+
     buttons = {0:{'url':reverse_lazy('AddressCreateView'),'awesomefont':"fas fa-plus",'label':'Neue Adresse anlegen'}}
+
 
 @method_decorator(login_required, name='dispatch')
 class DeleteAddressView(Deletesuccessmixin,DeleteView):
-    model=Address
-    template_name = "marketing/deletetemplate.html"
+    model=Clientaddress
+
 
     success_url = reverse_lazy('addresslist')
 
@@ -257,7 +276,7 @@ class EmailCreateView(SingleFormMixin,CreateView):
 class EmailListView(SuccessMessageMixin,ListviewMixin,FilterView):
     model = Email
 
-    filterset_class = EmailFilter
+
     fieldlist = ('id','address_link','eintrag','is_active','is_standard' )
     labels = {'id': 'Id', 'address_link': 'Addresse', 'eintrag': 'Email Adresse', 'is_active': 'Aktiv', 'is_standard': 'Standard'}
     buttons = {0: {'url': reverse_lazy('AddressEmailCreateView'), 'awesomefont': "fas fa-plus",
@@ -269,7 +288,7 @@ class EmailListView(SuccessMessageMixin,ListviewMixin,FilterView):
 
         if ('addressid' in self.kwargs):
 
-            Adressentry = Address.objects.filter(id=self.kwargs['addressid']).first()
+            Adressentry = Clientaddress.objects.filter(id=self.kwargs['addressid']).first()
             if (Adressentry):
                 data['object_list'] = Email.objects.filter(address_link=Adressentry)
         return data
@@ -278,8 +297,6 @@ class EmailListView(SuccessMessageMixin,ListviewMixin,FilterView):
 @method_decorator(login_required, name='dispatch')
 class EmailDeleteView(Deletesuccessmixin, DeleteView):
     model = Email
-    template_name = "marketing/deletestandardtemplate.html"
-
     success_url = reverse_lazy('EmailListView')
     
     
@@ -324,7 +341,7 @@ class TelefonCreateView(SingleFormMixin,UpdateView):
 class TelefonListView(SuccessMessageMixin,ListviewMixin,FilterView):
     model = Telefon
 
-    filterset_class = TelefonFilter
+
     fieldlist = ('id','address_link','eintrag','is_active','is_standard' )
     labels = {'id': 'Id', 'address_link': 'Addresse', 'eintrag': 'Telefon Adresse', 'is_active': 'Aktiv', 'is_standard': 'Standard'}
     buttons = {0: {'url': reverse_lazy('TelefonCreateView'), 'awesomefont': "fas fa-plus",
@@ -335,7 +352,7 @@ class TelefonListView(SuccessMessageMixin,ListviewMixin,FilterView):
 
         if ('addressid' in self.kwargs):
 
-            Adressentry = Address.objects.filter(id=self.kwargs['addressid']).first()
+            Adressentry = Clientaddress.objects.filter(id=self.kwargs['addressid']).first()
             if (Adressentry):
                 data['object_list'] = Telefon.objects.filter(address_link=Adressentry)
         return data
@@ -347,8 +364,6 @@ class TelefonListView(SuccessMessageMixin,ListviewMixin,FilterView):
 @method_decorator(login_required, name='dispatch')
 class TelefonDeleteView(Deletesuccessmixin, DeleteView):
     model = Telefon
-    template_name = "marketing/deletestandardtemplate.html"
-
     success_url = reverse_lazy('TelefonListView')
     
     
@@ -395,7 +410,7 @@ class TelefaxCreateView(SingleFormMixin, SuccessMessageMixin, CreateView):
 class TelefaxListView(SuccessMessageMixin,ListviewMixin,FilterView):
     model = Telefax
 
-    filterset_class = TelefaxFilter
+
     fieldlist = ('id','address_link','eintrag','is_active','is_standard' )
     labels = {'id': 'Id', 'address_link': 'Addresse', 'eintrag': 'Telefax Adresse', 'is_active': 'Aktiv', 'is_standard': 'Standard'}
     buttons = {0: {'url': reverse_lazy('TelefaxCreateView'), 'awesomefont': "fas fa-plus",
@@ -406,7 +421,7 @@ class TelefaxListView(SuccessMessageMixin,ListviewMixin,FilterView):
 
         if ('addressid' in self.kwargs):
 
-            Adressentry = Address.objects.filter(id=self.kwargs['addressid']).first()
+            Adressentry = Clientaddress.objects.filter(id=self.kwargs['addressid']).first()
             if (Adressentry):
                 data['object_list'] = Telefax.objects.filter(address_link=Adressentry)
         return data
@@ -416,7 +431,7 @@ class TelefaxListView(SuccessMessageMixin,ListviewMixin,FilterView):
 @method_decorator(login_required, name='dispatch')
 class TelefaxDeleteView(Deletesuccessmixin, DeleteView):
     model = Telefax
-    template_name = "marketing/deletestandardtemplate.html"
+
 
     success_url = reverse_lazy('TelefaxListView')
 
