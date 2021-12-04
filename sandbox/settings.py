@@ -271,16 +271,19 @@ INSTALLED_APPS = [
 
     'oscar.config.Shop',
     'oscar.apps.analytics.apps.AnalyticsConfig',
-    'oscar.apps.checkout.apps.CheckoutConfig',
+    #'oscar.apps.checkout.apps.CheckoutConfig',
+    'checkout.apps.CheckoutConfig',
     'oscar.apps.address.apps.AddressConfig',
-    'oscar.apps.shipping.apps.ShippingConfig',
+    #'oscar.apps.shipping.apps.ShippingConfig',
+    'shipping.apps.ShippingConfig',
     #'oscar.apps.catalogue.apps.CatalogueConfig',
     'catalogue.apps.CatalogueConfig',
     'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig',
     'oscar.apps.communication.apps.CommunicationConfig',
     'oscar.apps.partner.apps.PartnerConfig',
     'oscar.apps.basket.apps.BasketConfig',
-    'oscar.apps.payment.apps.PaymentConfig',
+    #'oscar.apps.payment.apps.PaymentConfig',
+    'payment.apps.PaymentConfig',
     #'oscar.apps.offer.apps.OfferConfig',
     'offer.apps.OfferConfig',
     'oscar.apps.order.apps.OrderConfig',
@@ -349,6 +352,48 @@ OSCAR_DASHBOARD_NAVIGATION.append(
             #},
         ]
    })
+
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': _('PayPal'),
+        'icon': 'icon-globe',
+        'children': [
+            {
+                'label': _('PayFlow transactions'),
+                'url_name': 'payflow_dashboard:paypal-payflow-list',
+            },
+            {
+                'label': _('Express transactions'),
+                'url_name': 'express_dashboard:paypal-express-list',
+            },
+            {
+                'label': _('Express Checkout transactions'),
+                'url_name': 'express_checkout_dashboard:paypal-transaction-list',
+            },
+        ]
+
+
+    })
+
+
+# Taken from PayPal's documentation - these should always work in the sandbox
+PAYPAL_SANDBOX_MODE = True
+PAYPAL_CALLBACK_HTTPS = False
+PAYPAL_API_VERSION = '119'
+
+# These are the standard PayPal sandbox details from the docs - but I don't
+# think you can get access to the merchant dashboard.
+PAYPAL_API_USERNAME = 'sb-mph0r7639277_api1.business.example.com'
+PAYPAL_API_PASSWORD = 'PES35CQKJNYK5XHR'
+PAYPAL_API_SIGNATURE = 'A3YisSzzPJqZac9Egcw89ouQA-1hAg9zSX8jP3kB3WdEuA8Wbu28tfkl'
+
+# Standard currency is GBP
+PAYPAL_CURRENCY = PAYPAL_PAYFLOW_CURRENCY = 'EUR'
+PAYPAL_PAYFLOW_DASHBOARD_FORMS = True
+
+# PayPal REST API credentials
+PAYPAL_CLIENT_ID = 'AWQYTRBQ75p6keGxOMNTHrEcWLGj6uKxbkCG4zRA5XiJDxKzL-XgYh9rCmf6I6ixnIM0eQvGTRh8VpZf'
+PAYPAL_CLIENT_SECRET = 'EBkFT27FjJ2Dnf4FlEJ0uwXkQnVKZGInxHH5KMFH-nLTve3Jnf7K2yptAey5V3jH9d5XFh33V2U2cGig'
 
 
 # Add Oscar's custom auth backend so users can sign in using their email

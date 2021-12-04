@@ -27,6 +27,10 @@ urlpatterns = [
     path('submitnewsletter/', views.submitnewsletter, name='submitnewsletter'),
     path('validate/', views.validate_email, name='validate_email'),
 
+    #Contactform
+    path('submitcontact/', views.submitcontactform, name='submitcontactform'),
+
+
     #Email CRUD
     path("list/email/<int:addressid>/", views.EmailListView.as_view(),
         name="EmailListView_emailid"),

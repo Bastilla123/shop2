@@ -20,10 +20,34 @@ class Newsletterform(forms.ModelForm):
                                              widget=textinputfeld(),
                                              required=False)
 
+class Kontaktform(forms.ModelForm):
+  class Meta:
+    model = Clientaddress
+    fields = ["salutation","title","firstname","lastname","street","zip","city"]
+
+  def __init__(self, *args, **kwargs):
+
+    super().__init__(*args, **kwargs)
+
+    self.fields['telefon'] = forms.CharField(label="Telefon", initial="",
+                                             widget=textinputfeld(),
+                                             required=False)
+    self.fields['email'] = forms.CharField(label="E-Mail *", initial="",
+                                             widget=textinputfeld(),
+                                             required=False)
+    self.fields['subject'] = forms.CharField(label="Subject *", initial="",
+                                           widget=textinputfeld(),
+                                           required=False)
+    self.fields['text'] = forms.CharField(label="Text *", initial="",
+                                           widget=textarea(),
+                                           required=False)
+
+
 
 def NewsletterMiddleware(request):
   context = {}
   context["newsletter"] = Newsletterform()
+  context["kontakt"] = Kontaktform()
   return context
 
 

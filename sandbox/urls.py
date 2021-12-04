@@ -39,6 +39,16 @@ urlpatterns += i18n_patterns(
 
 
 )
+urlpatterns += i18n_patterns(
+    # PayPal Express integration...
+    path('checkout/paypal/', include('paypal.express_checkout.urls')),
+    # Dashboard views for Payflow Pro
+    path('dashboard/paypal/payflow/', apps.get_app_config("payflow_dashboard").urls),
+    # Dashboard views for Express
+    path('dashboard/paypal/express/', apps.get_app_config("express_dashboard").urls),
+    # Dashboard views for Express Checkout
+    path('dashboard/paypal/express-checkout/', apps.get_app_config('express_checkout_dashboard').urls),
+)
 
 if settings.DEBUG:
 

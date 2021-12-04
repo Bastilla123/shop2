@@ -52,6 +52,7 @@ main content area to split it into a sidebar and a content block
 </div><!-- /container -->
   <!-- right column -->
   <div class="col-2 card">
+      <div class="card">
     <form enctype="multipart/form-data" method="POST" action="" id="newsletterform" >
             {% csrf_token %}
             <div class="form-group">
@@ -59,9 +60,22 @@ main content area to split it into a sidebar and a content block
                 {% standard_form newsletter %}
             </div>
 
-        <input type="submit" id="submit" class="btn" value="{% trans 'Übermitteln' %}" />
+        <input type="submit" id="newslettersubmit" class="btn" value="{% trans 'Send' %}" />
 
         </form>
+          </div>
+      <div class="card">
+      <form enctype="multipart/form-data" method="POST" action="" id="kontaktform" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label>{% trans 'Please concact us' %}</label>
+                {% standard_form kontakt %}
+            </div>
+
+        <input type="submit" id="kontaktsubmit" class="btn" value="{% trans 'Send' %}" />
+
+        </form>
+          </div>
   </div>
   </div>
 {% endblock %}
@@ -93,11 +107,31 @@ main content area to split it into a sidebar and a content block
     });
 };
 
+const contact = function(email, name) {
+    var formData = new FormData();
+    formData = $('#kontaktform').serialize();
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/submitcontact/',
+        type: 'POST',
+        data: formData,
+        error: function (xhr) {
+            alert(xhr.statusText);
+        },
+        success: function (res) {
+            $("#kontaktform").trigger("reset");
+            alert(res.msg)
+        }
+    });
+};
+
 const subscribeUser = function(email, name) {
     var formData = new FormData();
-
-
-
     formData = $('#newsletterform').serialize();
 
     $.ajaxSetup({
@@ -124,13 +158,27 @@ const subscribeUser = function(email, name) {
 };
 
 (function ($) {
-    $('#submit').on('click', () => {
+    $('#newslettersubmit').on('click', () => {
 
         event.preventDefault();
         const userEmail = $('#id_email').val();
         const userName = $('#id_lastname').val();
         if (userEmail && userName) {
             subscribeUser(userEmail, userName);
+        }
+        else{
+            alert("Bitte Nachnamen und E-Mail eingeben")
+        }
+    });
+
+    $('#kontaktsubmit').on('click', () => {
+
+        event.preventDefault();
+        const userEmail = $('#kontaktform #id_email').val();
+
+        const userName = $('#kontaktform #id_lastname').val();
+        if (userEmail && userName) {
+            contact(userEmail, userName);
         }
         else{
             alert("Bitte Nachnamen und E-Mail eingeben")

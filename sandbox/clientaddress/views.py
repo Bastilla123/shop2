@@ -1,4 +1,4 @@
-from bibliothek.middleware import Newsletterform
+from bibliothek.middleware import Newsletterform,Kontaktform
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.mail import send_mail
@@ -32,22 +32,53 @@ from django.utils.decorators import method_decorator
 # We instantiate a manager for our global preferences
 #global_preferences = global_preferences_registry.manager()
 
-def submitnewsletter(request):
+def submitcontactform(request):
     if request.method == 'POST':
-        #post_data = request.POST.copy()
-        #email = post_data.get("email", None)
-        #name = post_data.get("name", None)
-        #subscribedUsers = Clientaddress()
-        #subscribedUsers.email = email
-        #subscribedUsers.name = name
-        #subscribedUsers.save()
 
-        form = Newsletterform(request.POST)
-
+        form = Kontaktform(request.POST)
         if form.is_valid():
-
             adresse = form.save(commit=True)
 
+            # Save E-Mail
+            email = form.cleaned_data["email"]
+            if (email is not None):
+                Email(address_link=adresse, eintrag=email, is_standard=True).save()
+            # Save Telefon
+            telefon = form.cleaned_data["telefon"]
+            if (email is not None):
+                Telefon(address_link=adresse, eintrag=email, is_standard=True).save()
+            print("Cleaned "+str(form.cleaned_data))
+            # send a confirmation mail
+            subject = 'Neue Kontaktanfrage von Webseite mit dem Subject: '+str(form.cleaned_data[
+                "subject"])
+            message = 'Hallo,  Es ist eine neue Anfrage angekommen mit dem Text: '+str(form.cleaned_data[
+                "text"])+' von der Adresse mit der Id: '+str(adresse.id)
+
+            email_from = settings.EMAIL_HOST_USER
+
+            recipient_list = ['sebastian.jung2@gmail.com', ]
+            try:
+                send_mail(subject, message, email_from, recipient_list)
+            except Exception as e:
+                response = JsonResponse({"msg": "Es konnte keine E-Mail verschickt werden. Error: " + str(e)})
+                response.status_code = 403  # To announce that the user isn't allowed to publish
+                return response
+            res = JsonResponse({
+                                   'msg': 'Danke. Wir haben Ihre E-Mail empfangen und bearbeiten diese so schnell wie möglich.'})
+            return res
+        else:
+            response = JsonResponse({"msg": "Form ist nicht valide. Error: " + str(form.errors(escape_html=False))})
+            response.status_code = 403  # To announce that the user isn't allowed to publish
+            return response
+
+    return render(request, 'index.html')
+
+def submitnewsletter(request):
+    if request.method == 'POST':
+
+        form = Newsletterform(request.POST)
+        if form.is_valid():
+            adresse = form.save(commit=True)
 
             #Save E-Mail
             email = form.cleaned_data["email"]
@@ -71,8 +102,6 @@ def submitnewsletter(request):
                 response = JsonResponse({"msg": "Es konnte keine E-Mail verschickt werden. Error: " + str(e)})
                 response.status_code = 403  # To announce that the user isn't allowed to publish
                 return response
-
-
             res = JsonResponse({'msg': 'Danke. Wir haben Ihnen eine E-Mail zugeschickt. Um den Newsletter zu bestätigen klicken Sie den Link in der E-Mail'})
             return res
         else:

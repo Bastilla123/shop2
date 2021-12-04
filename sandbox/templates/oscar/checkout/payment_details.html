@@ -1,0 +1,38 @@
+{% extends 'oscar/checkout/payment_details.html' %}
+{% load i18n %}
+
+{% block payment_details %}
+
+{% if payment_method.code == 'VISA' %}
+{% block payment_details_content %}
+    <p>In case you want to ask more payment details, implement this page here.</p>
+		<a id="view_preview" href="{% url 'checkout:preview' %}" class="btn btn-primary btn-large">{% trans "Continue" %}</a>
+{% endblock %}
+{% endif %}
+{% if payment_method.code == 'paypal' %}
+    <div class="card card-body">
+        <div class="sub-header">
+            <h3>{% trans "PayPal Express" %}</h3>
+        </div>
+        <p>{% trans "Click on the below icon to use Express Checkout but where the shipping address and method is already chosen on the merchant site." %}</p>
+        <div style="overflow:auto"><a href="{% url 'express-checkout-direct-payment' %}" title="{% trans "Pay with PayPal" %}"><img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" alt="Check out with PayPal" align="left" style="margin-right:7px;"></a>&nbsp;</div>
+    </div>
+{% endif %}
+    {% comment %}
+    <div class="card card-body mt-4">
+        <div class="sub-header">
+            <h3>{% trans "PayPal PayFlow Pro" %}</h3>
+        </div>
+        <form method="post" action="{% url 'checkout:preview' %}">
+            {% csrf_token %}
+            <h4>{% trans "Bankcard" %}</h4>
+            {% include "oscar/partials/form_fields.html" with form=bankcard_form %}
+            <h4>{% trans "Billing address" %}</h4>
+            {% include "oscar/partials/form_fields.html" with form=billing_address_form %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-large btn-primary">{% trans "Continue" %}</button>
+            </div>
+        </form>
+    </div>
+    {% endcomment %}
+{% endblock %}
