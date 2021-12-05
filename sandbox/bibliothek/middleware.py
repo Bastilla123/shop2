@@ -8,7 +8,7 @@ class Newsletterform(forms.ModelForm):
   class Meta:
     model = Clientaddress
     fields = ["interest_in_link","salutation","title","firstname","lastname","street","zip","city"]
-    widgets = {'title': textinputfeld, 'firstname': textinputfeld, 'lastname': textinputfeld, 'street': textinputfeld, 'zip': integerfeld, 'city': textinputfeld}
+    widgets = {"interest_in_link":multiselectfield,"salutation":selectfield,'title': textinputfeld, 'firstname': textinputfeld, 'lastname': textinputfeld, 'street': textinputfeld, 'zip': integerfeld, 'city': textinputfeld}
   def __init__(self, *args, **kwargs):
 
     super().__init__(*args, **kwargs)
@@ -24,7 +24,7 @@ class Kontaktform(forms.ModelForm):
   class Meta:
     model = Clientaddress
     fields = ["salutation","title","firstname","lastname","street","zip","city"]
-    widgets = {'title': textinputfeld, 'firstname': textinputfeld, 'lastname': textinputfeld, 'street': textinputfeld,
+    widgets = {"salutation":selectfield,'title': textinputfeld, 'firstname': textinputfeld, 'lastname': textinputfeld, 'street': textinputfeld,
                'zip': integerfeld, 'city': textinputfeld}
   def __init__(self, *args, **kwargs):
 

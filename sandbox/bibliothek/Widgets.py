@@ -692,6 +692,7 @@ class selectfield(forms.Select):
         super(selectfield, self).__init__(*args, **kwargs)
 
     def build_attrs(self, base_attrs, extra_attrs=None):
+
         if 'class' in base_attrs:
             string = "form-control " + str(base_attrs['class'])
 
@@ -699,6 +700,7 @@ class selectfield(forms.Select):
         else:
             dict = {'class': "form-control"}
         extra_attrs.update(dict)
+
         return super().build_attrs(base_attrs, extra_attrs=extra_attrs)
 
 
