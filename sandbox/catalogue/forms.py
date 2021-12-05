@@ -1,4 +1,4 @@
-
+from django.db.models import Max,Min
 
 from oscar.core.loading import get_model
 
@@ -10,7 +10,7 @@ from bibliothek.FormMixins import *
 
 
 Product = get_model('catalogue', 'Product')
-
+Partnermodel_stockrecord = get_model('partner', 'stockrecord')
 
 from .models import *
 
@@ -94,12 +94,18 @@ class ProductForm(Productformold):
 
 class ProductFilterForm(forms.Form):
     def __init__(self, catalogview,*args, **kwargs):
-        min_price = catalogview.request.GET.get('Price_min', None)
+        min_price_set = catalogview.request.GET.get('Price_min', None)
 
-        max_price = catalogview.request.GET.get('Price_max', None)
+        price = Partnermodel_stockrecord.objects.aggregate(Min('price'),Max('price'))
+
+        max_price_set = catalogview.request.GET.get('Price_max', None)
+        #max_price = Partnermodel_stockrecord.objects.aggregate(Max('price'))
         super(ProductFilterForm, self).__init__(*args, **kwargs)
+        from django.forms import CheckboxInput, Select, SelectMultiple, NumberInput
+        self.fields['price_min'] = forms.IntegerField(widget=RangeInput(valuemin=price['price__min'],valuemax=price['price__max'],value=price['price__min'],step=20))
+        self.fields['price_max'] = forms.IntegerField(
+            widget=RangeInput(valuemin=price['price__min'], valuemax=price['price__max'], value=price['price__max'], step=20))
 
-        self.fields['price'] = forms.IntegerField(label="",widget=RangeWidget(eav=False,title='Price',valuemin=0,valuemax=100,valuenow=50,initmin=min_price,initmax=max_price))
         #self.fields['colorchoices'] = forms.MultipleChoiceField(label="Color",required=False,
         #                                          widget=forms.SelectMultiple(attrs={'class': "form-control selectpicker"}),choices=[(m.id,m.name) for m in colorchoices.objects.all()])
 

@@ -14,11 +14,39 @@ import django.forms
 
 from string import capwords
 
-from django.forms import CheckboxInput, Select, SelectMultiple
+from django.forms import CheckboxInput, Select, SelectMultiple,NumberInput
 
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.template import loader
+
+
+class RangeInput(NumberInput):
+    input_type = 'range'
+
+    def __init__(self,**kwargs):
+
+        self.valuemin = kwargs.pop('valuemin')
+        self.valuemax = kwargs.pop('valuemax')
+
+        self.value = kwargs.pop('value')
+        self.step = kwargs.pop('step')
+        return super().__init__(**kwargs)
+
+    def render(self, name, value, attrs=None, renderer=None):
+
+        context = self.get_context(name, value, attrs)
+
+        context['widget']['attrs']['valuemin'] = self.valuemin
+        context['widget']['attrs']['valuemax'] = self.valuemax
+
+        context['widget']['attrs']['value'] = self.value
+        context['widget']['attrs']['step'] = self.step
+
+        template = loader.get_template('widgets/RangeWidget.html').render(context)
+        return mark_safe(template)
+
+
 
 
 class RangeWidget(forms.NumberInput):

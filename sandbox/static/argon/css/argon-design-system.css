@@ -24801,7 +24801,7 @@ hr.line-deafult {
 
 .section-hero,
 .page-header {
-  overflow: visible !important;
+
 }
 
 .section-hero .page-header .bg-image {
@@ -25259,7 +25259,7 @@ hr.line-deafult {
   overflow: hidden;
   width: 768px;
   max-width: 100%;
-  min-height: 480px;
+
 }
 
 .register-page .page-header .page-header-image {
@@ -28281,7 +28281,7 @@ header {
 }
 
 .page-header {
-  min-height: 100vh;
+
   max-height: 999px;
   padding: 0;
   position: relative;

@@ -2,6 +2,7 @@
 {% load image_tags %}
 {% load i18n %}
 {% load category_tags %}
+{% load standard_form %}
 
 <!--
 =========================================================
@@ -63,6 +64,13 @@ Coded by www.creative-tim.com
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+       {# Site logo/title, mini-basket, browse dropdown and searchbox #}
+    <header class="header">
+
+        {% block navigation %}
+            {% include "oscar/partials/nav_primary.html" %}
+        {% endblock %}
+    </header>
       <div class="navbar-collapse collapse" id="navbar_global">
         <div class="navbar-collapse-header">
           <div class="row">
@@ -264,7 +272,7 @@ Coded by www.creative-tim.com
 
 
 
-                {
+
             </div>
 
           </li>
@@ -310,12 +318,39 @@ Coded by www.creative-tim.com
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
-              <div class="row">
+            <div class="col-md-10">
+
                 <!-- Products -->
                 {% block layout %}{% endblock %}
-              </div>
+
             </div>
+            <!-- right column -->
+            <div class="col-md-2">
+               <div class="card">
+    <form enctype="multipart/form-data" method="POST" action="" id="newsletterform" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label>{% trans 'Subscribe to our Newsletter.' %}</label>
+                {% standard_form newsletter %}
+            </div>
+
+        <input type="submit" id="newslettersubmit" class="btn" value="{% trans 'Send' %}" />
+
+        </form>
+          </div>
+      <div class="card">
+      <form enctype="multipart/form-data" method="POST" action="" id="kontaktform" >
+            {% csrf_token %}
+            <div class="form-group">
+                <label>{% trans 'Please concact us' %}</label>
+                {% standard_form kontakt %}
+            </div>
+
+        <input type="submit" id="kontaktsubmit" class="btn" value="{% trans 'Send' %}" />
+
+        </form>
+          </div>
+              </div>
           </div>
         </div>
       </div><!-- section -->
@@ -551,6 +586,120 @@ Coded by www.creative-tim.com
         application: "argon-design-system-pro"
       });
   </script>
+
+
+    <script>
+    const validateEmail = function(email) {
+    var formData = new FormData();
+    formData.append('email', email)
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/validate/',
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        processData: false,
+        contentType: false,
+        data: formData,
+        error: function (xhr) {
+            console.error(xhr.statusText);
+        },
+        success: function (res) {
+            $('.error').text(res.msg);
+        }
+    });
+};
+
+const contact = function(email, name) {
+    var formData = new FormData();
+    formData = $('#kontaktform').serialize();
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/submitcontact/',
+        type: 'POST',
+        data: formData,
+        error: function (xhr) {
+            alert(xhr.statusText);
+        },
+        success: function (res) {
+            $("#kontaktform").trigger("reset");
+            alert(res.msg)
+        }
+    });
+};
+
+const subscribeUser = function(email, name) {
+    var formData = new FormData();
+    formData = $('#newsletterform').serialize();
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        }
+    });
+    $.ajax({
+        url: '/clientaddress/submitnewsletter/',
+        type: 'POST',
+
+
+        data: formData,
+        error: function (xhr) {
+            alert(xhr.statusText);
+        },
+        success: function (res) {
+            $("#newsletterform").trigger("reset");
+            alert(res.msg)
+
+
+        }
+    });
+};
+
+(function ($) {
+    $('#newslettersubmit').on('click', () => {
+
+        event.preventDefault();
+        const userEmail = $('#id_email').val();
+        const userName = $('#id_lastname').val();
+        if (userEmail && userName) {
+            subscribeUser(userEmail, userName);
+        }
+        else{
+            alert("Bitte Nachnamen und E-Mail eingeben")
+        }
+    });
+
+    $('#kontaktsubmit').on('click', () => {
+
+        event.preventDefault();
+        const userEmail = $('#kontaktform #id_email').val();
+
+        const userName = $('#kontaktform #id_lastname').val();
+        if (userEmail && userName) {
+            contact(userEmail, userName);
+        }
+        else{
+            alert("Bitte Nachnamen und E-Mail eingeben")
+        }
+    });
+
+    $('#id_email').on('change', (event) => {
+        event.preventDefault();
+        const email = event.target.value;
+        validateEmail(email);
+    });
+})(jQuery);
+</script>
+
     {# Local scripts #}
         {% block scripts %}
         {% endblock %}
@@ -560,3 +709,4 @@ Coded by www.creative-tim.com
 </body>
 
 </html>
+
