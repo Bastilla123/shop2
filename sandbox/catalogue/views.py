@@ -290,6 +290,7 @@ class ProductCreateUpdateView(CoreProductCreateUpdateView):
 
 
 def getcataloguecontext(self):
+
         #ctx = {'summary': _("All products"),
         #       'colors': [(m.id, m.name) for m in colorchoices.objects.all()],
         #       'brands': [(m.id, m.name) for m in brandchoices.objects.all()],
@@ -302,11 +303,11 @@ def getcataloguecontext(self):
                }
         productslist = Product.objects.all()
 
-        min_price = self.request.GET.get('Price_min', None)
+        min_price = self.request.GET.get('price_min_range', None)
         if min_price:
             productslist = productslist.filter(stockrecords__price__gte=min_price)
 
-        max_price = self.request.GET.get('Price_max', None)
+        max_price = self.request.GET.get('price_max_range', None)
         if max_price:
             productslist = productslist.filter(stockrecords__price__lte=max_price)
 

@@ -326,38 +326,49 @@ Coded by www.creative-tim.com
             </div>
             <!-- right column -->
             <div class="col-md-2">
-               <div class="card">
-    <form enctype="multipart/form-data" method="POST" action="" id="newsletterform" >
-            {% csrf_token %}
-            <div class="form-group">
-                <label>{% trans 'Subscribe to our Newsletter.' %}</label>
-                {% standard_form newsletter %}
-            </div>
+              <div class="card" >
+                <div class="card-header">
+                  <h5>{% trans 'Conctact us' %}</h5>
+                </div>
+                <div class="card-body pt-0">
+                  <form enctype="multipart/form-data" method="POST" action="" id="newsletterform">
+                    {% csrf_token %}
 
-        <input type="submit" id="newslettersubmit" class="btn" value="{% trans 'Send' %}" />
+                    <label>{% trans 'Subscribe to our Newsletter.' %}</label>
+                    {% standard_form newsletter %}
 
-        </form>
-          </div>
-      <div class="card">
-      <form enctype="multipart/form-data" method="POST" action="" id="kontaktform" >
-            {% csrf_token %}
-            <div class="form-group">
-                <label>{% trans 'Please concact us' %}</label>
-                {% standard_form kontakt %}
-            </div>
 
-        <input type="submit" id="kontaktsubmit" class="btn" value="{% trans 'Send' %}" />
+                    <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
 
-        </form>
-          </div>
+                  </form>
+                </div>
+</div>
+                <div class="card" >
+                  <div class="card-header">
+                    <h5>{% trans 'Conctact us' %}</h5>
+                  </div>
+                  <div class="card-body pt-0">
+
+
+                    <form enctype="multipart/form-data" method="POST" action="" id="kontaktform">
+                      {% csrf_token %}
+
+
+                      {% standard_form kontakt %}
+
+                      <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
+
+
+                    </form>
+                  </div>
+                </div>
               </div>
-          </div>
-        </div>
-      </div><!-- section -->
-      <div class="container-fluid text-center">
+            </div>
+          </div><!-- section -->
+          <div class="container-fluid text-center">
 
-      <div class="section">
-        <div class="container-fluid">
+            <div class="section">
+              <div class="container-fluid">
           <div class="row">
             <div class="col-md-10 mx-auto text-center">
               <h3 class="desc my-5"> The latest accessories</h3>

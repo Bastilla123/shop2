@@ -796,6 +796,7 @@ class textinputfeld(forms.TextInput):
 
         if ('disabled' in final_attrs):
             attrs.update({'disabled': 'disabled'})
+        attrs.update({'class': "form-control"})
         html += super(textinputfeld, self).render(name, value, attrs)
 
         html += '''                    

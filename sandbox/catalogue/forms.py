@@ -94,16 +94,26 @@ class ProductForm(Productformold):
 
 class ProductFilterForm(forms.Form):
     def __init__(self, catalogview,*args, **kwargs):
-        min_price_set = catalogview.request.GET.get('Price_min', None)
+        min_price_set = catalogview.request.GET.get('price_min_range', None)
 
         price = Partnermodel_stockrecord.objects.aggregate(Min('price'),Max('price'))
 
-        max_price_set = catalogview.request.GET.get('Price_max', None)
+        max_price_set = catalogview.request.GET.get('price_max_range', None)
         #max_price = Partnermodel_stockrecord.objects.aggregate(Max('price'))
         super(ProductFilterForm, self).__init__(*args, **kwargs)
         from django.forms import CheckboxInput, Select, SelectMultiple, NumberInput
-        self.fields['price_min'] = forms.IntegerField(widget=RangeInput(valuemin=price['price__min'],valuemax=price['price__max'],value=price['price__min'],step=20))
-        self.fields['price_max'] = forms.IntegerField(
+        if (min_price_set):
+            self.fields['price_min'] = forms.IntegerField(
+                widget=RangeInput(valuemin=price['price__min'], valuemax=price['price__max'], value=min_price_set,
+                                  step=20))
+        else:
+            self.fields['price_min'] = forms.IntegerField(widget=RangeInput(valuemin=price['price__min'],valuemax=price['price__max'],value=price['price__min'],step=20))
+        if (max_price_set):
+            self.fields['price_max'] = forms.IntegerField(
+                widget=RangeInput(valuemin=price['price__min'], valuemax=price['price__max'], value=max_price_set,
+                                  step=20))
+        else:
+            self.fields['price_max'] = forms.IntegerField(
             widget=RangeInput(valuemin=price['price__min'], valuemax=price['price__max'], value=price['price__max'], step=20))
 
         #self.fields['colorchoices'] = forms.MultipleChoiceField(label="Color",required=False,

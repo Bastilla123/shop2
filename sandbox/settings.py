@@ -338,6 +338,8 @@ OSCAR_PAYMENT_METHODS = (
     ('MASTERCARD', 'MasterCard'),
 )
 
+OSCAR_DEFAULT_CURRENCY = 'EUR'
+
 from oscar.defaults import *
 # Add Payflow dashboard stuff to settings
 OSCAR_DASHBOARD_NAVIGATION.append(
