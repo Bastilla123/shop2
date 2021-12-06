@@ -49,6 +49,8 @@ def NewsletterMiddleware(request):
   context = {}
   context["newsletter"] = Newsletterform()
   context["kontakt"] = Kontaktform()
+  from globalsettings.models import Globalsettings
+  context["globalsettings"] = Globalsettings.objects.first()
   return context
 
 

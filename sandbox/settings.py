@@ -329,6 +329,7 @@ INSTALLED_APPS = [
     'photo',
     'clientaddress',
     'standard_form',
+    'pages',
 ]
 
 OSCAR_PAYMENT_METHODS = (

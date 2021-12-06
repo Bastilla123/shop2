@@ -323,6 +323,7 @@ def getcataloguecontext(self):
 
         parentproducts = Product.objects.filter(pk__in=list)
         ctx['products'] = parentproducts
+        ctx['latestproducts'] = Product.objects.all().order_by('-date_created')[0:3]
         #ctx['Filterform'] = ProductFilterForm(self, initial={'colorchoices': color, 'brand': brand, 'material': material,
         #                                                     'size': size})
         ctx['Filterform'] = ProductFilterForm(self,

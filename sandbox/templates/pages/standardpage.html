@@ -1,0 +1,31 @@
+{% extends 'oscar/base.html' %}
+
+{% block layout %}
+<div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 mx-auto">
+
+            <div class="card my-sm-5 my-lg-0">
+              <div class="card-header text-center">
+
+                <h1>{% block cardheader %}{% endblock %}</h1>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12">
+                      {% block cardbody %}
+                    {% endblock %}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        </div>
+      </div>
+
+  
+
+{% endblock %}

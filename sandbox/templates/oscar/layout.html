@@ -22,15 +22,18 @@
                 {% endblock %}
                 {% include "oscar/partials/alert_messages.html" %}
                 {% block subnavigation %}{% endblock %}
-                <div class="content">
+
                     {% block subheader %}{% endblock subheader %}
 
                     {# Div exists for AJAX updates to entire content section #}
                     <div id="content_inner">{% block content %}{% endblock %}</div>
                 </div>
             </div>
+
         </div>
+
     {% endblock %}
+
 
     {% include "oscar/partials/footer.html" %}
 {% endblock %}

@@ -19,6 +19,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('globalsettings/', include((main_urls, 'globalsettings'), namespace='globalsettings')),
     path('globalsettings/', include('globalsettings.urls')),
+    path('pages/', include('pages.urls')),
     path('clientaddress/', include('clientaddress.urls')),
     path('', include('photo.urls')),
 

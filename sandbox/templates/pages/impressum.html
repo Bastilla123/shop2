@@ -1,0 +1,9 @@
+{% extends 'pages/standardpage.html' %}
+
+{% block cardheader %}
+Impressum
+{% endblock %}
+
+{% block cardbody %}
+ {{globalsettings.impressum|safe}}
+{% endblock %}

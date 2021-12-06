@@ -39,6 +39,9 @@ Coded by www.creative-tim.com
   <link href="{% static '/argon/css/nucleo-svg.css' %}" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="{% static '/argon/css/argon-design-system.css' %}?v=1.0.3" rel="stylesheet" />
+
+
+
   {% block styles %}{% endblock %}
   {% block extrastyles %}{% endblock %}
 
@@ -46,6 +49,11 @@ Coded by www.creative-tim.com
 </head>
 
 <body id="{% block body_id %}default{% endblock %}" class="ecommerce-page {% block body_class %}default{% endblock %}">
+
+
+
+
+
   <!-- Navbar -->
   <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent  py-2">
     <div class="container-fluid">
@@ -67,9 +75,6 @@ Coded by www.creative-tim.com
        {# Site logo/title, mini-basket, browse dropdown and searchbox #}
     <header class="header">
 
-        {% block navigation %}
-            {% include "oscar/partials/nav_primary.html" %}
-        {% endblock %}
     </header>
       <div class="navbar-collapse collapse" id="navbar_global">
         <div class="navbar-collapse-header">
@@ -175,6 +180,49 @@ Coded by www.creative-tim.com
               </a>
             </div>
           </li>
+
+          <!-- Webshop -->
+          <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% block browse_store_text %}{% trans "Browse store" %}{% endblock %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% category_tree depth=1 as tree_categories %}
+                                <a class="dropdown-item" href="{% url 'catalogue:index' %}">{% trans "All products" %}</a>
+                                {% if tree_categories %}
+                                    <div class="dropdown-divider"></div>
+                                    {% for tree_category in tree_categories %}
+                                        <a class="dropdown-item" href="{{ tree_category.get_absolute_url }}">{{ tree_category.name }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                                {% block nav_dropdown_extra_items %}
+                                    <a class="dropdown-item" href="{% url 'offer:list' %}">{% trans "Offers" %}</a>
+                                {% endblock %}
+                            </div>
+                        </li>
+          <!-- /Webshop -->
+
+          <!-- EcoDMS -->
+           <li class="nav-item dropdown">
+            <a href="javascript:;" class="nav-link" data-toggle="dropdown" role="button">
+              <i class="ni ni-single-copy-04 d-lg-none"></i>
+              <span class="nav-link-inner--text">EcoDMS</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'pages:godb' %}">
+                <i class="fas fa-gavel"></i>
+                GoBD
+              </a>
+
+              <a class="dropdown-item" href="{% url 'pages:revisionssicherheitview' %}">
+                <i class="fas fa-gavel"></i>
+                Revisionssicherheit
+              </a>
+            </div>
+           </li>
+
+          <!-- /EcoDMS -->
           <li class="nav-item dropdown">
             <a href="javascript:;" class="nav-link" data-toggle="dropdown" role="button">
               <i class="ni ni-single-copy-04 d-lg-none"></i>
@@ -365,7 +413,121 @@ Coded by www.creative-tim.com
               </div>
             </div>
           </div><!-- section -->
-          <div class="container-fluid text-center">
+
+          <div class="testimonials-1 bg-secondary py-5 skew-separator skew-top">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-6 mx-auto text-center">
+                  <h3 class="display-3">What Clients Say</h3>
+                </div>
+              </div>
+              <div id="carousel-testimonials" class="carousel slide carousel-team">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-5 ml-auto">
+                          <h3 class="card-title"> Sarah Smith</h3>
+                          <h3 class="text-primary">• • •</h3>
+                          <h4 class="lead">
+                            Take up one idea. Make that one idea your life - think of it, dream of it, live on that
+                            idea.
+                            Let the brain, muscles, nerves, every part of your body, be full of that idea, and just
+                            leave every other idea alone.
+                            This is the way to success. A single rose can be my garden... a single friend, my world.
+                          </h4>
+                          <a href="javascript:void(0)" class="btn btn-primary mt-3">Read more</a>
+                        </div>
+                        <div class="col-md-5 p-5 ml-auto">
+                          <div class="p-3">
+                            <img class="img-fluid rounded shadow transform-perspective-right"
+                                 src="{% static '/argon/img/faces/fezbot.jpg' %}" alt="First slide">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-5 ml-auto">
+                          <h3 class="card-title">Isaac Hunter </h3>
+                          <h3 class="text-info">• • •</h3>
+                          <h4 class="lead">
+                            Take up one idea. Make that one idea your life - think of it, dream of it, live on that
+                            idea.
+                            Let the brain, muscles, nerves, every part of your body, be full of that idea, and just
+                            leave every other idea alone.
+                            This is the way to success. A single rose can be my garden... a single friend, my world.
+                          </h4>
+                          <a href="javascript:void(0)" class="btn btn-info mt-3">Read more</a>
+                        </div>
+                        <div class="col-md-5 p-5 ml-auto">
+                          <div class="p-3">
+                            <img class="img-fluid rounded shadow transform-perspective-right"
+                                 src="{% static '/argon/img/faces/brooke-cagle.jpg' %}" alt="First slide">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel-testimonials" role="button" data-slide="prev">
+                  <i class="ni ni-bold-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-testimonials" role="button" data-slide="next">
+                  <i class="ni ni-bold-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row row-grid align-items-center mb-5">
+              <div class="col-lg-6">
+                <h3 class="text-primary font-weight-light mb-2">Thank you for supporting us!</h3>
+                <h4 class="mb-0 font-weight-light">Let's get in touch on any of these platforms.</h4>
+              </div>
+              <div class="col-lg-6 text-lg-center btn-wrapper">
+                <button target="_blank" href="https://twitter.com/creativetim" rel="nofollow"
+                        class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip"
+                        data-original-title="Follow us">
+                  <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+                </button>
+                <button target="_blank" href="https://www.facebook.com/CreativeTim/" rel="nofollow"
+                        class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip"
+                        data-original-title="Like us">
+                  <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
+                </button>
+                <button target="_blank" href="https://dribbble.com/creativetim" rel="nofollow"
+                        class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip"
+                        data-original-title="Follow us">
+                  <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
+                </button>
+                <button target="_blank" href="https://github.com/creativetimofficial" rel="nofollow"
+                        class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip"
+                        data-original-title="Star on Github">
+                  <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                </button>
+              </div>
+            </div>
+
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"<div class="container-fluid text-center">
 
             <div class="section">
               <div class="container-fluid">
@@ -548,7 +710,36 @@ Coded by www.creative-tim.com
             </button>
           </div>
         </div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn bg-gradient-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
         <hr>
+
         <div class="row align-items-center justify-content-md-between">
 
           <div class="col-md-6">
@@ -556,6 +747,35 @@ Coded by www.creative-tim.com
 
               <li class="nav-item">
                 <a href="" class="nav-link" target="_blank">About Us</a>
+              </li>>Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn bg-gradient-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row align-items-center justify-content-md-between">
+
+              <div class="col-md-6">
+                <ul class="nav nav-footer justify-content-end">
+
+                  <li class="nav-item">
+                    <a href="" class="nav-link" target="_blank">About Us</a>
+                  </li>
+              <li class="nav-item">
+              <a href="{% url 'pages:impressumview' %}" class="nav-link" >Impressum</a>
+
               </li>
 
             </ul>
