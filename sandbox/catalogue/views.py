@@ -263,7 +263,7 @@ def getvariant(request):
 
 class ProductDetailView(CoreProductDetailView):
     context_object_name = 'product'
-    template_name = 'website/product_detail2.html'
+
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)

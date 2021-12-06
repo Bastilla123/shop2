@@ -1,0 +1,417 @@
+{% extends 'oscar/base.html' %}
+
+{% load history_tags %}
+{% load currency_filters %}
+{% load reviews_tags %}
+{% load product_tags %}
+{% load display_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+{% block layout %}
+<div class="wrapper">
+    <div class="page-header header-filter page-header-small skew-separator skew-mini">
+        <div class="page-header-image" style="background-image: url('../assets/img/pages/boxed-water.jpg');"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-7 mr-auto text-left">
+                    <h1 class="title text-white">Our products</h1>
+                    <br>
+                    <h4 class="category text-white opacity-8">This is the best way to find your favorite stuff</h4>
+                </div>
+            </div>
+        </div>
+        <!-- SVG separator -->
+        <div class="separator separator-bottom separator-skew">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </div>
+    <div class="section section-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 ">
+                    {% block product_gallery %}
+        <div class="col-sm-6">
+            {% include "oscar/catalogue/partials/gallery.html" %}
+        </div>
+        {% endblock %}
+
+</div>
+                <div class="col-lg-6 col-md-12 mx-auto">
+                    <h2 class="title">{{ product.get_title }}</h2>
+                    <div class="stats">
+                        {% iffeature "reviews" %}
+                {% include "oscar/catalogue/reviews/partials/review_stars.html" %}
+            {% endiffeature %}
+                        {% comment %}
+                        <div class="stars text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <p class="d-inline">(76 customer reviews)</p>
+                        </div>
+                        {% endcomment %}
+                    </div>
+                    <br/>
+                    {% purchase_info_for_product request product as session %}
+        {% purchase_info_for_product request product as session %}
+        {% if session.price.exists %}
+
+            {% if session.price.is_tax_known %}
+                    <h2 class="main-price">{{ session.price.incl_tax|currency:session.price.currency }}</h2>
+
+
+            {% endif %}
+{% endif %}
+
+
+
+                    <h6 class="category">{% trans 'Description' %}</h6>
+                    <p class="description">{{ product.description|safe }}</p>
+                    <br>
+
+                    <br>
+                    {% if not product.is_parent %}
+                {% block product_basket_form %}
+                    {% include "oscar/catalogue/partials/add_to_basket_form.html" %}
+                {% endblock %}
+            {% else %}
+                {% block variants %}
+                    <h2>{% trans 'Variants:' %}</h2>
+                    {% for child in product.children.public %}
+                        {% purchase_info_for_product request child as child_session %}
+                        {% if child_session.availability.is_available_to_buy %}
+                            <a href="{{ child.get_absolute_url }}">{{ child.get_title }}</a><br>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock %}
+            {% endif %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 mx-auto text-center">
+              <h3 class="display-3">Join our world</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 col-md-8 col-10 positioned">
+              <h3 class="display-3">See our customers opinion</h3>
+              <p class="lead">
+                Meet Wingman, a robust suite of styled pages and components, powered by Bootstrap 4. The ideal starting point for product landing pages, stylish web-apps and complete company websites.
+              </p>
+              <a href="javascript:;" class="btn btn-primary mt-5">Contact us</a>
+            </div>
+            <div class="col-md-12 col-md-6">
+              <div class="testimonial-glide glide--ltr glide--carousel glide--swipeable">
+                <div class="glide__track" data-glide-el="track">
+                  <ul class="glide__slides" style="transition: transform 0ms cubic-bezier(0.165, 0.84, 0.44, 1) 0s; width: 4380px; transform: translate3d(-1460px, 0px, 0px);">
+                    <li class="glide__slide glide__slide--clone" style="width: 282px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Take up one idea. Make that one idea your life
+                          - think of it, dream of it, live on that idea.
+                          Let the brain, muscles, nerves, every part of
+                          your body, be full of that idea, and just leave
+                          every other idea alone. This is the way to success.
+                          A single rose can be my garden... a single friend,
+                          my world."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-1.jpg" alt="..." class="avatar img-raised">
+                          <span>Andrew Lino</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          Artist is a term applied to a person who engages in an activity
+                          deemed to be an art. An artist also may be defined unofficially as
+                          "a person who expresses him- or herself through a medium".
+                          He is a descriptive term applied to a person who engages in
+                          an activity deemed to be an art."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-2.jpg" alt="..." class="avatar img-raised">
+                          <span>Michael Jenos</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "The simplest visual description uses ordinary words
+                          to convey what the writer sees. First he or she must look
+                          at the subject – slowly, carefully, and repeatedly,
+                          if possible – to identify the parts that make the whole"
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-3.jpg" alt="..." class="avatar img-raised">
+                          <span>Rose Arthur</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Finding temporary housing for your dog should be as
+                          easy as renting an Airbnb. That’s the idea behind Rover,
+                          which raised $65 million to expand its pet sitting and
+                          dog-walking businesses..Finding temporary housing for
+                          your dog should be as easy as renting an Airbnb."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-4.jpg" alt="..." class="avatar img-raised">
+                          <span>Lora Jimi</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Venture investment in U.S. startups rose sequentially in
+                          the second quarter of 2017, boosted by large, late-stage
+                          financings and a few outsized early-stage rounds in tech and
+                          healthcare..enture investment in U.S. startups rose sequentially
+                          in the second quarter of 2017, boosted by large."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-5.jpg" alt="..." class="avatar img-raised">
+                          <span>Mike Ranson</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Take up one idea. Make that one idea your life
+                          - think of it, dream of it, live on that idea.
+                          Let the brain, muscles, nerves, every part of
+                          your body, be full of that idea, and just leave
+                          every other idea alone. This is the way to success.
+                          A single rose can be my garden... a single friend,
+                          my world."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-1.jpg" alt="..." class="avatar img-raised">
+                          <span>Andrew Lino</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="glide__slide" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          Artist is a term applied to a person who engages in an activity
+                          deemed to be an art. An artist also may be defined unofficially as
+                          "a person who expresses him- or herself through a medium".
+                          He is a descriptive term applied to a person who engages in
+                          an activity deemed to be an art."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-2.jpg" alt="..." class="avatar img-raised">
+                          <span>Michael Jenos</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="glide__slide glide__slide--active" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "The simplest visual description uses ordinary words
+                          to convey what the writer sees. First he or she must look
+                          at the subject – slowly, carefully, and repeatedly,
+                          if possible – to identify the parts that make the whole"
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-3.jpg" alt="..." class="avatar img-raised">
+                          <span>Rose Arthur</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="glide__slide" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Finding temporary housing for your dog should be as
+                          easy as renting an Airbnb. That’s the idea behind Rover,
+                          which raised $65 million to expand its pet sitting and
+                          dog-walking businesses..Finding temporary housing for
+                          your dog should be as easy as renting an Airbnb."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-4.jpg" alt="..." class="avatar img-raised">
+                          <span>Lora Jimi</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="glide__slide" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Venture investment in U.S. startups rose sequentially in
+                          the second quarter of 2017, boosted by large, late-stage
+                          financings and a few outsized early-stage rounds in tech and
+                          healthcare..enture investment in U.S. startups rose sequentially
+                          in the second quarter of 2017, boosted by large."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-5.jpg" alt="..." class="avatar img-raised">
+                          <span>Mike Ranson</span>
+                        </div>
+                      </div>
+                    </li>
+                  <li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Take up one idea. Make that one idea your life
+                          - think of it, dream of it, live on that idea.
+                          Let the brain, muscles, nerves, every part of
+                          your body, be full of that idea, and just leave
+                          every other idea alone. This is the way to success.
+                          A single rose can be my garden... a single friend,
+                          my world."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-1.jpg" alt="..." class="avatar img-raised">
+                          <span>Andrew Lino</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          Artist is a term applied to a person who engages in an activity
+                          deemed to be an art. An artist also may be defined unofficially as
+                          "a person who expresses him- or herself through a medium".
+                          He is a descriptive term applied to a person who engages in
+                          an activity deemed to be an art."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-2.jpg" alt="..." class="avatar img-raised">
+                          <span>Michael Jenos</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "The simplest visual description uses ordinary words
+                          to convey what the writer sees. First he or she must look
+                          at the subject – slowly, carefully, and repeatedly,
+                          if possible – to identify the parts that make the whole"
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-3.jpg" alt="..." class="avatar img-raised">
+                          <span>Rose Arthur</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px; margin-right: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Finding temporary housing for your dog should be as
+                          easy as renting an Airbnb. That’s the idea behind Rover,
+                          which raised $65 million to expand its pet sitting and
+                          dog-walking businesses..Finding temporary housing for
+                          your dog should be as easy as renting an Airbnb."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-4.jpg" alt="..." class="avatar img-raised">
+                          <span>Lora Jimi</span>
+                        </div>
+                      </div>
+                    </li><li class="glide__slide glide__slide--clone" style="width: 282px; margin-left: 5px;">
+                      <div class="info text-left">
+                        <p class="description">
+                          "Venture investment in U.S. startups rose sequentially in
+                          the second quarter of 2017, boosted by large, late-stage
+                          financings and a few outsized early-stage rounds in tech and
+                          healthcare..enture investment in U.S. startups rose sequentially
+                          in the second quarter of 2017, boosted by large."
+                        </p>
+                        <div class="author">
+                          <img src="../assets/img/faces/team-5.jpg" alt="..." class="avatar img-raised">
+                          <span>Mike Ranson</span>
+                        </div>
+                      </div>
+                    </li></ul>
+                </div>
+                <div class="glide__arrows" data-glide-el="controls">
+                  <button class="glide__arrow glide__arrow--left text-default" data-glide-dir="<"><i class="ni ni-bold-left"></i></button>
+                  <button class="glide__arrow glide__arrow--right text-default" data-glide-dir=">"><i class="ni ni-bold-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+    {% comment %}
+    {% iffeature "reviews" %}
+        {% block product_review %}
+        <section>
+            <div id="reviews" class="sub-header">
+                {% if product.num_approved_reviews > 3 %}
+                    <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}" class="btn float-right">{% trans "See all reviews" %}</a>
+                {% endif %}
+                <h2>{% trans "Customer Reviews" %}</h2>
+            </div>
+
+            {% if product.num_approved_reviews == 0 %}
+                <p>
+                    {% if product|is_review_permitted:user %}
+                        {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
+                            {% blocktrans %}This product does not have any reviews yet -
+                            <a href="{{ add_review_url }}#addreview">be the first to write one</a>.
+                        {% endblocktrans %}
+                    {% else %}
+                        {% trans "This product does not have any reviews yet" %}.
+                    {% endif %}
+                </p>
+            {% else %}
+                <ol class="list-unstyled review-list">
+                    {% for review in product.reviews.approved.all|slice:":3" %}
+                        <li>
+                        {% include 'oscar/catalogue/partials/review.html' %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </section>
+        {% endblock product_review %}
+    {% endiffeature %}
+    {% endcomment %}
+
+{% with recommended_products=product.sorted_recommended_products|slice:":6" %}
+        {% if recommended_products %}
+            <div class="sub-header">
+                <h2>{% trans "Recommended items" %}</h2>
+            </div>
+            <ul class="row list-unstyled mx-0">
+                {% for product in recommended_products %}
+                <li class="col-sm-4 col-md-3 col-lg-3">
+                    {% render_product product %}
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% recently_viewed_products current_product=product %}
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}
