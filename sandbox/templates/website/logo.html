@@ -1,0 +1,14 @@
+{% load image_tags %}
+{% load static %}
+ {% if logo %}
+    {% with image=logo %}ecommerce
+                    {% oscar_thumbnail logo.file "180x" upscale=False as thumb %}
+
+
+                  <img src="{{ thumb.url }}" alt="" alt="Logo" class="img-raised rounded img-fluid" style="margin-left:15px;">
+
+
+                {% endwith %}
+  {% endif %}
+
+ <img src="{% static 'Beelze2.png' %}" alt="" alt="Logo" class="img-raised rounded img-fluid" style="margin-left:15px;height:80px;">

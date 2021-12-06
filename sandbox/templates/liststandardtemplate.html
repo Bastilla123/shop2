@@ -1,4 +1,4 @@
-
+{% extends 'oscar/base.html' %}
 
 {% load static %}
 
@@ -38,7 +38,8 @@
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         z-index: 999;
-    }</style>
+    }
+</style>
 
 
 <style>
@@ -71,283 +72,167 @@ display: block;
         width: calc(100% - 280px);
 
     }
+
 </style>
 {% endblock %}
 
-{% block basecontent %}
+{% block layout %}
 
 <div class="header bg-primary pb-6">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="header-body">
-          <div class="row align-items-center py-4">
-                <div class="col-9 pl-3">
-
-            {% block buttons %}
-
-            <div>
-
-                {% for key,value in buttons.items %}
-                {% for key2,value2 in value.items %}
+            <div class="row align-items-center py-4">
+                {% include 'website/buttons.html' %}
+                {% include 'website/pagesize.html' %}
 
 
-                {% if key2 == "url" %}<a href="{{ value2 }}">{% endif %}
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">
-                    {% for key2,value2 in value.items %}
-
-
-                    {% if key2 == "awesomefont" %}<i class="{{ value2 }}"></i>{% endif %}
-                    {% endfor %}
-                    {% for key2,value2 in value.items %}
-
-                    {% if key2 == "label" %}{{ value2 }}{% endif %}
-                    {% endfor %}
-                </button>
-                {% for key2,value2 in value.items %}
-
-
-                {% if key2 == "url" %}
-            </a>
-                {% endif %}
-                {% endfor %}
-                {% endfor %}
-                {% endblock %}
             </div>
         </div>
-
-
-
-
-                    <div class="form-group pl-3">
-                        <label style="color:white;">Anzahl</label>
-                        <select class="custom-select" id="selectpaginationsize" style="max-width: 60px;">
-                            <option value="25">25</option>
-
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="250">250</option>
-                        </select>
-                    </div>
-
-
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-
-
-
-
-<div class="container-fluid mt--6">
-      <div class="row">
-        <div class="col-12" id="content">
-          <div class="card">
-            <!-- Card header -->
-            <div class="card-header border-0">
-              <h1 class="mb-0">{{model|title}}liste</h1>
-            </div>
-
-
-
-
-            <!-- Light table -->
-             <div class="table-wrapper-scroll-y my-custom-scrollbar">
-<table id="table" class="table align-items-center table-flush table-striped">
-            <thead >
-
-              {% for field in fieldlist %}
-
-
-                                    <th class="draggable" name={{field|replace:'"|'|safe}} >{{field|translateheader }}{% if orderby == field %}<i class="fas fa-sort-down"></i>{% endif %}</th>
-
-
-
-
-
-
-                                {% endfor %}
-                                <th class="draggable" name="Aktion">Aktion</th>
-
-                                {% if 'newsletter' in request.path %}
-
-
-                                 <th class="draggable">Freigabe</th>
-
-                                {% endif %}
-            </thead>
-                            <tbody>
-
-                            {% for row in object_list %}
-
-                                <tr>
-                                    {% for field in fieldlist %}
-
-                                        {% if element.is_active == False %}
-                                    <td style="color:grey">
-                                    {% else %}
-                                        <td>
-                                    {% endif %}
-                                        {{ row|getvaluefromfield:field|safe }}
-                                    {% endfor %}
-<td>
-                                        {% if request.user == row.owner or request.user.is_superuser == True %}
-                                            <a class="btn btn-primary btn-sm" style="width:80px;"
-                                                    href="/edit/{{model}}/{{ row.pk }}/"><i
-                                                    class="fas fa-edit fa-2x"></i></a>
-                                            <a class="btn btn-danger btn-sm" style="width:80px;"
-                                            href="/delete/{{model}}/{{ row.pk }}/"><i
-                                            class="fas fa-trash fa-2x"></i></a>
-                                        {% else %}
-                                    {% load tags %}
-
-
-                                                    <a class="btn btn-primary btn-sm" style="width:80px;"
-                                                    href="/edit/{{model}}/{{ row.pk }}/"><i
-                                                    class="fas fa-edit fa-2x"></i><h5>Edit</h5></a>
-
-
-
-
-                                                        <a class="btn btn-danger btn-sm" style="width:80px;"
-                                                        href="/delete/{{model}}/{{ row.pk }}/"><i
-                                                        class="fas fa-trash fa-2x"></i><h5>Delete</h5></a>
-
-                                    </td>
-{% endif %}
-
-                                {% if 'newsletter' in request.path %}
-
-                                {% if row.is_released == False %}
-                                <td><a href="/newsletter/freigabe/{{ row.id }}/"> <i class="fas fa-times fa-2x"></i>
-                                </a></td>
-                                {% else %}
-                                <td><a href="#"><i class="fas fa-check fa-2x"></i> </a></td>
-
-                                {% endif %}
-
-                                {% endif %}
-                                </tr>
-                            {% endfor %}
-
-
-                            </tbody>
-                        </table>
-
-                            </div>
-            <!-- Card footer -->
-            <div class="card-footer py-4">
-                <nav aria-label="...">
-
-                    {% if is_paginated %}
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
-                                {{page_obj.start_index }} - {{ page_obj.end_index }} von {{ page_obj.paginator.count }}
-                            </div>
-                        </div>
-
-
-                        <div class="col float-right">
-                            {% if is_paginated %}
-                            <div class="float-right">{% include base_template|add:'paging.html' %}</div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- /Pagination -->
-
-            {% endif %}
-                </nav>
-            </div>
 </div>
- </div>
-
-    <div class="d-none" id="Filtersidebar">
-          <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Filter</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form>
-                            <div class="card-body">
-
-
-                                <table class="col-12">
-
-                                </table>
+<div class="row">
+<div class="col-10">
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-12" id="content">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h1 class="mb-0">{{model|title}}liste</h1>
+                </div>
 
 
-                            </div>
-                            <!-- /.card-body -->
-<div class="pl-2">
+                <!-- Light table -->
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table id="table" class="table align-items-center table-flush table-striped">
+                        <thead>
 
-                                <button type="submit" class="btn btn-primary">Anwenden</button>
-    </form>
+                        {% for field in fieldlist %}
 
-    </div>
-                            {% if '?' in request.get_full_path %}
-                            <div class="pl-2 pt-2 pb-2">
 
-                                <button class="btn btn-warning" onclick="location.href='/list/{{model}}/'" type="button">
-         Reset</button>
- </div>
+                        <th class="draggable" name={{field|replace:'"|'|safe}}>{{field|translateheader }}{% if orderby == field %}<i class="fas fa-sort-down"></i>{% endif %}
+                        </th>
 
+
+                        {% endfor %}
+                        <th class="draggable" name="Aktion">Aktion</th>
+
+                        {% if 'newsletter' in request.path %}
+
+
+                        <th class="draggable">Freigabe</th>
+
+                        {% endif %}
+                        </thead>
+                        <tbody>
+
+                        {% for row in object_list %}
+
+                        <tr>
+                            {% for field in fieldlist %}
+
+                            {% if element.is_active == False %}
+                            <td style="color:grey">
+                                {% else %}
+                            <td>
                                 {% endif %}
-    </div>
+
+                                {{ row|getvaluefromfield:field|safe }}
+                                {% endfor %}
+                            <td>
+                                {% if request.user == row.owner or request.user.is_superuser == True %}
+                                <a class="btn btn-primary btn-sm" style="width:80px;"
+                                   href="/{{model}}/edit/{{model}}/{{ row.pk }}/"><i
+                                        class="fas fa-edit fa-2x"></i></a>
+                                <a class="btn btn-danger btn-sm" style="width:80px;"
+                                   href="/{{model}}/delete/{{model}}/{{ row.pk }}/"><i
+                                        class="fas fa-trash fa-2x"></i></a>
+                                {% else %}
+                                {% load tags %}
+
+
+                                <a class="btn btn-primary btn-sm" style="width:80px;"
+                                   href="/{{model}}/edit/{{model}}/{{ row.pk }}/"><i
+                                        class="fas fa-edit fa-2x"></i><h5>Edit</h5></a>
+
+
+                                <a class="btn btn-danger btn-sm" style="width:80px;"
+                                   href="/delete/{{model}}/{{ row.pk }}/"><i
+                                        class="fas fa-trash fa-2x"></i><h5>Delete</h5></a>
+
+                            </td>
+                            {% endif %}
+
+                            {% if 'newsletter' in request.path %}
+
+                            {% if row.is_released == False %}
+                            <td><a href="/newsletter/freigabe/{{ row.id }}/"> <i class="fas fa-times fa-2x"></i>
+                            </a></td>
+                            {% else %}
+                            <td><a href="#"><i class="fas fa-check fa-2x"></i> </a></td>
+
+                            {% endif %}
+
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+
+                        {% if is_paginated %}
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                    {{page_obj.start_index }} - {{ page_obj.end_index }} von {{ page_obj.paginator.count
+                                    }}
+                                </div>
+                            </div>
+
+
+                            <div class="col float-right">
+                                {% if is_paginated %}
+                                <div class="float-right">{% include base_template|add:'paging.html' %}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- /Pagination -->
+
+                        {% endif %}
+                    </nav>
+                </div>
+            </div>
         </div>
 
-          <div class="d-none" id="activefields">
+        </div>
+    </div>
+    </div>
 
-              <div class="card">
-              <!-- Card header -->
-              <div class="card-header">
-                <h3 class="mb-0">Felder</h3>
-
-              </div>
-              <!-- Card body -->
-              <div class="card-body">
-
-                <form method="POST" action="/ajax/saveactivatedfields/{{model}}/">
-                    {% csrf_token %}
-
-
-                         <button type="submit" class="btn btn-primary">Anwenden</button>
-                         </form>
-
-              </div>
+    <div class="col-2">
+        <!-- RIGHT -->
+        <div class="container-fluid mt--6 mr-2">
+    <div class="row">
+        {% include 'website/contact.html' %}
+        {% include 'website/subscribe_newsletter.html' %}
+        </div>
             </div>
+    </div>
 
-
-
-
-
-
-      </div>
-
-        <!-- Light table -->
-
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- Light table -->
+</div>
+</div>
 
 
 <!-- /.row -->
 </div>
-
 
 
 {% endblock %}
@@ -555,7 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
      $.ajax({
             type: 'POST',
-            url: '/ajax/updatelistheaderordering/{{model}}/',
+            url: '/ajax/<div class="container-fluid mt--6">
+    <div class="row">updatelistheaderordering/{{model}}/',
             data: {
                 'query': JSON.stringify(myRows),
 
@@ -580,7 +466,8 @@ document.addEventListener('DOMContentLoaded', function() {
         headerCell.classList.add('draggable');
         headerCell.addEventListener('mousedown', mouseDownHandler);
     });
-});</script>
+});
+</script>
 
 
 <script>
@@ -603,8 +490,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         });
     });
-</script>
 
+</script>    <
 
 
 <script>
@@ -618,6 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endif %}
 
     {% endif %}
+
 </script>
 
 <script>
@@ -639,6 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         }
     }
+
 </script>
 
 <script>
@@ -660,6 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         }
     }
+
 </script>
 <script>
     $("th").click(function(){
@@ -681,6 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+
 </script>
 
 

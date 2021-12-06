@@ -24,7 +24,7 @@ Coded by www.creative-tim.com
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{% static '/argon/img/apple-icon.png' %}">
-  <link rel="icon" type="image/png" href="{% static '/argon/img/favicon.png' %}">
+  <link rel="icon" type="image/png" href="{% static '/favicon.ico' %}">
   <title>
     Beelze Solutions IT Shop
   </title>
@@ -58,16 +58,7 @@ Coded by www.creative-tim.com
   <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent  py-2">
     <div class="container-fluid">
       <a class="navbar-brand mr-lg-5" href="../../../index.html">
-        {% if logo %}
-    {% with image=logo %}ecommerce
-                    {% oscar_thumbnail logo.file "180x" upscale=False as thumb %}
-
-
-                  <img src="{{ thumb.url }}" alt="" alt="Logo" class="img-raised rounded img-fluid" style="margin-left:15px;">
-
-
-                {% endwith %}
-  {% endif %}
+       {% include 'website/logo.html' %}
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -366,62 +357,24 @@ Coded by www.creative-tim.com
             </div>
           </div>
           <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
 
                 <!-- Products -->
                 {% block layout %}{% endblock %}
 
             </div>
-            <!-- right column -->
-            <div class="col-md-2">
-              <div class="card" >
-                <div class="card-header">
-                  <h5>{% trans 'Conctact us' %}</h5>
-                </div>
-                <div class="card-body pt-0">
-                  <form enctype="multipart/form-data" method="POST" action="" id="newsletterform">
-                    {% csrf_token %}
-
-                    <label>{% trans 'Subscribe to our Newsletter.' %}</label>
-                    {% standard_form newsletter %}
 
 
-                    <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
+        </div><!-- section -->
 
-                  </form>
-                </div>
-</div>
-                <div class="card" >
-                  <div class="card-header">
-                    <h5>{% trans 'Conctact us' %}</h5>
-                  </div>
-                  <div class="card-body pt-0">
-
-
-                    <form enctype="multipart/form-data" method="POST" action="" id="kontaktform">
-                      {% csrf_token %}
-
-
-                      {% standard_form kontakt %}
-
-                      <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
-
-
-                    </form>
-                  </div>
-                </div>
+        <div class="testimonials-1 bg-secondary py-5 skew-separator skew-top">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 mx-auto text-center">
+                <h3 class="display-3">What Clients Say</h3>
               </div>
             </div>
-          </div><!-- section -->
-
-          <div class="testimonials-1 bg-secondary py-5 skew-separator skew-top">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-6 mx-auto text-center">
-                  <h3 class="display-3">What Clients Say</h3>
-                </div>
-              </div>
-              <div id="carousel-testimonials" class="carousel slide carousel-team">
+            <div id="carousel-testimonials" class="carousel slide carousel-team">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <div class="container-fluid">

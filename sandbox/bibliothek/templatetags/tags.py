@@ -1,4 +1,5 @@
 from clientaddress.models import Clientaddress
+from django.contrib.auth.models import User
 
 from django import template
 register = template.Library()
@@ -76,8 +77,9 @@ def getvaluefromfield(dictionary,fieldname):
         return
     try:
         fieldtype = eval(dictionary._meta.object_name)._meta.get_field(fieldname).get_internal_type()
+        #print("Fieldname "+str(fieldname)+" Internal Type "+str(fieldtype))
     except Exception as e:
-
+        print("Eval funktioniert nicht von dictionary._meta.object_name")
         return ""
 
     if (fieldtype == "DateTimeField"):
@@ -92,10 +94,14 @@ def getvaluefromfield(dictionary,fieldname):
 
         return getmanytomanyvalues(dictionary,fieldname)
     elif (fieldtype == "BooleanField"):
+
         if (get_attr(dictionary, fieldname) == True):
             return '<i class="fas fa-check"></i>'
         else:
             return '<i class="fa fa-times" aria-hidden="true"></i>'
+    elif (fieldtype == "OneToOneField"):
+
+        return ""
 
     return get_attr(dictionary, fieldname)
 

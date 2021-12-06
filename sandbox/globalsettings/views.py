@@ -44,15 +44,17 @@ class UserCreateView(MultiModelFormView,CreateView):
 @method_decorator(login_required, name='dispatch')
 class Userlistview(ListviewMixin,ListView):
     model = User
-    template_name = 'website/standardlistview.html'
+    template_name = 'liststandardtemplate.html'
     fieldlist = ('id','username', 'first_name', 'last_name', 'email' )
-    labels = {'id': "Id", 'username': "Benutzername",'first_name':'Vorname','last_name':"Nachname",'email':'E-Mail',
-        }
+
     buttons = {
-        0: {'url': reverse_lazy('Userlistview'), 'awesomefont': "fas fa-plus", 'label': 'Neu'},
+        0: {'url': reverse_lazy('globalsettings:Userlistview'), 'awesomefont': "fas fa-plus", 'label': 'Neu'},
         1: {'url': reverse_lazy('dashboard:index'), 'awesomefont': "fas fa-undo", 'label': 'Dashboard'}}
 
-
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        print("Context "+str(context))
+        return context
 
 
 

@@ -1,0 +1,37 @@
+<div class="col-9 pl-3">
+
+            {% block buttons %}
+
+            <div>
+
+
+                {% for key,value in buttons.items %}
+                {% for key2,value2 in value.items %}
+
+
+                {% if key2 == "url" %}<a href="{{ value2 }}">{% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">
+                    {% for key2,value2 in value.items %}
+
+
+                    {% if key2 == "awesomefont" %}<i class="{{ value2 }}"></i>{% endif %}
+                    {% endfor %}
+                    {% for key2,value2 in value.items %}
+
+                    {% if key2 == "label" %}{{ value2 }}{% endif %}
+                    {% endfor %}
+                </button>
+                {% for key2,value2 in value.items %}
+
+
+                {% if key2 == "url" %}
+            </a>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+
+                {% endblock %}
+            </div>
+        </div>
+
