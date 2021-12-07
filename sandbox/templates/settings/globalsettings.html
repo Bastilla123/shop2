@@ -197,7 +197,7 @@ var canvasData;
 $("#modalCrop").on("show.bs.modal", function () {
 
   $image.cropper({
-    viewMode: 1,
+
     {% if 'edit/user' in request.path %}
     aspectRatio: 1/1,
     {% endif %}

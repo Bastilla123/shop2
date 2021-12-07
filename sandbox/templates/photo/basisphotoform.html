@@ -10,13 +10,17 @@
 <link href="{% static 'cropper/bootstrap.min.css' %}" rel="stylesheet">
 
 
-
+<style>
+    .modal-backdrop {
+  z-index: -1;
+}
+</style>
 {% block content %}
 
 
 <!-- FORM TO UPLOAD THE IMAGES -->
 <form method="post" enctype="multipart/form-data" id="formUpload"
-      action="{% if request.path == '/edit/globalsettings/' or request.path == '/uploadphoto/1' %}/uploadphoto/1 {% else %} /uploadphoto/0 {% endif %}">
+      action="{% if '/edit/globalsettings/' in request.path  %}/uploadphoto/0 {% else %} /uploadphoto/1 {% endif %}">
     {% csrf_token %}
     {{ photoform }}
 
@@ -24,7 +28,7 @@
 
 <!-- Modal -->
 <div class="modal" id="modalCrop">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Cropper</h5>

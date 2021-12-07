@@ -28,7 +28,7 @@ def deletephoto(request, id):
     return HttpResponseRedirect(reverse('GlobalsettingsUpdateView'))
 
 
-def photo_list(request,imagetype):
+def photo_list(request,imagetype): #type 0 = userphoto 1 = logo
     photos = Photo.objects.all()
     if request.method == 'POST':
 
@@ -38,9 +38,10 @@ def photo_list(request,imagetype):
             # Da es nur ein Photo geben darf das alte löschen
             try:
                 if (imagetype == 0):
-                    photoentry = Photo.objects.filter(user_link=request.user).first()
-                if (imagetype == 1):
                     photoentry = Photo.objects.filter(globalsettings_link=Globalsettings.objects.first()).first()
+                if (imagetype == 1):
+                    photoentry = Photo.objects.filter(user_link=request.user).first()
+
             except Exception as e:
                 messages.error(request, "Es konnte das Bild nicht gefunden werden: " + str(e))
                 return HttpResponseRedirect('/')
@@ -51,9 +52,10 @@ def photo_list(request,imagetype):
             post = form.save()
             post.imagetype = imagetype
             if (imagetype == 0):
-                post.user_link = request.user
-            if (imagetype == 1):
                 post.globalsettings_link = Globalsettings.objects.first()
+
+            if (imagetype == 1):
+                post.user_link = request.user
             try:
                 post.save()
             except Exception as e:
@@ -73,10 +75,10 @@ def photo_list(request,imagetype):
             photos = Photo.objects.filter(globalsettings_link=Globalsettings.objects.first())
     return render(request, 'photo/basisphotoform.html', {'forms':{'PhotoForm': form}, 'photos': photos})
 
-def uploadphoto(request,imagetype): #type 0 = userphoto 1 = mandatelogo
-
+def uploadphoto(request,imagetype): #type 0 = userphoto 1 = logo
+    print("before post")
     if request.method == 'POST':
-        print("Post")
+
         if (not (request.user.is_authenticated)):
             messages.error(request,
                            'Diese Funktion ist nur eingeloggten Usern möglich. Bitte zuerst <a href="/signup/">registrieren</a>/<a href="/login/">einloggen</a>')
@@ -85,8 +87,9 @@ def uploadphoto(request,imagetype): #type 0 = userphoto 1 = mandatelogo
                           {'form': form, })
 
         form = PhotoForm(request.POST, request.FILES)
+        print ("Before valid")
         if form.is_valid():
-
+            print("Imagetype "+str(imagetpye))
 
             #Da es nur ein Photo geben darf das alte löschen
             try:
@@ -106,7 +109,7 @@ def uploadphoto(request,imagetype): #type 0 = userphoto 1 = mandatelogo
 
                 post.user_link = request.user
             if (imagetype == 1):
-
+                print("Drin")
                 post.globalsettings_link = Globalsettings.objects.first()
             try:
                 post.save()
