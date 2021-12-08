@@ -268,6 +268,23 @@ Coded by www.creative-tim.com
               </a>
             </div>
           </li>
+
+         <li class="nav-item dropdown">
+            <a href="javascript:;" class="nav-link" data-toggle="dropdown" role="button">
+              <i class="ni ni-single-copy-04 d-lg-none"></i>
+              <span class="nav-link-inner--text">{% trans 'Company' %}</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'pages:Teamlistview' %}">
+                <i class="ni ni-tie-bow text-warning"></i>
+                {% trans 'Our Team' %}
+              </a>
+            </div>
+         </li>
+
+
+
+
          {% include 'oscar/partials/ecodms.html' %}
           {% include 'oscar/partials/webshop.html' %}
         </ul>
@@ -277,8 +294,14 @@ Coded by www.creative-tim.com
 
 
     {% include "oscar/partials/nav_accounts.html" %}
+             <div class="row">
+               <div class="col-4 ml-0 pl-0">
             {% include "oscar/partials/languageselector.html" %}
-
+                 </div>
+                 <div class="col-8 ml-0">
+            {% include "oscar/partials/mini_basket.html" %}
+                   </div>
+               </div>
             </div>
 
     </div>
@@ -286,13 +309,13 @@ Coded by www.creative-tim.com
   <!-- End Navbar -->
   <div class="wrapper">
     <div class="page-header page-header-small header-filter skew-separator skew-mini">
-      <div class="page-header-image" style="background-image: url('{% static '/argon/img/pages/kevin-grieve.jpg' %}');"></div>
+      <div class="page-header-image" style="background-image: url('{% block headerimage %}{% static '/argon/img/pages/kevin-grieve.jpg' %}{% endblock %}');"></div>
 
       <div class="container-fluid pt-0">
 
         <div class="row">
           <div class="col-lg-6 col-md-7 mx-auto text-center">
-            <h1 class="title text-white">See our latest collection!</h1>
+            <h1 class="title text-white">{% block headertitle %}{% endblock %}</h1>
             <br>
             <div class="buttons">
 

@@ -66,6 +66,11 @@ def get_attr(value, arg):
         return ""
     return ""
 
+@register.filter
+def modulo(num, val):
+    return num % val == 0
+
+
 @register.filter(name='desctimes')
 def desctimes(number,descnumber):
     if (number is None):

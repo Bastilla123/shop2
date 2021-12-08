@@ -2,7 +2,7 @@
 {% load tags %}
 <section class="py-5">
 
-  <div class="container">
+
     <div class="row">
       <div class="col-lg-6 mx-auto text-center">
         <h2 class="mb-3">{% trans 'think about us' %}</h2>
@@ -10,11 +10,16 @@
       </div>
     </div>
     <div class="row mt-6">
-      <div class="col-lg-4 col-md-8">
-        {% for testimonial in testimonials %}
+      {% for testimonial in testimonials %}
+      <div class="col-lg-3 col-md-8">
+
         <div class="card">
           <div class="card-body">
-            <img src="{{testimonial.image.file.url}}" alt="..." class="avatar avatar-lg border-radius-lg shadow mt-n5">
+            {% if testimonial.image.file.url %}
+              <img src="{{testimonial.image.file.url}}" alt="..." class="avatar avatar-lg border-radius-lg shadow mt-n5">
+            {% else %}
+            <img src="{{ MEDIA_URL }}/image_not_found.jpg" alt="">
+            {% endif %}
             <div class="author">
               <div class="name">
                 <span>{{testimonial.firstname}} {{testimonial.lastname}}</span>
@@ -37,10 +42,10 @@
             </div>
           </div>
         </div>
-        {% endfor %}
-      </div>
 
+      </div>
+      {% endfor %}
     </div>
-  </div>
+
 </section>
 

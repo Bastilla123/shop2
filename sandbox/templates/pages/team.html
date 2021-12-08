@@ -1,0 +1,90 @@
+{% extends 'oscar/base.html' %}
+{% load image_tags %}
+{% load tags %}
+
+
+{% load i18n %}
+{% load image_tags %}
+
+{% load static %}
+{% block headerimage %}{% static '/argon/img/pages/mohamed.jpg' %}{% endblock %}
+{% block headertitle %}{% trans 'Our Team' %}{% endblock %}
+
+
+{% block layout %}
+
+
+
+
+
+
+
+        <div class="container">
+
+            {% for object in object_list %}
+
+            {% if not forloop.counter|modulo:2 %}
+            <div class="row">
+                {% endif %}
+                <div class="col-6">
+                <div class="col-md-5 p-5">
+                    <div class="p-4">
+                        {% oscar_thumbnail object.image.file "180x" upscale=False as thumb %}
+                        <img src="{{ thumb.url }}" alt="..." class="rounded shadow transform-perspective-left">
+
+
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="wrapper p-md-0">
+                        <h3 class="card-title display-3">{{object.user_link.first_name}}
+                            {{object.user_link.last_name}}</h3>
+                        <div class="lead">
+                            {{object.description}}
+                        </div>
+                        <ul class="list-unstyled mb-0">
+                            <li class="py-1">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <div class="badge badge-circle badge-info mr-3">
+                                            <i class="ni ni-atom"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-1">{{object.company_position}}</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                        <div class="text-left">
+                            {% if object.instagram_url %}
+                          <a href="{{object.instagram_url}}" class="btn btn-twitter btn-sm rounded-circle"><i class="fab fa-twitter"></i></a>
+                            {% endif %}
+                            {% if object.facebook_url %}
+                          <a href="{{object.facebook_url}}" class="btn btn-facebook btn-sm rounded-circle"><i class="fab fa-facebook-square"></i></a>
+                            {% endif %}
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                    </div>
+                {% if forloop.counter|modulo:2 %}
+            </div>
+            {% endif %}
+              {% endfor %}
+        </div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

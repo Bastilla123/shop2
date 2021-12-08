@@ -10,5 +10,6 @@ urlpatterns = [
     path('revisionssicherheit/', revisionssicherheitview, name="revisionssicherheitview"),
     path('teampage/', Teamlistview.as_view(), name="Teamlistview"),
 
+
 ]
 app_name = 'pages'

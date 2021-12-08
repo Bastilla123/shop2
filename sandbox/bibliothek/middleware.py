@@ -55,7 +55,7 @@ def NewsletterMiddleware(request):
 
   context["globalsettings"] = Globalsettings.objects.first()
 
-  context["testimonials"] = Testimonialmodel.objects.order_by('-create_date')[0:3]
+  context["testimonials"] = Testimonialmodel.objects.order_by('-create_date')[0:4]
   # Logo
   photo = Photo.objects.filter(imagetype=0).first()
   if (photo is not None):
