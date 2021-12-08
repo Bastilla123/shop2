@@ -99,7 +99,9 @@ class ProductFilterForm(forms.Form):
         price = Partnermodel_stockrecord.objects.aggregate(Min('price'),Max('price'))
 
         max_price_set = catalogview.request.GET.get('price_max_range', None)
-        #max_price = Partnermodel_stockrecord.objects.aggregate(Max('price'))
+        print("Price "+str(price['price__max']))
+        if (float(price['price__max']) % 20.0 != 0):
+            price['price__max'] = int(price['price__max'] / 20+1)*20
         super(ProductFilterForm, self).__init__(*args, **kwargs)
         from django.forms import CheckboxInput, Select, SelectMultiple, NumberInput
         if (min_price_set):

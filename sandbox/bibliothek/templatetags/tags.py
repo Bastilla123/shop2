@@ -66,6 +66,19 @@ def get_attr(value, arg):
         return ""
     return ""
 
+@register.filter(name='desctimes')
+def desctimes(number,descnumber):
+    if (number is None):
+        return None
+    number += 1
+    return range(1,int(number)-int(descnumber))
+
+@register.filter(name='times')
+def times(number):
+    if (number is None):
+        return None
+    number += 1
+    return range(1,int(number))
 
 @register.filter(name='getvaluefromfield')
 def getvaluefromfield(dictionary,fieldname):

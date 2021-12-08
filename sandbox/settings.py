@@ -318,6 +318,7 @@ INSTALLED_APPS = [
     'paypal.express.dashboard.apps.ExpressDashboardApplication',
     'paypal.express_checkout.dashboard.apps.ExpressCheckoutDashboardApplication',
     'paypal.payflow.dashboard.apps.PayFlowDashboardApplication',
+    'testimonials',
 
     # Django apps that the sandbox depends on
     'django.contrib.sitemaps',

@@ -12,13 +12,14 @@ from apps.sitemaps import base_sitemaps
 from globalsettings.urls import urlpatterns as main_urls
 
 admin.autodiscover()
-
+from django.urls import reverse_lazy
 urlpatterns = [
     # Include admin as convenience. It's unsupported and only included
     # for developers.
     path('admin/', admin.site.urls),
     #path('globalsettings/', include((main_urls, 'globalsettings'), namespace='globalsettings')),
     path('globalsettings/', include('globalsettings.urls')),
+    path('testimonials/', include('testimonials.urls')),
     path('pages/', include('pages.urls')),
     path('clientaddress/', include('clientaddress.urls')),
     path('', include('photo.urls')),

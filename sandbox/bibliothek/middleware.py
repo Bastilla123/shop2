@@ -1,3 +1,4 @@
+from testimonials.models import Testimonialmodel
 from globalsettings.models import Globalsettings
 import threading
 #from clientaddress.forms import Newsletterform
@@ -53,6 +54,8 @@ def NewsletterMiddleware(request):
   context["kontakt"] = Kontaktform()
 
   context["globalsettings"] = Globalsettings.objects.first()
+
+  context["testimonials"] = Testimonialmodel.objects.order_by('-create_date')[0:3]
   # Logo
   photo = Photo.objects.filter(imagetype=0).first()
   if (photo is not None):

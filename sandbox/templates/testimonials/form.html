@@ -1,0 +1,261 @@
+{% extends 'oscar/base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% load tags %}
+{% block extracss %}
+
+{% block extrastyles %}
+<link href="{% static '/cropper/cropper.min.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{% endblock %}
+{% block header %}
+<div class="page-header header-filter header-small" data-parallax="true"
+     style="background-image: url('{% static 'material-kit-pro-html-v2.2.0/assets/img/examples/clark-street-merc.jpg'%}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ml-auto mr-auto text-center">
+                <div class="brand">
+                    <h1 class="title">Einstellungen</h1>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block layout %}
+
+<div class="card">
+    <!-- Card header -->
+
+
+    <div class="tab-content">
+
+    </div>
+
+    <div class="card-body">
+
+ <
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" id="formUpload">
+
+            <div class="col-md-12">
+
+                <div class="card card-primary">
+
+
+                    <div class="card-header">
+                        <h3 class="card-title">Neue Bewertung</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+
+                    <div class="card-body">
+
+                        {% for key,value in forms.items %}
+                        {{ forms|getform:key }}
+                        {% endfor %}
+
+                        {% csrf_token %}
+                        {% if forms %}
+                        {% for field in forms.visible_fields %}
+                        {% if field.name != 'right_to_view_form' and field.name != 'right_to_change_form' and field.name != 'right_to_delete_form' and field.name != 'owner' %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+
+                        {% for field in form.visible_fields %}
+                        {% if field.name != 'right_to_view_form' and field.name != 'right_to_change_form' and field.name != 'right_to_delete_form' and field.name != 'owner' %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+
+                        <link href="{% static 'cropper/cropper.min.css' %}" rel="stylesheet">
+
+                        <link href="{% static 'cropper/bootstrap.min.css' %}" rel="stylesheet">
+
+
+                        <style>
+    .modal-backdrop {
+  z-index: -1;
+}
+
+                        </style>
+
+
+
+
+                            {{ photoform }}
+
+
+
+                        <!-- Modal -->
+                        <div class="modal" id="modalCrop">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">Cropper</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="img-container">
+                                            <img id="image" src="" alt="Picture" class="cropper-hidden">
+                                            <div class="cropper-container cropper-bg" touch-action="none"
+                                                 style="max-width: 100%;"
+                                            ">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}
+                                        </button>
+                                        <button type="button" class="btn btn-primary js-crop-and-upload">{% trans 'Crop and upload' %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Modal -->
+
+
+
+
+
+
+
+
+                </div>
+                <!-- /.card-body -->
+
+            </div>
+            <!-- /.card-footer -->
+
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-info">Sichern</button>
+        {% block extrabuttons %}
+        {% endblock %}
+
+        <a href="{" class="btn btn-secondary float-right">{% trans "Cancel" %}</a>
+    </div>
+    </form>
+
+
+</div>
+<!-- /.card -->
+
+</div>
+
+
+{% endblock %}
+
+{% block extrascripts %}
+{% comment %}
+<script type="text/javascript">
+	$('.richtext').summernote();
+
+
+</script>
+{% endcomment %}
+
+
+<script src="{% static 'cropper/cropper.js' %}"></script><!-- Cropper.js is required -->
+<script src="{% static 'cropper/jquery-cropper.min.js' %}"></script>
+<script>
+
+
+
+
+
+
+
+    /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+$("#id_file").change(function () {
+
+  if (this.files && this.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#image").attr("src", e.target.result);
+      $("#modalCrop").modal("show");
+    }
+    reader.readAsDataURL(this.files[0]);
+  }
+});
+
+/* SCRIPTS TO HANDLE THE CROPPER BOX */
+var $image = $("#image");
+var cropBoxData;
+var canvasData;
+
+$("#modalCrop").on("show.bs.modal", function () {
+
+  $image.cropper({
+
+    {% if 'edit/user' in request.path %}
+    aspectRatio: 1/1,
+    {% endif %}
+    {% if 'edit/globalsettings/' in request.path %}
+    aspectRatio: 2.5,
+    {% endif %}
+    minCropBoxWidth: 200,
+    minCropBoxHeight: 200,
+    ready: function () {
+      $image.cropper("setCanvasData", canvasData);
+      $image.cropper("setCropBoxData", cropBoxData);
+    }
+  });
+}).on("hidden.bs.modal", function () {
+  cropBoxData = $image.cropper("getCropBoxData");
+  canvasData = $image.cropper("getCanvasData");
+  $image.cropper("destroy");
+});
+
+
+// Enable zoom in button
+$(".js-zoom-in").click(function () {
+  $image.cropper("zoom", 0.1);
+});
+
+// Enable zoom out button
+$(".js-zoom-out").click(function () {
+  $image.cropper("zoom", -0.1);
+});
+
+/* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+$(".js-crop-and-upload").click(function () {
+
+  var cropData = $image.cropper("getData");
+  $("#id_x").val(cropData["x"]);
+  $("#id_y").val(cropData["y"]);
+  $("#id_height").val(cropData["height"]);
+  $("#id_width").val(cropData["width"]);
+  $('#modalCrop').modal('hide');
+});
+
+
+</script>
+
+
+{% endblock %}
+

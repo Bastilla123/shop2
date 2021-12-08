@@ -1,0 +1,46 @@
+{% load i18n %}
+{% load tags %}
+<section class="py-5">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto text-center">
+        <h2 class="mb-3">{% trans 'think about us' %}</h2>
+
+      </div>
+    </div>
+    <div class="row mt-6">
+      <div class="col-lg-4 col-md-8">
+        {% for testimonial in testimonials %}
+        <div class="card">
+          <div class="card-body">
+            <img src="{{testimonial.image.file.url}}" alt="..." class="avatar avatar-lg border-radius-lg shadow mt-n5">
+            <div class="author">
+              <div class="name">
+                <span>{{testimonial.firstname}} {{testimonial.lastname}}</span>
+                <div class="stats">
+                  <small><i class="far fa-clock"></i>{{testimonial.create_date}}</small>
+                </div>
+              </div>
+            </div>
+            <h3>{{testimonial.title}}</h3>
+            <p class="mt-4">{{testimonial.description}}</p>
+            <div class="rating mt-3">
+              {% for test in testimonial.stars|times %}
+              <i class="fas fa-star"></i>
+              {% endfor %}
+              {% for test in 5|desctimes:testimonial.stars %}
+              <i class="far fa-star"></i>
+              {% endfor %}
+
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,21 @@
+{% load i18n %}
+          <!-- EcoDMS -->
+           <li class="nav-item dropdown">
+            <a href="javascript:;" class="nav-link" data-toggle="dropdown" role="button">
+              <i class="ni ni-single-copy-04 d-lg-none"></i>
+              <span class="nav-link-inner--text">EcoDMS</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'pages:godb' %}">
+                <i class="fas fa-gavel"></i>
+                GoBD
+              </a>
+
+              <a class="dropdown-item" href="{% url 'pages:revisionssicherheitview' %}">
+                <i class="fas fa-gavel"></i>
+                Revisionssicherheit
+              </a>
+            </div>
+           </li>
+
+          <!-- /EcoDMS -->

@@ -2,6 +2,7 @@
 {% load i18n %}
 
 <div class="basket-mini text-right d-none d-md-block">
+    {% comment %}
     <strong>{% trans "Basket total:" %}</strong>
 
     {% if request.basket.is_tax_known %}
@@ -9,14 +10,9 @@
     {% else %}
         {{ request.basket.total_excl_tax|currency:request.basket.currency }}
     {% endif %}
-
+    {% endcomment %}
     <div class="btn-group">
-      <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='{% url 'basket:summary' %}';">{% trans "View basket" %}</button>
-      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        {% include "oscar/basket/partials/basket_quick.html" %}
-      </div>
+      <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='{% url 'basket:summary' %}';"><i class="fas fa-shopping-basket"></i></button>
+
     </div>
 </div>
