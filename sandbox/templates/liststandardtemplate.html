@@ -142,7 +142,7 @@ display: block;
                             <td>
                                 {% if request.user == row.owner or request.user.is_superuser == True %}
                                 <a class="btn btn-primary btn-sm" style="width:80px;"
-                                   href="/{{model}}/edit/{{model}}/{{ row.pk }}/"><i
+                                   href="/globalsettings/edit/{{model}}/{{ row.pk }}/"><i
                                         class="fas fa-edit fa-2x"></i></a>
                                 <a class="btn btn-danger btn-sm" style="width:80px;"
                                    href="/{{model}}/delete/{{model}}/{{ row.pk }}/"><i
@@ -152,7 +152,7 @@ display: block;
 
 
                                 <a class="btn btn-primary btn-sm" style="width:80px;"
-                                   href="/{{model}}/edit/{{model}}/{{ row.pk }}/"><i
+                                   href="/globalsettings/edit/{{model}}/{{ row.pk }}/"><i
                                         class="fas fa-edit fa-2x"></i><h5>Edit</h5></a>
 
 

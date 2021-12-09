@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from photo.models import Photo
+#from photo.models import Photo
 
 
 class Globalsettings(models.Model):
@@ -26,7 +26,7 @@ class UserSettings(models.Model):
     company_position = models.CharField(max_length=240, default="", blank=True, null=True)
     description = models.TextField(blank=True, default="", null=True)
 
-    image = models.OneToOneField(Photo, null=True, blank=True, on_delete=models.CASCADE)
+    #image = models.OneToOneField(Photo, null=True, blank=True, on_delete=models.CASCADE)
 
     #Social Media
     facebook_url = models.CharField(max_length=240, default="", blank=True, null=True)

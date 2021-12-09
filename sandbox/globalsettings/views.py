@@ -31,7 +31,7 @@ class UserCreateView(MultiModelFormView,CreateView):
         'Userextendform': Userextendform,
 
     }
-    success_url = reverse_lazy('Userlistview')
+    success_url = reverse_lazy('globalsettings:Userlistview')
 
 
     def forms_valid(self, forms):
@@ -53,7 +53,7 @@ class Userlistview(ListviewMixin,ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        print("Context "+str(context))
+        #print("Context "+str(context))
         return context
 
 
@@ -67,12 +67,12 @@ class UserUpdateView(MultiModelFormView,UpdateView):
         'basisdata': Userform,
         'Userextendform': Userextendform,
     }
-    success_url = reverse_lazy('Userlistview')
+    success_url = reverse_lazy('globalsettings:Userlistview')
     user_id = None
 
 
     def get_success_url(self):
-        return reverse_lazy('Userlistview')
+        return reverse_lazy('globalsettings:Userlistview')
 
     def get_objects(self):
         self.user_id = self.kwargs.get('pk', None)
@@ -96,7 +96,7 @@ class UserUpdateView(MultiModelFormView,UpdateView):
 
 
         context['photoform'] = PhotoForm()
-
+        #print("Context "+str(context))
         return context
 
 
@@ -106,7 +106,7 @@ class GlobalsettingsUpdateView(UpdateView):
     model = Globalsettings
     success_message = 'Datensatz wurde erfolgreich aktualisiert'
     form_class = Settingsform
-    success_url = reverse_lazy('GlobalsettingsUpdateView')
+    success_url = reverse_lazy('globalsettings:Userlistview')
 
     def get_object(self, queryset=None):
 

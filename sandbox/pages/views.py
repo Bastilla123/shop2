@@ -39,6 +39,7 @@ class Teamlistview(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['photos'] = Photo.objects.exclude(user_link__isnull=True)
+        print("Context "+str(context))
         return context
 
 

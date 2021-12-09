@@ -29,9 +29,15 @@
                 <div class="col-6">
                 <div class="col-md-5 p-5">
                     <div class="p-4">
-                        {% oscar_thumbnail object.image.file "180x" upscale=False as thumb %}
-                        <img src="{{ thumb.url }}" alt="..." class="rounded shadow transform-perspective-left">
+                        {% if object.userimage.file %}
 
+                        {% oscar_thumbnail object.userimage.file "180x" upscale=False as thumb %}
+                        <img src="{{ thumb.url }}" alt="..." class="rounded shadow transform-perspective-left">
+                        {% else %}
+
+                        <img src="{{ MEDIA_URL }}/image_not_found.jpg" alt="..." class="rounded shadow transform-perspective-left">
+
+{% endif %}
 
                     </div>
                 </div>
