@@ -1,4 +1,4 @@
-{% extends "oscar/layout_2_col.html" %}
+{% extends "website/base_col_3.html" %}
 
 {% load basket_tags %}
 {% load category_tags %}
@@ -42,6 +42,7 @@
                         {% endfor %}
                 {% endfor %}
             </ul>
+
         </div>
     {% endif %}
     {% if has_facets %}
@@ -54,6 +55,28 @@
             {% endfor %}
         </div>
     {% endif %}
+<div class="card">
+        <div class="card-header">
+            <h5>{% trans 'Filter' %}</h5>
+        </div>
+        <div class="card-body pt-0">
+            <form method="get">
+                {% csrf_token %}
+
+
+                {{ Filterform }}
+
+
+                <button class="btn btn-primary" type="submit">{% trans 'Filter anwenden' %}</button>
+                {% if 'price' in request.get_full_path|urlencode %}
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/'">{% trans 'Clear all
+                    filters' %}
+                </button>
+
+                {% endif %}
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -105,8 +128,15 @@
     {% else %}
         <p class="nonefound">{% trans "No products found." %}</p>
     {% endif %}
-
+    {% include 'oscar/partials/product_recommondations.html' %}
 {% endblock content %}
+
+{% block column_right %}
+
+{% include 'website/contact.html' %}
+{% include 'website/subscribe_newsletter.html' %}
+
+            {% endblock %}
 
 {% block onbodyload %}
     {{ block.super }}

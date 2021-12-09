@@ -11,29 +11,30 @@ main content area to split it into a sidebar and a content block
 <div class="row">
   <!-- left column -->
 <div class="col-2">
-<div class="card" >
-                  <div class="card-header">
-                    <h5>{% trans 'Filter' %}</h5>
-                  </div>
-                  <div class="card-body pt-0">
-    <form method="get">
-            {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
+            <h5>{% trans 'Filter' %}</h5>
+        </div>
+        <div class="card-body pt-0">
+            <form method="get">
+                {% csrf_token %}
 
 
                 {{ Filterform }}
 
 
+                <button class="btn btn-primary" type="submit">{% trans 'Filter anwenden' %}</button>
+                {% if 'price' in request.get_full_path|urlencode %}
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/'">{% trans 'Clear all
+                    filters' %}
+                </button>
 
-        <button class="btn btn-primary" type="submit">{% trans 'Filter anwenden' %}</button>
-        {% if 'price' in request.get_full_path|urlencode %}
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/'" >{% trans 'Clear all filters' %}</button>
-
-        {% endif %}
-    </form>
-</div>
+                {% endif %}
+            </form>
+        </div>
     </div>
 
-  </div>
+</div>
 <div class="{% block content_wrapper_classes %}page col-10{% endblock %}">
     <div class="page_inner">
         {% block breadcrumbs %}{% endblock %}

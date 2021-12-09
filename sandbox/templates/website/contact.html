@@ -1,23 +1,22 @@
 {% load i18n %}
 {% load standard_form %}
 
-              <div class="card">
-                <div class="card-header">
-                  <h5>{% trans 'Conctact us' %}</h5>
-                </div>
-                <div class="card-body pt-0">
+<div class="card">
+    <div class="card-header">
+        <h5>{% trans 'Conctact us' %}</h5>
+    </div>
+    <div class="card-body pt-0">
 
 
-                  <form enctype="multipart/form-data" method="POST" action="" id="kontaktform">
-                    {% csrf_token %}
+        <form enctype="multipart/form-data" method="POST" action="" id="kontaktform">
+            {% csrf_token %}
 
 
-                    {% standard_form kontakt %}
+            {% standard_form kontakt %}
 
-                    <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
+            <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
 
 
-                  </form>
-                </div>
-              </div>
-            </div>
+        </form>
+    </div>
+</div>

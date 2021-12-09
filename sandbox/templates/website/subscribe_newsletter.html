@@ -1,19 +1,19 @@
 {% load i18n %}
 {% load standard_form %}
- <div class="card">
-                <div class="card-header">
-                  <h5>{% trans 'Conctact us' %}</h5>
-                </div>
-                <div class="card-body pt-0">
-                  <form enctype="multipart/form-data" method="POST" action="" id="newsletterform">
-                    {% csrf_token %}
+<div class="card">
+    <div class="card-header">
+        <h5>{% trans 'Subscribe to Newsletter' %}</h5>
+    </div>
+    <div class="card-body pt-0">
+        <form enctype="multipart/form-data" method="POST" action="" id="newsletterform">
+            {% csrf_token %}
 
-                    <label>{% trans 'Subscribe to our Newsletter.' %}</label>
-                    {% standard_form newsletter %}
+            <label>{% trans 'Subscribe to our Newsletter.' %}</label>
+            {% standard_form newsletter %}
 
 
-                    <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
+            <button class="btn btn-primary" type="submit">{% trans 'Send' %}</button>
 
-                  </form>
-                </div>
-              </div>
+        </form>
+    </div>
+</div>
