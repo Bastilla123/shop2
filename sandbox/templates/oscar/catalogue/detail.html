@@ -1,4 +1,4 @@
-{% extends 'oscar/base.html' %}
+{% extends 'website/base_col_1.html' %}
 {% load static %}
 
 {% load history_tags %}
@@ -79,93 +79,75 @@ body h3{
     color:#919191;
 }
 
-    </style>
+
+
+</style>
 
 {% endblock %}
 
-{% block layout %}
-<div class="wrapper">
-    <div class="page-header header-filter page-header-small skew-separator skew-mini">
-        <div class="page-header-image" style="background-image: url('{% static 'argon/img/pages/boxed-water.jpg');"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 col-md-7 mr-auto text-left">
-                    <h1 class="title text-white">Our products</h1>
-                    <br>
-                    <h4 class="category text-white opacity-8">This is the best way to find your favorite stuff</h4>
-                </div>
-            </div>
-        </div>
-        <!-- SVG separator -->
-        <div class="separator separator-bottom separator-skew">
-            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
-                 xmlns="http://www.w3.org/2000/svg">
-                <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
-            </svg>
-        </div>
-    </div>
-    <div class="section section-item">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 ">
-                    {% block product_gallery %}
-        <div class="col-sm-6">
-            {% include "oscar/catalogue/partials/gallery.html" %}
-        </div>
-        {% endblock %}
-
-</div>
-                <div class="col-lg-6 col-md-12 mx-auto">
-                    <h2 class="title">{{ product.get_title }}</h2>
-                    <div class="stats">
-                        {% iffeature "reviews" %}
-                {% include "oscar/catalogue/reviews/partials/review_stars.html" %}
-            {% endiffeature %}
-
-                    </div>
-                    <br/>
-                    {% purchase_info_for_product request product as session %}
-        {% purchase_info_for_product request product as session %}
-        {% if session.price.exists %}
-
-            {% if session.price.is_tax_known %}
-                    <h2 class="main-price">{{ session.price.incl_tax|currency:session.price.currency }}</h2>
-
-
-            {% endif %}
-{% endif %}
-
-
-
-                    <h6 class="category">{% trans 'Description' %}</h6>
-                    <p class="description">{{ product.description|safe }}</p>
-                    <br>
-
-                    <br>
-                    {% if not product.is_parent %}
-                {% block product_basket_form %}
-                    {% include "oscar/catalogue/partials/add_to_basket_form.html" %}
-                {% endblock %}
-            {% else %}
-                {% block variants %}
-                    <h2>{% trans 'Variants:' %}</h2>
-                    {% for child in product.children.public %}
-                        {% purchase_info_for_product request child as child_session %}
-                        {% if child_session.availability.is_available_to_buy %}
-                            <a href="{{ child.get_absolute_url }}">{{ child.get_title }}</a><br>
-                        {% endif %}
-                    {% endfor %}
-                {% endblock %}
-            {% endif %}
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
+{% block content %}
 
 <div class="container">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+        <div class="col-lg-6 col-md-12 ">
+            {% block product_gallery %}
+            <div class="col-sm-6">
+                {% include "oscar/catalogue/partials/gallery.html" %}
+            </div>
+            {% endblock %}
+
+        </div>
+        <div class="col-lg-6 col-md-12 mx-auto">
+            <h2 class="title">{{ product.get_title }}</h2>
+            <div class="stats">
+                {% iffeature "reviews" %}
+                {% include "oscar/catalogue/reviews/partials/review_stars.html" %}
+                {% endiffeature %}
+
+            </div>
+            <br/>
+            {% purchase_info_for_product request product as session %}
+            {% purchase_info_for_product request product as session %}
+            {% if session.price.exists %}
+
+            {% if session.price.is_tax_known %}
+            <h2 class="main-price">{{ session.price.incl_tax|currency:session.price.currency }}</h2>
+
+
+            {% endif %}
+            {% endif %}
+
+
+            <h6 class="category">{% trans 'Description' %}</h6>
+            <p class="description">{{ product.description|safe }}</p>
+            <br>
+
+            <br>
+            {% if not product.is_parent %}
+            {% block product_basket_form %}
+            {% include "oscar/catalogue/partials/add_to_basket_form.html" %}
+            {% endblock %}
+            {% else %}
+            {% block variants %}
+            <h2>{% trans 'Variants:' %}</h2>
+            {% for child in product.children.public %}
+            {% purchase_info_for_product request child as child_session %}
+            {% if child_session.availability.is_available_to_buy %}
+            <a href="{{ child.get_absolute_url }}">{{ child.get_title }}</a><br>
+            {% endif %}
+            {% endfor %}
+            {% endblock %}
+            {% endif %}
+            </div>
+ </div>
+        </div>
+    </div>
+
+
+    <div class="container">
         <div class="row">
             <div class="col-md-12 col-sm-12 main-section">
                 <div class="col-md-12">
@@ -178,23 +160,27 @@ body h3{
                         {% include 'oscar/catalogue/reviews/partials/review_stars.html' %}
 
 
-
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                 aria-valuemax="100" style="width:70%"></div>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:20%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0"
+                                 aria-valuemax="100" style="width:20%"></div>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:8%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                 aria-valuemax="100" style="width:8%"></div>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:4%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                 aria-valuemax="100" style="width:4%"></div>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                 aria-valuemax="100" style="width:0%"></div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12 rating-part-right">
@@ -274,7 +260,9 @@ body h3{
                                         <i class="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <p>I loved the way my skin felt after using this.I loved the way my skin felt after using this.I loved the way my skin felt after using this.
+                                        <p>I loved the way my skin felt after using this.I loved the way my skin felt
+                                            after
+                                            using this.I loved the way my skin felt after using this.
                                         </p>
                                     </div>
                                 </div>
@@ -306,7 +294,15 @@ body h3{
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <p>Hello Friends, I have started youtube channel. Name of the channel is Angularjs Examples. Here I have uploaded the first video about Tutorials Angularjs. and will continue to provide videos on different topics of Angularjs. Please share the message with needy people who want to do Angularjs. So, please Like, Share and Subscribe the channel. Thank You.
+                                        <p>Hello Friends, I have started youtube channel. Name of the channel is
+                                            Angularjs
+                                            Examples. Here I have uploaded the first video about Tutorials Angularjs.
+                                            and
+                                            will continue to provide videos on different topics of Angularjs. Please
+                                            share
+                                            the message with needy people who want to do Angularjs. So, please Like,
+                                            Share
+                                            and Subscribe the channel. Thank You.
                                         </p>
                                     </div>
                                 </div>
@@ -338,7 +334,11 @@ body h3{
                                         <i class="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <p>Hello! I am angular Web-devloper and infinityknow is my web technologies blog. My specialities are Vuejs,API,angularjs,Vuejs,PHP, API, jQuery,Earn money,HTML,CSS eCommerce,JS,Laravel, CMS and bespoke web application development.
+                                        <p>Hello! I am angular Web-devloper and infinityknow is my web technologies
+                                            blog. My
+                                            specialities are Vuejs,API,angularjs,Vuejs,PHP, API, jQuery,Earn
+                                            money,HTML,CSS
+                                            eCommerce,JS,Laravel, CMS and bespoke web application development.
                                         </p>
                                     </div>
                                 </div>
@@ -370,7 +370,9 @@ body h3{
                                         <i class="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <p>pakainfo is the most popular Programming & Web Development blog. Our mission is to provide the best online resources on programming and web development.
+                                        <p>pakainfo is the most popular Programming & Web Development blog. Our mission
+                                            is
+                                            to provide the best online resources on programming and web development.
                                         </p>
                                     </div>
                                 </div>
@@ -402,7 +404,10 @@ body h3{
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <p>We deliver the useful and best tutorials for web professionals — developers, programmers, freelancers and site owners. Any visitors of this site are free to browse our tutorials, live demos and download scripts.
+                                        <p>We deliver the useful and best tutorials for web professionals — developers,
+                                            programmers, freelancers and site owners. Any visitors of this site are free
+                                            to
+                                            browse our tutorials, live demos and download scripts.
                                         </p>
                                     </div>
                                 </div>
@@ -412,76 +417,67 @@ body h3{
                 </div>
             </div>
         </div>
-    </div>
 
 
-</div>
-
-    {% comment %}
-    {% iffeature "reviews" %}
+        {% comment %}
+        {% iffeature "reviews" %}
         {% block product_review %}
         <section>
             <div id="reviews" class="sub-header">
                 {% if product.num_approved_reviews > 3 %}
-                    <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}" class="btn float-right">{% trans "See all reviews" %}</a>
+                <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}"
+                   class="btn float-right">{% trans "See all reviews" %}</a>
                 {% endif %}
                 <h2>{% trans "Customer Reviews" %}</h2>
             </div>
 
             {% if product.num_approved_reviews == 0 %}
-                <p>
-                    {% if product|is_review_permitted:user %}
-                        {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
-                            {% blocktrans %}This product does not have any reviews yet -
-                            <a href="{{ add_review_url }}#addreview">be the first to write one</a>.
-                        {% endblocktrans %}
-                    {% else %}
-                        {% trans "This product does not have any reviews yet" %}.
-                    {% endif %}
-                </p>
+            <p>
+                {% if product|is_review_permitted:user %}
+                {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
+                {% blocktrans %}This product does not have any reviews yet -
+                <a href="{{ add_review_url }}#addreview">be the first to write one</a>.
+                {% endblocktrans %}
+                {% else %}
+                {% trans "This product does not have any reviews yet" %}.
+                {% endif %}
+            </p>
             {% else %}
-                <ol class="list-unstyled review-list">
-                    {% for review in product.reviews.approved.all|slice:":3" %}
-                        <li>
-                        {% include 'oscar/catalogue/partials/review.html' %}
-                        </li>
-                    {% endfor %}
-                </ol>
+            <ol class="list-unstyled review-list">
+                {% for review in product.reviews.approved.all|slice:":3" %}
+                <li>
+                    {% include 'oscar/catalogue/partials/review.html' %}
+                </li>
+                {% endfor %}
+            </ol>
             {% endif %}
         </section>
         {% endblock product_review %}
-    {% endiffeature %}
-    {% endcomment %}
+        {% endiffeature %}
+        {% endcomment %}
 
-{% with recommended_products=product.sorted_recommended_products|slice:":6" %}
+        {% with recommended_products=product.sorted_recommended_products|slice:":6" %}
         {% if recommended_products %}
-            <div class="sub-header">
-                <h2>{% trans "Recommended items" %}</h2>
-            </div>
-            <ul class="row list-unstyled mx-0">
-                {% for product in recommended_products %}
-                <li class="col-sm-4 col-md-3 col-lg-3">
-                    {% render_product product %}
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="sub-header">
+            <h2>{% trans "Recommended items" %}</h2>
+        </div>
+        <ul class="row list-unstyled mx-0">
+            {% for product in recommended_products %}
+            <li class="col-sm-4 col-md-3 col-lg-3">
+                {% render_product product %}
+            </li>
+            {% endfor %}
+        </ul>
         {% endif %}
-    {% endwith %}
+        {% endwith %}
 
-    {% recently_viewed_products current_product=product %}
-
-
+        {% recently_viewed_products current_product=product %}
 
 
-
-
-
-
-
-</div>
-{% endblock %}
-{% block scripts %}
-<script>
+    </div>
+    {% endblock %}
+    {% block scripts %}
+    <script>
     // Testimonial Carousel
     new Glide('.glide', {
       type: 'carousel',
@@ -516,5 +512,7 @@ body h3{
         // instead of a settings object
       ]
     }).mount();
-  </script>
-{% endblock %}
+
+
+    </script>
+    {% endblock %}
