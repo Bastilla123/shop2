@@ -51,7 +51,7 @@ class Photo(models.Model):
     description = models.CharField(max_length=255, blank=True,default=" ")
     uploaded_at = models.DateTimeField(auto_now=True)
     from globalsettings.models import UserSettings
-    user_link = models.OneToOneField(UserSettings, on_delete=models.CASCADE, null=True, blank=True,related_name="userimage")
+    user_link = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True,related_name="userimage")
     globalsettings_link = models.OneToOneField('globalsettings.Globalsettings', on_delete=models.CASCADE, null=True, blank=True)
     imagetype = models.PositiveSmallIntegerField(choices=((0, 'Benutzerbild'), (1, 'Firmenlogo'),), default=0,
                                                  null=False, blank=False)

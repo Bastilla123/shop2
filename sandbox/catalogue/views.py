@@ -267,13 +267,43 @@ class ProductDetailView(CoreProductDetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        if (context['object'].parent):
-            variants = Product.objects.filter(parent=context['object'].parent)
-        else:
-            variants = Product.objects.filter(parent=context['object'])
-        context['sizes'] = variants.order_by('size').distinct('size')
-        context['colors'] = variants.order_by('color').distinct('color').exclude(color__isnull=True)
 
+        ProductReview = get_model('reviews', 'ProductReview')
+
+        context['reviews'] = ProductReview.objects.approved().filter(product=self.kwargs['pk'])
+        from django.db.models import Count
+
+        ratinglist = []
+
+        for counter in reversed(range(1,6)):
+            gefunden = False
+            for counter2 in ProductReview.objects.all().values('score').annotate(total=Count('score')).order_by('-score'):
+                if (counter2['score']==counter):
+                    ratinglist.append({'score': counter, 'total': counter2['total']})
+
+                    gefunden = True
+                    break
+            if not gefunden:
+                ratinglist.append({'score':counter,'total':0})
+
+        procentratinglist = []
+        reviews_total = ProductReview.objects.all().count()
+
+        for counter in reversed(range(1, 6)):
+            gefunden = False
+            for counter2 in ProductReview.objects.all().values('score').annotate(total=Count('score')).order_by(
+                    '-score'):
+                if (counter2['score'] == counter):
+                    procentratinglist.append(counter2['total']/reviews_total*100)
+
+                    gefunden = True
+                    break
+            if not gefunden:
+                procentratinglist.append(0)
+
+        context['reviews_procent'] = procentratinglist
+        context['reviews_rating'] = ratinglist
+        print("Context "+str(context))
         return context
 
 

@@ -1,0 +1,98 @@
+{% load reviews_tags %}
+{% load i18n %}
+{% load tags %}
+
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div>
+    <h2><a href="{{ review.get_absolute_url }}">{{ review.title }}</a></h2><br>
+</div>
+    <div class="row">
+        <div class="col-md-4 col-md-4 col-xs-4 product-rating-panel-left">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+
+                    {% if review.user.userimage.file.url %}
+                    <img src="{{ review.user.userimage.file.url }}">
+                    {% else %}
+                    <img src="{{ MEDIA_URL }}/image_not_found.jpg" alt="..." >
+                    {% endif %}
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    {% if review.user == user %}
+                    {% blocktrans with review_date=review.date_created %}
+                    <p>Reviewed by you on {{ review_date }}></p>
+                    {% endblocktrans %}
+                    {% else %}
+                    {% blocktrans with name=review.reviewer_name review_date=review.date_created %}
+                    <p>Reviewed by <strong>{{ name }}</strong> on {{ review_date }}</p>
+                    {% endblocktrans %}
+                    {% endif %}
+                    <span>{{ review.name }}</span><br>
+
+
+                    {% if review|may_vote:user %}
+                    <small>{% trans "Is this review helpful?" %}</small>
+                    <div class="row ml-0 mr-0">
+                    <form action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}"
+                          method="post" class="vote_agree">
+                        {% csrf_token %}
+                        <input type="hidden" name="delta" value="1"/>
+                        <button type="submit" class="btn btn-success btn-sm"
+                                data-loading-text="{% trans 'Submitting...' %}">{% trans "Yes" %}
+                        </button>
+                    </form>
+                    <form action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}"
+                          method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="delta" value="-1"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                data-loading-text="{% trans 'Submitting...' %}">{% trans "No" %}
+                        </button>
+                    </form>
+                        </div>
+                    {% endif %}
+
+                    <p>
+                        <small>
+                            {% if review.has_votes %}
+                            {% blocktrans with num_up_votes=review.num_up_votes count num_votes=review.total_votes %}
+                            <strong>{{ num_up_votes }}</strong> of {{ num_votes }} customer found this useful
+                            {% plural %}
+                            <strong>{{ num_up_votes }}</strong> of {{ num_votes }} customers found this useful
+                            {% endblocktrans %}
+                            {% else %}
+                            {% trans "This review has no votes." %}
+                            {% endif %}
+                        </small>
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-8 product-rating-panel-right">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    {% for rating in review.score|times %}
+        <i class="fas fa-star"></i>
+{% endfor %}
+        {% for rating in 5|desctimes:review.score %}
+        <i class="far fa-star"></i>
+        {% endfor %}<br>
+
+
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p>{{ review.body|striptags }}</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
