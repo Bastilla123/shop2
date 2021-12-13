@@ -29,9 +29,10 @@
                 <div class="col-6">
                 <div class="col-md-5 p-5">
                     <div class="p-4">
-                        {% if object.userimage.file %}
 
-                        {% oscar_thumbnail object.userimage.file "180x" upscale=False as thumb %}
+                        {% if object.user_link.userimage.file %}
+
+                        {% oscar_thumbnail object.user_link.userimage.file "180x" upscale=False as thumb %}
                         <img src="{{ thumb.url }}" alt="..." class="rounded shadow transform-perspective-left">
                         {% else %}
 
