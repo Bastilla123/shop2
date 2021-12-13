@@ -1,0 +1,22 @@
+{% load i18n %}
+{% block shipping_method %}
+                        {% if shipping_method %}
+
+
+                        <h4 class="title">{% trans 'Shipping method' %}</h4>
+
+
+                        <a href="{% url 'checkout:shipping-method' %}" class="float-right">
+                            {% trans "Change Shipping Method" %}
+                        </a>
+
+
+                        <p>{{ shipping_method.name }}
+                            {% if shipping_method.description %}
+                            - {{ shipping_method.description|safe }}
+                            {% endif %}
+                        </p>
+
+
+                        {% endif %}
+                        {% endblock shipping_method %}

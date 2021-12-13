@@ -1,7 +1,7 @@
-{% extends 'oscar/checkout/payment_details.html' %}
+{% extends 'website/base_col_1.html' %}
 {% load i18n %}
-
-{% block payment_details %}
+{% block headertitle %}{% trans 'Payment details' %}{% endblock %}
+{% block content %}
 
 {% if payment_method.code == 'VISA' %}
 {% block payment_details_content %}

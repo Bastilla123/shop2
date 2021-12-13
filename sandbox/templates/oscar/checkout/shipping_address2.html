@@ -1,0 +1,108 @@
+{% load i18n %}
+
+{% block shipping_address %}
+
+        <div class="card">
+
+                <div class="container-fluid content-row">
+                    <div class="container-fluid content-row">
+                        <h3 class="title mt-3">{% trans "Shipping Address" %}</h3>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label class="labels">
+                                    {% trans 'First name' %}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="firstName"
+                                       placeholder="{{shipping_address.first_name}}"
+                                       aria-label="{{shipping_address.first_name}}" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">
+                                    {% trans 'Last name' %}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="lastName"
+                                       placeholder="{{shipping_address.last_name}}" value="{{shipping_address.last_name}}"
+                                       aria-label="{{shipping_address.last_name}}" disabled>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="js-form-message">
+                                    <label class="labels">
+                                        {% trans 'Phone' %}
+                                    </label>
+                                    <input type="text" class="form-control"
+                                           placeholder="{{shipping_address.phone_number}}"
+                                           aria-label="{{shipping_address.phone_number}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="js-form-message">
+                                    <label class="labels">
+                                        {% trans 'Street address' %}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="streetAddress"
+                                           placeholder="{{shipping_address.line1}}"
+                                           aria-label="{{shipping_address.line1}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="js-form-message">
+                                    <label class="labels">
+                                        {% trans 'Postcode/Zip' %}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="postcode"
+                                           placeholder="{{shipping_address.postcode}}"
+                                           aria-label="{{shipping_address.postcode}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="js-form-message mb-4">
+                                    <label class="labels">
+                                        {% trans 'City' %}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="cityAddress"
+                                           placeholder="{{shipping_address.line4}}"
+                                           aria-label="{{shipping_address.line4}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-4">
+                                    <label class="labels">
+                                        {% trans 'Country' %}
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="cityAddress"
+                                           placeholder="{{shipping_address.country}}"
+                                           aria-label="{{shipping_address.country}}" disabled>
+                                </div>
+
+                            </div>
+
+
+                            {% if 'preview' in request.path %}
+                            <div class="col-md-4 align-text-bottom text-right">
+                                <a class=" align-text-bottom" href="{% url 'checkout:shipping-address' %}">
+                                    {% trans "Change Address" %}
+                            </div>
+                            {% endif %}
+                            </a></h5>
+
+
+
+                        {% endblock shipping_address %}

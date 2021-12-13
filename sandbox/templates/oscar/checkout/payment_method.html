@@ -1,11 +1,12 @@
 {% extends "oscar/checkout/checkout.html" %}
 {% load i18n %}
 
-{% block checkout_title %}{{ form.payment_method.label }}{% endblock %}
-
+{% block headertitle %}{{ form.payment_method.label }}{% endblock %}
+{% comment %}
 {% block checkout_nav %}
     {% include 'oscar/checkout/nav.html' with step=3 %}
 {% endblock %}
+{% endcomment %}
 
 {% block content %}
     <div class="well">

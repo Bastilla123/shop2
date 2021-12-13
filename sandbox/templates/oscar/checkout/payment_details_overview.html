@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load currency_filters %}
+{# You will almost certainly want to override this block to provide a payment summary #}
+                        {% comment %}{% block payment_method %}{% endcomment %}
+                        {% if 'preview' in request.path %}
+                        <a href="{% url 'checkout:payment-method' %}" class="float-right">
+                            {% trans "Change payment method" %}
+                        </a>
+{% endif %}
+
+                        {% if payment_method.code == 'paypal' %}
+                        <p class="text-dark">{% blocktrans with amount=order_total.incl_tax|currency %}<strong>{{ amount}}</strong> will be debited from your paypal account.{% endblocktrans %}</p>
+                        {% endif %}
+                        {% if payment_method.code == 'cod' %}
+                        <p class="text-dark">{% blocktrans with amount=order_total.incl_tax|currency %}<strong>{{ amount }}</strong> payment on delivery.{% endblocktrans %}</p>
+                        {% endif %}
+                        {% comment %}{% endblock payment_method %}{% endcomment %}

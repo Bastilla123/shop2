@@ -303,7 +303,7 @@ class ProductDetailView(CoreProductDetailView):
 
         context['reviews_procent'] = procentratinglist
         context['reviews_rating'] = ratinglist
-        print("Context "+str(context))
+        #print("Context "+str(context))
         return context
 
 

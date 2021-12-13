@@ -1,6 +1,6 @@
 import json
 import logging
-from django.contrib import messages
+
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
@@ -11,6 +11,7 @@ from django.views.generic import RedirectView
 from oscar.apps.payment.exceptions import UnableToTakePayment
 from oscar.apps.shipping.methods import NoShippingRequired
 from oscar.core.loading import get_class, get_model
+
 #from paypalhttp.http_error import HttpError
 
 from paypal.express.exceptions import (
@@ -51,7 +52,8 @@ class PaypalRedirectView(CheckoutSessionMixin, RedirectView):
             basket = self.build_submission()['basket']
             url = self._get_redirect_url(basket, **kwargs)
         except Exception as e:
-            messages.error(self.request, e.message)
+            messages.error(self.request, "Error: "+str(e))
+            print("Error: "+str(e))
             if self.as_payment_method:
                 url = reverse('checkout:payment-details')
             else:

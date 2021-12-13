@@ -1,0 +1,60 @@
+{% extends "website/base_col_1.html" %}
+{% load i18n %}
+{% load category_tags %}
+
+{% block layout %}
+
+    <header class="header container">
+        <div class="page_inner">
+
+        </div>
+        {% comment %}
+        {% block checkout_nav %}{% endblock %}
+        {% endcomment %}
+    </header><!-- /header -->
+
+
+    <div class="container">
+            {% include 'oscar/partials/alert_messages.html' %}
+
+
+            <!-- The main nav on checkout pages contain links to modal flatpages -->
+            {% block modal %}
+                {% load flatpages %}
+                {% get_flatpages '/order/' as flatpages %}
+                {% for page in flatpages %}
+                <div id="{{ page.title|slugify }}" class="modal hide fade">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">×</a>
+                        <h3>{{ page.title }}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="large-content">
+                            {{ page.content|safe }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+
+        </div><!-- /page_inner -->
+
+    {% include "oscar/partials/footer_checkout.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/oscar/js/oscar/ui.js"></script>
+<script>
+            $(function() {
+
+
+
+    oscar.init();
+
+    oscar.checkout.gateway.init();
+
+            });
+        </script>
+{% endblock %}

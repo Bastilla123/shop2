@@ -611,9 +611,15 @@ pre code {
   }
 }
 
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1540px;
+  }
+}
+
 @media (min-width: 1200px) {
   .container {
-    max-width: 1040px;
+    max-width: 1540px;
   }
 }
 
