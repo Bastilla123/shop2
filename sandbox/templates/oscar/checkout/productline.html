@@ -1,0 +1,55 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load image_tags %}
+{% load purchase_info_tags %}
+{% load tags %}
+
+{% purchase_info_for_line request line as session %}
+                        <tr>
+                            <td>
+                                {% with image=line.product.primary_image %}
+                                {% oscar_thumbnail image.original "100x100" upscale=False as thumb %}
+                                <a href="{{ form.instance.product.get_absolute_url }}">
+                                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}"
+                                         class="img-thumbnail w-auto mx-auto my-0">
+
+                                </a>
+                                {% endwith %}
+                            </td>
+                            <td>
+                                {{ line.quantity }}X
+                            </td>
+                            <td>
+
+                                <a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a>
+
+                            </td>
+                            <td class="text-right">
+                                {% if not line.unit_price_incl_tax and not line.unit_tax_excl_tax %}
+                                <p class="text-right">&mdash;</p>
+                                {% else %}
+
+
+                                    <span class="align-top">{{ line.unit_price_excl_tax }}€</span>
+
+
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                {% if not line.unit_price_incl_tax and not line.unit_tax_excl_tax %}
+                                <p class="text-right">&mdash;</p>
+                                {% else %}
+
+                                <span class="align-top">{{ line.unit_price_incl_tax|substract:line.unit_price_excl_tax }}€</span>
+
+                                {% endif %}
+                            </td>
+
+                            <td class="text-right">
+                                {% if not show_tax_separately and line.is_tax_known %}
+                                <span class="align-top">{{ line.line_price_incl_tax }}€</span>
+                                {% else %}
+                                <span class="align-top">{{ line.line_price_excl_tax }}€</span>
+                                {% endif %}
+                            </td>
+                        </tr>

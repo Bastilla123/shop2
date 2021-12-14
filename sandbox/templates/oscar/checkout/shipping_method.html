@@ -1,14 +1,12 @@
 {% load i18n %}
 {% block shipping_method %}
                         {% if shipping_method %}
+<div class="row">
+<div class="col-7">
+                        {% trans 'Shipping method' %}:
 
 
-                        <h4 class="title">{% trans 'Shipping method' %}</h4>
 
-
-                        <a href="{% url 'checkout:shipping-method' %}" class="float-right">
-                            {% trans "Change Shipping Method" %}
-                        </a>
 
 
                         <p>{{ shipping_method.name }}
@@ -19,4 +17,13 @@
 
 
                         {% endif %}
+</div>
+    {% if 'preview' in request.path %}
+                           <div class="text-right col-5">
+<a href="{% url 'checkout:shipping-method' %}" class="float-right">
+                            {% trans "Change Shipping Method" %}
+                        </a>
+    </div>
+    </div>
+{% endif %}
                         {% endblock shipping_method %}

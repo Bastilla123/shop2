@@ -51,7 +51,7 @@ class CheckCountryPreCondition(object):
 
 
 # Inspired by https://github.com/django-oscar/django-oscar-docdata/blob/master/sandbox/apps/checkout/views.py
-class PaymentMethodView(CheckCountryPreCondition, OscarPaymentMethodView, FormView):
+class PaymentMethodView(OscarPaymentMethodView, FormView):
     """
     View for a user to choose which payment method(s) they want to use.
 

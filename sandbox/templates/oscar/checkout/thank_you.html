@@ -131,15 +131,23 @@
             <h2>{% trans "Order contents" %}</h2>
         </div>
 
-        <div class="basket-title">
-            <div class="row">
-                <p class="col-sm-9 h4">{% trans "Items purchased" %}</p>
-                <p class="col-sm-1 h4 text-center">{% trans "Quantity" %}</p>
-                <p class="col-sm-2 h4 text-right">{% trans "Total" %}</p>
-            </div>
-        </div>
+         <table class="col-12">
+                        <thead>
+                        <tr>
+                            <th style="width: 16,66%">Image</th>
+                            <th style="width: 16,66%">Quantity</th>
+                            <th style="width: 16,66%">Description</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Netprice' %}</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Tax' %}</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Grosprice' %}</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
 
         {% for line in order.lines.all %}
+{% include 'oscar/checkout/productline.html' %}
+{% comment %}
             <div class="basket-items">
                 <div class="row">
                     <div class="col-sm-2">
@@ -170,7 +178,10 @@
                     </div>
                 </div>
             </div>
+{% endcomment %}
         {% endfor %}
+         </tbody>
+                    </table>
 
         {% block basket_totals %}
             <div class="row">
@@ -179,6 +190,7 @@
                     <div class="sub-header">
                         <h2>{% trans 'Totals' %}</h2>
                     </div>
+
                     {% include 'oscar/order/partials/basket_totals.html' %}
                 </div>
             </div>

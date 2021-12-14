@@ -6,6 +6,13 @@ from django import forms
 from clientaddress.models import Clientaddress
 from bibliothek.Widgets import *
 from photo.models import Photo
+from django.conf import settings
+
+def show_tax_separately(request):
+    show_tax_separately \
+        = getattr(settings, 'OSCAR_SHOW_TAX_SEPARATELY', False)
+
+    return {'show_tax_separately': show_tax_separately}
 
 class Newsletterform(forms.ModelForm):
   class Meta:

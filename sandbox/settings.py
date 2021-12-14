@@ -155,7 +155,10 @@ MIDDLEWARE = [
 
     # Ensure a valid basket is added to the request instance for every request
     'oscar.apps.basket.middleware.BasketMiddleware',
+
 ]
+
+OSCAR_SHOW_TAX_SEPARATELY = True
 
 ROOT_URLCONF = 'urls'
 
@@ -263,7 +266,8 @@ INSTALLED_APPS = [
     'catalogue.apps.CatalogueConfig',
     'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig',
     'oscar.apps.communication.apps.CommunicationConfig',
-    'oscar.apps.partner.apps.PartnerConfig',
+    #'oscar.apps.partner.apps.PartnerConfig',
+    'partner.apps.PartnerConfig',
     'oscar.apps.basket.apps.BasketConfig',
     #'oscar.apps.payment.apps.PaymentConfig',
     'payment.apps.PaymentConfig',

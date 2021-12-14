@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load image_tags %}
 {% load purchase_info_tags %}
-
+{% load tags %}
 {% block headertitle %}
 {% trans "Checkout" %} | {{ block.super }}
 {% endblock %}
@@ -24,94 +24,70 @@
 {% endif %}
 
 <div class="row">
-{% block shipping_address %}
+    {% block shipping_address %}
 
     {% endblock %}
     <div class="col-6 d-flex align-items-stretch">
-    {% if 'preview' in request.path %}
-    {% include 'oscar/checkout/shipping_address2.html' %}
-    {% endif %}
+        {% if 'preview' in request.path %}
+        {% include 'oscar/checkout/shipping_address2.html' %}
+        {% endif %}
 
-{% include 'oscar/checkout/shipping_method.html' %}
 
-{% include 'oscar/checkout/payment_details_overview.html' %}
-                    </div>
+    </div>
+    {% include 'oscar/checkout/shipping_method.html' %}
+
+    {% include 'oscar/checkout/payment_details_overview.html' %}
+</div>
+</div>
+</div>
+</div>
+
+
+{% block order_contents %}
+<div class="col-6 d-flex align-items-stretch">
+
+
+    <div class="card col-12">
+
+        <div class="container-fluid content-row">
+
+            <h3 class="title mt-3">Order summary</h3>
+
+            <div class="card-body">
+
+
+                <div class="media align-items-center mb-3">
+
+                    <table class="col-12">
+                        <thead>
+                        <tr>
+                            <th style="width: 16,66%">Image</th>
+                            <th style="width: 16,66%">Quantity</th>
+                            <th style="width: 16,66%">Description</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Netprice' %}</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Tax' %}</th>
+                            <th style="width: 16,66%" class="text-right">{% trans 'Grosprice' %}</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for line in basket.all_lines %}
+
+{% include 'oscar/checkout/productline.html' %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
                 </div>
-  </div>
+
+
+                {% include 'oscar/basket/partials/basket_totals.html' %}
+
+            </div>
         </div>
     </div>
-
-
-    {% block order_contents %}
-    <div class="col-6 d-flex align-items-stretch">
-
-
-        <div class="card col-12">
-
-                <div class="container-fluid content-row">
-
-                    <h3 class="title mt-3">Order summary</h3>
-
-                    <div class="card-body">
-
-
-                        <div class="media align-items-center mb-3">
-
-                            <table class="col-12">
-                                 <thead>
-        <tr>
-          <th   style="width: 25%">Image</th>
-            <th  style="width: 25%">Quantity</th>
-            <th  style="width: 25%">Description</th>
-            <th  style="width: 25%" class="text-right">Price</th>
-        </tr>
-    </thead>
-                                <tbody>
-                                {% for line in basket.all_lines %}
-
-                        {% purchase_info_for_line request line as session %}
-                                <tr>
-                                    <td>
-                                        {% with image=line.product.primary_image %}
-                                {% oscar_thumbnail image.original "100x100" upscale=False as thumb %}
-                                <a href="{{ form.instance.product.get_absolute_url }}">
-                                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}"
-                                         class="img-thumbnail w-auto mx-auto my-0">
-
-                                </a>
-                                {% endwith %}
-                                    </td>
-                                    <td>
-                                         {{ line.quantity }}X
-                                    </td>
-                                    <td>
-
-                                <a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a>
-
-                                    </td>
-                                    <td class="text-right">
-                                        {% if not show_tax_separately and line.is_tax_known %}
-                                <span class="align-top">{{ line.line_price_incl_tax|currency:basket.currency }}</span>
-                                {% else %}
-                                <span class="align-top">{{ line.line_price_excl_tax|currency:basket.currency }}</span>
-                                {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-
-                        </div>
-
-
-
-                        {% include 'oscar/basket/partials/basket_totals.html' %}
-
-                    </div>
-                </div>
-        </div>
-    </div>
+</div>
 
 
 {% endblock order_contents %}

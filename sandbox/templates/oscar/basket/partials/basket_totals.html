@@ -19,7 +19,7 @@
                             <td>{% trans "Basket total (before discounts)" %}</td>
                             <td class="text-right">
 
-                                {% if basket.is_tax_known and not show_tax_separately %}
+                                {% if basket.is_tax_known %}
                                     {{ basket.total_incl_tax_excl_discounts|currency:basket.currency }}
                                 {% else %}
                                     {{ basket.total_excl_tax_excl_discounts|currency:basket.currency }}
@@ -66,7 +66,7 @@
                         <tr>
                             <th class="total">{% trans "Basket total (after discounts)" %}</th>
                             <th class="total text-right">
-                                {% if not show_tax_separately and basket.is_tax_known %}
+                                {% if  basket.is_tax_known %}
                                     {{ basket.total_incl_tax|currency:basket.currency }}
                                 {% else %}
                                     {{ basket.total_excl_tax|currency:basket.currency }}
@@ -77,15 +77,13 @@
                         {# No discounts to basket #}
 
                         <tr>
-                            <th class="total">{% trans "Basket total" %}</th>
+                            <th class="total">{% trans "Netprice" %}</th>
                             <th class="total text-right">
 
 
-                                {% if not show_tax_separately and basket.is_tax_known %}
-                                    {{ basket.total_incl_tax|currency:basket.currency }}
-                                {% else %}
+
                                     {{ basket.total_excl_tax|currency:basket.currency }}
-                                {% endif %}
+
                             </th>
                         </tr>
                     {% endif %}
@@ -100,6 +98,7 @@
 
                 <tr>
                     <th colspan="2">
+
                         <h3>{% trans "Shipping" %}</h3>
                         {% if shipping_methods|length > 1 and editable %}
                             <small>{% trans "Alternative shipping methods can be chosen during checkout" %}</small>
@@ -113,7 +112,7 @@
                         </th>
                         <th class="total text-right">
 
-                            {% if not show_tax_separately and shipping_charge.is_tax_known %}
+                            {% if  shipping_charge.is_tax_known %}
                                 {{ shipping_charge.incl_tax|currency:basket.currency }}
                             {% else %}
                                 {{ shipping_charge.excl_tax|currency:basket.currency }}
@@ -130,9 +129,10 @@
                     </tr>
                     <tr>
                         <td>{% trans "Shipping total (before discounts)" %}</td>
+
                         <td class="text-right">
 
-                            {% if not show_tax_separately and shipping_charge_excl_discount.is_tax_known %}
+                            {% if  shipping_charge_excl_discount.is_tax_known %}
                                 {{ shipping_charge_excl_discount.incl_tax|currency:basket.currency }}
                             {% else %}
                                 {{ shipping_charge_excl_discount.excl_tax|currency:basket.currency }}
@@ -150,7 +150,7 @@
                         </th>
                         <th class="total text-right">
 
-                            {% if not show_tax_separately and shipping_charge.is_tax_known %}
+                            {% if shipping_charge.is_tax_known %}
                                 {{ shipping_charge.incl_tax|currency:basket.currency }}
                             {% else %}
                                 {{ shipping_charge.excl_tax|currency:basket.currency }}
@@ -179,7 +179,7 @@
                             </th>
                             <th class="total align-right">
 
-                                {% if not show_tax_separately and surcharge.price.is_tax_known %}
+                                {% if  surcharge.price.is_tax_known %}
                                     {{ surcharge.price.incl_tax|currency:basket.currency }}
                                 {% else %}
                                     {{ surcharge.price.excl_tax|currency:basket.currency }}
@@ -192,7 +192,7 @@
 
 
             {% block tax_totals %}
-                {% if show_tax_separately %}
+
 
                     <tr>
                         <th>&nbsp;</th>
@@ -216,7 +216,7 @@
                             {{ shipping_charge.tax|currency:basket.currency }}
                         </th>
                     </tr>
-                {% endif %}
+
             {% endblock %}
 
             {% block post_order_action_totals %}
