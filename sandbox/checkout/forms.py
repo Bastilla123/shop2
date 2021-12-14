@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from oscar.apps.payment import forms as payment_forms
 from oscar.core.loading import get_model,get_class
 OscarShippingAddressForm = get_class("checkout.forms", "ShippingAddressForm")
+from globalsettings.models import Paymentmethod
 
 
 Country = get_model('address', 'Country')
@@ -25,9 +26,16 @@ class PaymentMethodForm(forms.Form):
     Extra form for the custom payment method.
     """
 
+    totallist = []
+
+    for item in Paymentmethod.objects.filter(is_active=True):
+
+        list = (item.method,item.code)
+        totallist.append(list)
+
     payment_method = forms.ChoiceField(
         label=_("Select a payment method"),
-        choices=settings.OSCAR_PAYMENT_METHODS,
+        choices=totallist,
         widget=forms.RadioSelect()
     )
 

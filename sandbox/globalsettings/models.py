@@ -4,6 +4,10 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 #from photo.models import Photo
 
+class Paymentmethod(models.Model):
+    code = models.CharField(max_length=10, null=True, blank=True, default="")
+    method = models.CharField(max_length=100, null=True, blank=True, default="")
+    is_active = models.BooleanField(default=False)
 
 class Globalsettings(models.Model):
     client_companyname = models.CharField(max_length=240, null=True, blank=True, default="")
@@ -11,8 +15,12 @@ class Globalsettings(models.Model):
     client_street = models.CharField(max_length=240, null=True, blank=True, default="")
     client_zip = models.IntegerField(null=True, blank=True, default=0)
     client_country = models.PositiveSmallIntegerField(null=True, blank=True, default=0)
+    phone = models.CharField(max_length=240, null=True, blank=True, default="")
+    email = models.CharField(max_length=240, null=True, blank=True, default="")
     impressum = models.TextField(blank=True, default="", null=True)
     kleingewerbe = models.BooleanField(default=False)
+    cashondelivery = models.ManyToManyField(Paymentmethod, blank=True, null=True, default=None,
+                                         related_name="Globalsettings_cashondelivery")
 
 
 class UserSettings(models.Model):

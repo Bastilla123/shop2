@@ -14,6 +14,7 @@ from .forms import BillingAddressForm
 from oscar.apps.checkout import exceptions
 from django.urls import reverse, reverse_lazy
 from oscar.core.loading import get_model, get_class
+from globalsettings.models import Paymentmethod
 OscarPaymentMethodView = get_class("checkout.views", "PaymentMethodView")
 OscarPaymentDetailsView = get_class("checkout.views", "PaymentDetailsView")
 OscarShippingMethodView = get_class("checkout.views", "ShippingMethodView")
@@ -72,7 +73,7 @@ class PaymentMethodView(OscarPaymentMethodView, FormView):
         # if only single payment method, store that
         # and then follow default (redirect to preview)
         # else show payment method choice form
-        if len(settings.OSCAR_PAYMENT_METHODS) == 1:
+        if Paymentmethod.objects.count() == 1:
             self.checkout_session.pay_by(settings.OSCAR_PAYMENT_METHODS[0][0])
             return redirect(self.get_success_url())
         else:
@@ -96,7 +97,7 @@ class PaymentMethodView(OscarPaymentMethodView, FormView):
 
 
     def get_initial(self):
-        print("Initial")
+
         return {
             'payment_method': self.checkout_session.payment_method(),
         }
@@ -157,8 +158,11 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
         return ctx
 
     def get_payment_method_display(self, payment_method):
+        method = Paymentmethod.objects.filter(method=payment_method).first()
+        dict = {method.code:method.code}
 
-        return dict(settings.OSCAR_PAYMENT_METHODS).get(payment_method)
+        return dict
+        #return dict(settings.OSCAR_PAYMENT_METHODS).get(payment_method)
 
     def handle_place_order_submission(self, request):
         # Collect all the data!

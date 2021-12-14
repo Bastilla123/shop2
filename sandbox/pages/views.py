@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.views.generic import ListView
 #from settings.models import UserSettings
 from photo.models import Photo
-from globalsettings.models import UserSettings
+from globalsettings.models import UserSettings,Globalsettings
+
 
 # Create your views here.
 
@@ -34,6 +35,10 @@ def agb(request):
     return render(request,'pages/agb.html')
 def privacy_statement(request):
     return render(request,'pages/privacy_statement.html')
+def contact_us(request):
+    context = {}
+    context['globalsettings'] = Globalsettings.objects.first()
+    return render(request,'pages/contact_us.html',context)
 
 
 

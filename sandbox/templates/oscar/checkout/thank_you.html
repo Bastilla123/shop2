@@ -200,6 +200,10 @@
             </div>
         {% endblock basket_totals %}
 
+{% if globalsettings.kleingewerbe %}
+Gemäß § 19 UStG enthält der Rechnungsbetrag keine Umsatzsteuer.
+{% endif %}
+
     {% endblock order_contents %}
 
     {% block order_tracking %}

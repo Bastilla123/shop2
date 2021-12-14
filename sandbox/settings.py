@@ -324,12 +324,12 @@ INSTALLED_APPS = [
     'pages',
 ]
 
-OSCAR_PAYMENT_METHODS = (
-    ('cod', _('Cash on delivery')),
-    ('paypal', _('Paypal')),
-    ('VISA', 'Visa'),
-    ('MASTERCARD', 'MasterCard'),
-)
+#OSCAR_PAYMENT_METHODS = (
+#    ('cod', _('Cash on delivery')),
+#    ('paypal', _('Paypal')),
+#    ('VISA', 'Visa'),
+#    ('MASTERCARD', 'MasterCard'),
+#)
 
 OSCAR_DEFAULT_CURRENCY = 'EUR'
 

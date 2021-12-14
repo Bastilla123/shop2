@@ -30,6 +30,10 @@
             {% block hiddenforms %}{% endblock %}
         </div>
 
+        {% if globalsettings.kleingewerbe %}
+Gemäß § 19 UStG enthält der Rechnungsbetrag keine Umsatzsteuer.
+{% endif %}
+
         <div class="form-group clearfix">
             <div class="row">
 

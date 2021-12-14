@@ -33,7 +33,7 @@ class Newsletterform(forms.ModelForm):
 class Kontaktform(forms.ModelForm):
   class Meta:
     model = Clientaddress
-    fields = ["salutation","title","firstname","lastname","street","zip","city"]
+    fields = ["salutation","firstname","lastname",]
     widgets = {"salutation":selectfield,'title': textinputfeld, 'firstname': textinputfeld, 'lastname': textinputfeld, 'street': textinputfeld,
                'zip': integerfeld, 'city': textinputfeld}
   def __init__(self, *args, **kwargs):
@@ -46,9 +46,7 @@ class Kontaktform(forms.ModelForm):
     self.fields['email'] = forms.CharField(label="E-Mail *", initial="",
                                              widget=textinputfeld(),
                                              required=False)
-    self.fields['subject'] = forms.CharField(label="Subject *", initial="",
-                                           widget=textinputfeld(),
-                                           required=False)
+
     self.fields['text'] = forms.CharField(label="Text *", initial="",
                                            widget=textarea(),
                                            required=False)

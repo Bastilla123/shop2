@@ -233,6 +233,12 @@ Coded by www.creative-tim.com
 
               </li>
 
+                   <li class="nav-item">
+              <a href="{% url 'pages:contact_us' %}" class="nav-link" >{% trans 'Contact us' %}</a>
+
+              </li>
+
+
             </ul>
           </div>
         </div>
@@ -265,14 +271,6 @@ Coded by www.creative-tim.com
 
   <script src="{% static '/argon/js/argon-design-system.min.js' %}?v=1.0.3" type="text/javascript"></script>
 
-  <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "argon-design-system-pro"
-      });
-  </script>
-
 
     <script>
     const validateEmail = function(email) {
@@ -302,6 +300,7 @@ Coded by www.creative-tim.com
 
 const contact = function(email, name) {
     var formData = new FormData();
+
     formData = $('#kontaktform').serialize();
 
     $.ajaxSetup({

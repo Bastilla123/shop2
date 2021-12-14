@@ -47,10 +47,9 @@ def submitcontactform(request):
             telefon = form.cleaned_data["telefon"]
             if (email is not None):
                 Telefon(address_link=adresse, eintrag=email, is_standard=True).save()
-            print("Cleaned "+str(form.cleaned_data))
+
             # send a confirmation mail
-            subject = 'Neue Kontaktanfrage von Webseite mit dem Subject: '+str(form.cleaned_data[
-                "subject"])
+            subject = 'Neue Kontaktanfrage von Webseite Beelze-Solutions.de'
             message = 'Hallo,  Es ist eine neue Anfrage angekommen mit dem Text: '+str(form.cleaned_data[
                 "text"])+' von der Adresse mit der Id: '+str(adresse.id)
 
