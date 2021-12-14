@@ -59,6 +59,8 @@ LANGUAGES = (
 
 )
 
+os.environ["LANGUAGE"] = 'de'
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -120,6 +122,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
 
                 # Oscar specific
                 'oscar.apps.search.context_processors.search_form',
@@ -268,7 +271,8 @@ INSTALLED_APPS = [
     'oscar.apps.communication.apps.CommunicationConfig',
     #'oscar.apps.partner.apps.PartnerConfig',
     'partner.apps.PartnerConfig',
-    'oscar.apps.basket.apps.BasketConfig',
+    #'oscar.apps.basket.apps.BasketConfig',
+    'basket.apps.BasketConfig',
     #'oscar.apps.payment.apps.PaymentConfig',
     'payment.apps.PaymentConfig',
     #'oscar.apps.offer.apps.OfferConfig',

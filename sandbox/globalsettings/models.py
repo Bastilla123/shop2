@@ -12,6 +12,8 @@ class Globalsettings(models.Model):
     client_zip = models.IntegerField(null=True, blank=True, default=0)
     client_country = models.PositiveSmallIntegerField(null=True, blank=True, default=0)
     impressum = models.TextField(blank=True, default="", null=True)
+    kleingewerbe = models.BooleanField(default=False)
+
 
 class UserSettings(models.Model):
     user_link = models.OneToOneField(

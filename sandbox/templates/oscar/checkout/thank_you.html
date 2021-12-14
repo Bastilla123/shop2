@@ -137,9 +137,12 @@
                             <th style="width: 16,66%">Image</th>
                             <th style="width: 16,66%">Quantity</th>
                             <th style="width: 16,66%">Description</th>
+                            {% if not globalsettings.kleingewerbe %}
                             <th style="width: 16,66%" class="text-right">{% trans 'Netprice' %}</th>
                             <th style="width: 16,66%" class="text-right">{% trans 'Tax' %}</th>
-                            <th style="width: 16,66%" class="text-right">{% trans 'Grosprice' %}</th>
+                            {% endif %}
+                            <th style="width: 16,66%" class="text-right">{% if not globalsettings.kleingewerbe %}{% trans 'Grosprice' %}{% else %}{% trans 'Price' %} {% endif %}</th>
+
 
                         </tr>
                         </thead>
@@ -169,7 +172,7 @@
                     </div>
                     <div class="col-sm-2 text-right">
                         <p class="price_color">
-                            {% if show_tax_separately %}
+                            {% if not globalsettings.kleingewerbe %}
                                 {{ line.line_price_before_discounts_excl_tax|currency:order.currency }}
                             {% else %}
                                 {{ line.line_price_before_discounts_incl_tax|currency:order.currency }}
@@ -192,6 +195,7 @@
                     </div>
 
                     {% include 'oscar/order/partials/basket_totals.html' %}
+
                 </div>
             </div>
         {% endblock basket_totals %}

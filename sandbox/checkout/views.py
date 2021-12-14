@@ -68,7 +68,7 @@ class PaymentMethodView(OscarPaymentMethodView, FormView):
 
 
     def get(self, request, *args, **kwargs):
-        print("get")
+
         # if only single payment method, store that
         # and then follow default (redirect to preview)
         # else show payment method choice form
@@ -80,7 +80,7 @@ class PaymentMethodView(OscarPaymentMethodView, FormView):
             return FormView.get(self, request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        print("Context")
+        #print("Context")
         """Insert the form into the context dict."""
         if 'form' not in kwargs:
             kwargs['form'] = self.get_form()
@@ -173,7 +173,7 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
         return self.submit(**submission)
 
     def post(self, request, *args, **kwargs):
-        print("Post")
+
         # Override so we can validate the bankcard/billing_address submission.
         # If it is valid, we render the preview screen with the forms hidden
         # within it.  When the preview is submitted, we pick up the 'action'

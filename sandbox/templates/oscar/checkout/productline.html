@@ -24,6 +24,7 @@
                                 <a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a>
 
                             </td>
+                            {% if not globalsettings.kleingewerbe %}
                             <td class="text-right">
                                 {% if not line.unit_price_incl_tax and not line.unit_tax_excl_tax %}
                                 <p class="text-right">&mdash;</p>
@@ -44,12 +45,18 @@
 
                                 {% endif %}
                             </td>
+                            {% endif %}
 
                             <td class="text-right">
-                                {% if not show_tax_separately and line.is_tax_known %}
-                                <span class="align-top">{{ line.line_price_incl_tax }}€</span>
-                                {% else %}
+
+
+
+
+                                {% if not globalsettings.kleingewerbe and line.is_tax_known %}
                                 <span class="align-top">{{ line.line_price_excl_tax }}€</span>
+                                {% else %}
+                                <span class="align-top">{{ line.line_price_incl_tax }}€</span>
+
                                 {% endif %}
                             </td>
                         </tr>

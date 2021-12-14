@@ -75,7 +75,7 @@
                         </tr>
                     {% else %}
                         {# No discounts to basket #}
-
+                        {% if not globalsettings.kleingewerbe %}
                         <tr>
                             <th class="total">{% trans "Netprice" %}</th>
                             <th class="total text-right">
@@ -86,6 +86,18 @@
 
                             </th>
                         </tr>
+            {% else %}
+            <tr>
+                            <th class="total">{% trans "Subtotal" %}</th>
+                            <th class="total text-right">
+
+
+
+                                    {{ basket.total_incl_tax|currency:basket.currency }}
+
+                            </th>
+                        </tr>
+            {% endif %}
                     {% endif %}
                 {% endblock %}
             {% endwith %}
@@ -124,6 +136,7 @@
                     {% shipping_charge_excl_discount shipping_method basket as shipping_charge_excl_discount %}
                     {# As shipping is discounted, we break it down into its original charge and a discount #}
                     <tr>
+
                         <th class="total">{% trans "Shipping method" %}</th>
                         <td class="total text-right">{{ shipping_method.name }}</td>
                     </tr>
@@ -192,7 +205,7 @@
 
 
             {% block tax_totals %}
-
+{% if not globalsettings.kleingewerbe %}
 
                     <tr>
                         <th>&nbsp;</th>
@@ -216,7 +229,7 @@
                             {{ shipping_charge.tax|currency:basket.currency }}
                         </th>
                     </tr>
-
+ {% endif %}
             {% endblock %}
 
             {% block post_order_action_totals %}
