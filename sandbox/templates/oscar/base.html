@@ -385,6 +385,14 @@ const subscribeUser = function(email, name) {
     });
 })(jQuery);
 </script>
+  <script>
+       /* submit if elements of class=auto_submit_item in the form changes */
+$(function() {
+   $("#language_selector").change(function() {
+     $("form#language_selector").submit();
+   });
+ });
+  </script>
 
     {# Local scripts #}
         {% block scripts %}
