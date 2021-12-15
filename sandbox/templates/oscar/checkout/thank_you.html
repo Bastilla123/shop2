@@ -125,6 +125,7 @@ Order {{ number }}: confirmation
 
 
                 </div>
+                        <div class="ml-4">
                 <h3>{% trans "Payment" %}</h3>
                 {% for source in order.sources.all %}
                 <p>
@@ -148,17 +149,30 @@ Order {{ number }}: confirmation
                 <p>{{ order.shipping_method }}</p>
                         {% if globalsettings.kleingewerbe %}
                         <strong>Gemäß § 19 UStG enthält der Rechnungsbetrag keine Umsatzsteuer.</strong>
-{% endif %}
-
-                <div class="card-footer text-right">
-                    <div class="col-md-5 ml-auto">
+                        <div class="col-md-5 ml-auto">
                         <h5>{% trans 'Thank you!' %}</h5>
                         <p class="description">{% trans 'If you encounter any issues related to the invoice you can contact us at' %}:</p>
                         <h6 class="d-block">
-                            email:
-                            <small class="text-muted">E-Mail: {{globalsettings.email}}</small>
+                            <a href="mailto:{{globalsettings.email}}">E-Mail schreiben</a>
+
+
                         </h6>
                     </div>
+      </div>
+{% endif %}
+
+                <div class="card-footer text-right">
+<div class="row">
+    <div class="col-6 text-left">
+        <span>Bankverbindung:</span><br>
+        {% if globalsettings.bank %}<span>Bank: {{globalsettings.bank}}</span><br>{% endif %}
+        {% if globalsettings.bic_swift %}<span>BIC/Swift: {{globalsettings.bic_swift}}</span><br>{% endif %}
+        {% if globalsettings.iban %}<span>IBAN: {{globalsettings.iban}}</span><br>{% endif %}
+         </div>
+    <div class="col-6 text-left">
+        {% if globalsettings.steuernr %}Steuernummer: {{globalsettings.steuernr}}{% endif %}
+         </div>
+    </div>
                 </div>
             </div>
         </div>

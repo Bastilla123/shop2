@@ -15,6 +15,11 @@ class Globalsettings(models.Model):
     client_street = models.CharField(max_length=240, null=True, blank=True, default="")
     client_zip = models.IntegerField(null=True, blank=True, default=0)
     client_country = models.PositiveSmallIntegerField(null=True, blank=True, default=0)
+    bank = models.CharField(max_length=240, null=True, blank=True, default="")
+    steuernr = models.CharField(max_length=13, null=True, blank=True, default="")
+    bic_swift = models.PositiveSmallIntegerField(null=True, blank=True, default=0)
+
+    iban = models.PositiveIntegerField(null=True, blank=True, default=0)
     phone = models.CharField(max_length=240, null=True, blank=True, default="")
     email = models.CharField(max_length=240, null=True, blank=True, default="")
     impressum = models.TextField(blank=True, default="", null=True)
