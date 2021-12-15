@@ -3,9 +3,7 @@
 
 <div id="basket_totals">
     <table class="table table-sm">
-        <tr>
-            <th colspan="2"><h3>{% trans "Basket" %}</h3></th>
-        </tr>
+
         {% with discounts=order.basket_discounts %}
             {% block discount_totals %}
                 {% if discounts %}
