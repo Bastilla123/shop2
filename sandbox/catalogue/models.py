@@ -33,7 +33,7 @@ class materialchoices(models.Model):
         return self.name
 
 class Product(AbstractProduct):
-    product_tax = models.ForeignKey(Tax, on_delete=models.CASCADE, blank=False, null=False, default=None,
+    product_tax = models.ForeignKey(Tax, on_delete=models.CASCADE, blank=True, null=True, default=None,
                               related_name="product_tax")
     size = models.ForeignKey(sizechoices, on_delete=models.CASCADE, blank=True, null=True, default=None,
                                    related_name="size_choices")

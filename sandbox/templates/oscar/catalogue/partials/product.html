@@ -7,15 +7,18 @@
 
 <div class="card card-product card-plain mt-0">
     {% block product_image %}
-    <div class="card-image">
+    <div class="card-image" >
 
-        <a href="javascript:;">
+        <a href="javascript:;" class="img-wrapper">
             {% with image=product.primary_image %}
-            {% oscar_thumbnail image.original "x185" upscale=False as thumb %}
+
+            {% oscar_thumbnail image.original "240x180" crop=center  as thumb %}
+
             <a href="{{ product.get_absolute_url }}">
-                <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="img-thumbnail w-auto mx-auto my-0">
+                <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="img-thumbnail">
             </a>
             {% endwith %}
+
 
         </a>
     </div>

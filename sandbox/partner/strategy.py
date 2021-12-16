@@ -11,7 +11,7 @@ class Selector(object):
     """
 
     def strategy(self, request=None, user=None, **kwargs):
-        print("Drin")
+
         return UK()
 
 from oscar.apps.partner.strategy import UseFirstStockRecord,StockRequired,Structured,TaxInclusiveFixedPrice
@@ -30,12 +30,15 @@ class FixedRateTax(object):
         if not stockrecord or stockrecord.price is None:
             return UnavailablePrice()
         #rate = self.get_rate(product, stockrecord)
-        rate = product.product_tax.Taxvalue
-        rate = D(rate/100)
+        if (hasattr(product.product_tax,'Taxvalue')):
+            rate = product.product_tax.Taxvalue
+            rate = D(rate/100)
 
 
-        exponent = self.get_exponent(stockrecord)
-        tax = (stockrecord.price * rate).quantize(exponent)
+            exponent = self.get_exponent(stockrecord)
+            tax = (stockrecord.price * rate).quantize(exponent)
+        else:
+            tax = 0
         return TaxInclusiveFixedPrice(
             currency=stockrecord.price_currency,
             excl_tax=stockrecord.price,
