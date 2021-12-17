@@ -17,7 +17,7 @@ from django.conf import settings
 
 # Create your views here.
 
-def widerrufview(request):
+def revocation(request):
 
     if request.method == 'POST':
 
@@ -52,7 +52,7 @@ def widerrufview(request):
                                         }
             message = render_to_string('pages/widerrufemail_shop.html', context)
             globalsettingsentry = Globalsettings.objects.first()
-            print("Sende E-Mail an "+str(globalsettingsentry.email))
+
             try:
                 msg = EmailMessage('Widerruf eingegangen von Shop', message, settings.EMAIL_HOST_USER, [globalsettingsentry.email])
                 msg.content_subtype = 'html'
