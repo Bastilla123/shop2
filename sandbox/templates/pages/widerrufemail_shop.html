@@ -1,0 +1,16 @@
+{% load i18n %}
+
+Es wurde am {% now "SHORT_DATETIME_FORMAT" %} uns einen Widerruf eingereicht gegenüber dem Produkt mit der Produktnummer {{product}}
+
+Kundendaten:<br><br>
+
+{% trans 'Saluation'%} {{salutation}}<br>
+{% trans 'Firstname'%} {{firstname}}<br>
+{% trans 'Lastname'%} {{lastname}}<br>
+{% trans 'Companyname'%} {{companyname}}<br>
+{% trans 'Street'%} {{street}}<br>
+{% trans 'Zip'%} {{zip}}<br>
+{% trans 'City'%} {{city}}<br>
+{% trans 'Order date'%} {{order_date}}<br>
+
+

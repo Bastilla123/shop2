@@ -1,0 +1,65 @@
+{% extends "pages/standardpage.html" %}
+
+
+
+{% block cardheader %}
+Widerruf
+{% endblock %}
+
+{% block cardbody %}
+
+
+Muster-Widerrufsformular
+Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses Formular aus und übermitteln Sie
+es zurück.
+
+<br>
+
+An<br>
+{{globalsettings.client_companyname}}<br>
+{{globalsettings.client_street}}<br>
+{{globalsettings.client_zip}}<br>
+{{globalsettings.client_clientcity}}<br><br>
+
+
+Hiermit widerrufe(n) ich den von uns abgeschlossenen Vertrag über den Kauf der
+folgenden Waren /die Erbringung der folgenden Dienstleistung<br><br>
+
+
+<form enctype="multipart/form-data" method="POST" >
+    {% csrf_token %}
+{{form.product.name}} {{form.product}}
+
+
+
+{{form.order_date.name}}    {{form.order_date}}
+
+{{form.email.name}} {{form.email}}
+
+Anschrift des/der Verbraucher(s)<br><br>
+{{form.salutation.name}}{{form.salutation}}<br>
+{{form.firstname.name}}{{form.firstname}}<br>
+{{form.lastname.name}}{{form.lastname}}<br>
+{{form.companyname.name}}{{form.companyname}}<br>
+{{form.street.name}}{{form.street}}<br>
+{{form.zip.name}}{{form.zip}}<br>
+{{form.city.name}}{{form.city}}<br><br>
+    <input type="submit" value="Abschicken!" />
+</form>
+
+
+
+<div class="row ml-3">
+    Datum:
+{% now "SHORT_DATETIME_FORMAT" %}
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

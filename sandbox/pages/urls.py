@@ -18,6 +18,7 @@ urlpatterns = [
     path('privacy_statement/', privacy_statement, name="privacy_statement"),
     path('contact_us/', contact_us, name="contact_us"),
 
+    path('widerruf/', widerrufview, name="widerruf"),
 
 ]
 app_name = 'pages'

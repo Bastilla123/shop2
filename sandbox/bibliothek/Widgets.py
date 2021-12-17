@@ -1229,9 +1229,10 @@ class textfeld(forms.TextInput):
             html += str(final_attrs['style']) + '''">'''
         else:
             html += '''width:20%;">'''
+        if ('placeholder' in final_attrs):
+            html += '''<h5>''' + final_attrs['placeholder'] + '''</h5>'''
 
-        html += '''<h5>''' + final_attrs['placeholder'] + '''</h5>
-            <table width="100%">
+        html += '''<table width="100%">
                 <tr>
                     <td>
 

@@ -73,7 +73,7 @@ Coded by www.creative-tim.com
 
         <div class="col-7 text-white">
 
-          Telefon: +49 1520 586 15 92 E-Mail: support@beelze-solutions.de
+          Telefon: {{ globalsettings.phone }} E-Mail: {{ globalsettings.email }}
         {# Top-horizontal bar with account, notifictions, dashboard links #}
           </div>
         <!-- /Left -->
@@ -156,7 +156,9 @@ Coded by www.creative-tim.com
   </nav>
   <!-- End Navbar -->
   <div class="wrapper">
+{% include 'website/message.html' %}
     <div class="page-header page-header-small header-filter skew-separator skew-mini">
+
       <div class="page-header-image" style="background-image: url('{% block headerimage %}{% static '/argon/img/pages/kevin-grieve.jpg' %}{% endblock %}');"></div>
 
 
