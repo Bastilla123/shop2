@@ -153,6 +153,7 @@ MIDDLEWARE = [
 
     # Allow languages to be selected
     'django.middleware.locale.LocaleMiddleware',
+
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -314,6 +315,7 @@ INSTALLED_APPS = [
     # Django apps that the sandbox depends on
     'django.contrib.sitemaps',
 
+
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
     'debug_toolbar',
@@ -322,6 +324,7 @@ INSTALLED_APPS = [
     'clientaddress',
     'standard_form',
     'pages',
+
 ]
 
 #OSCAR_PAYMENT_METHODS = (

@@ -21,12 +21,30 @@ Coded by www.creative-tim.com
 <html lang="en">
 
 <head>
+    <meta name="robots" content="index,follow">
+    <meta name="description" property="og:description" content="{% block metadescription %}{% endblock %}">
+    <meta name="keywords" content="{% block metakeywords %}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% static '/opengraph_logo.png' %}">
+    <meta property="og:description" content="{% block og_description %}{% endblock %}">
+    <meta property="og:site_name" content="Beelze IT Solutions UG (Haftungsbeschränkt)">
+    {% comment %}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="com.coremedia.blueprint.cae.contentbeans.CMPictureImpl$$[id=4212250]">
+    <meta name="twitter:title" content="Allgemeine Geschäftsbedingungen (AGB)">
+    <meta name="twitter:description" content="Allgemeine Geschäftsbedingungen sind für eine Vielzahl von Fällen anwendbare vorformulierte Vertragsbedingungen, die vor&nbsp;Vertragsabschluss gestellt werden. Mit Hilfe von AGB kann der Verwender die gesetzlichen Regeln modifizieren. Eine Verpflichtung zur Verwendung von AGB gibt es nicht.">
+    <meta name="twitter:image" content="https://www.hk24.de/blueprint/servlet/resource/blob/4212250/bc434e918d241e0bdcf576b155df8e1f/hk-hamburg-vorschau-twitter-data.jpg">
+    {% endcomment %}
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{% static '/argon/img/apple-icon.png' %}">
   <link rel="icon" type="image/png" href="{% static '/favicon.ico' %}">
   <title>
-    Beelze Solutions IT Shop
+      {% block sitetitle %}
+    {% endblock %}
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
@@ -62,6 +80,7 @@ Coded by www.creative-tim.com
 
   <!-- Navbar -->
   <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg bg-primary navbar-dark position-sticky top-0  py-2">
+
     <div class="col-lg-12 pr-0 mr-0">
       <div class="row">
       <div class="col-2">
