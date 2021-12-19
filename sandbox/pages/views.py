@@ -66,6 +66,16 @@ def revocation(request):
     return render(request,'pages/widerruf.html',{'form':form,'globalsettings':Globalsettings.objects.first()})
 
 
+def ecodms(request):
+    from catalogue.models import Category,ProductCategory,Product
+    category = Category.objects.filter(name = 'EcoDMS')
+    productcategorie = ProductCategory.objects.filter(category__in = category)
+
+
+    #ecodmsproducts = Product.objects.filter(id__in = productcategorie__product)
+    #print("Categorie " + str(ecodmsproducts.query))
+    return render(request,'pages/ecodms.html',{'productcategorie':productcategorie})
+
 def impressumview(request):
     return render(request,'pages/impressum.html')
 

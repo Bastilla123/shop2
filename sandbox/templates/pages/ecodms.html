@@ -1,9 +1,109 @@
 {% extends 'pages/standardpage.html' %}
+{% load i18n %}
 
 {% block cardheader %}
-Impressum
+Ecodms
 {% endblock %}
 
 {% block cardbody %}
+<div class="col-inner">
 
+
+
+
+<p class="has-medium-font-size">
+
+
+
+<p>Mit diesem modernen Archivsystem können Sie jegliche Dokumente und Informationen am PC, Smartphone und Tablet scannen, archivieren, verwalten und wiederfinden.</p>
+
+
+
+<p>Dieses Archivsystem macht die Archivierung und Verwaltung Ihrer Dokumente komfortabel und einfach. Alle Unterlagen können mit wenigen Mausklicks archiviert, automatisch volltextindiziert und bei Bedarf ohne Ihr weiteres Zutun klassifiziert werden.</p>
+
+
+
+<p>Mittels intelligenter Vorlagenerkennung ermittelt ecoDMS die Dokumentenzugehörigkeit und legt die Dateien an der richtigen Stelle und für die zuständigen Anwender ab.</p>
+
+
+
+<p>Der Zugriff auf das Archiv ist plattform- und standortunabhängig via Desktop- und Webclient möglich. Die eingebaute Texterkennung und zahlreiche Suchfunktionen machen die Dokumentensuche so einfach wie googeln. Das gesamte System ist schnell installiert und einfach zu bedienen.</p>
+
+
+
+<p>ecoDMS speichert alle Daten sicher in Containern und einer Datenbank. Es werden keine Informationen auf fremden Servern, bei der ecoDMS GmbH oder „einfach manipulierbar“ auf dem Dateisystem gespeichert. Das gesamte System befindet sich in Ihrem Installationsort.</p>
+
+
+
+<p>Die Software arbeitet gesetzes- und revisionskonform und beinhaltet ein professionelles Backup-System</p>
+
+
+
+<p style="color:#14b637" class="has-text-color has-medium-font-size"><strong>Das bietet Ihnen ecoDMS unter anderem</strong></p>
+
+
+
+<ul><li>Plattformunabhängiges Client-Server-System<ul><li>Server-Komponente mit einem modernen Container-Speichersystem und postgreSQL-Datenbank</li><li>Vollumfänglicher Desktop-Client für den Computer</li><li>Moderner Webclient für PC, Handy und Tablet</li></ul></li><li>Unendliches Speichervolumen (den Speicherplatz gibt Ihre technische Systemumgebung vor)</li><li>Beliebige Dateiformate archivieren<ul><li>z.B. PDF, Office-Dateien, E-Mails, Bilder, Musik, Verträge, Rechnungen, Kontoauszüge, Lieferscheine uvm.</li></ul></li><li>Automatische Texterkennung mittels Volltextindizierung durch die OCR „Tesseract“</li><li>Viele intelligente Suchfunktionen und Filtermöglichkeiten<ul><li>z.B. Volltextsuche, Attributsuche, Filtervorlagen uvm.</li></ul></li><li>Automatische Archivierung und Klassifizierung mittels Klassifizierungsvorlagen, erstellt mit dem integrierten Vorlagen Designer</li><li>Papierdokumente scannen und archivieren</li><li>Flotte Archivierung via Drag &amp; Drop und Sidepanel</li><li>PDF Editor mit Stempelfunktion</li><li>Gesetzeskonformes Löschkonzept gemäß GoBD &amp; DSGVO</li><li>Einfache E-Mailarchivierung aus Thunderbird &amp; Outlook per Mausklick</li><li>Plugins für OpenOffice, LibreOffice, Microsoft Office</li><li>Benutzer- und Gruppenverwaltung</li><li>Verbindung mit LDAP und Active Directory</li><li>Clipboard zur Erstellung benutzerdefinierter „Dokumentenmappen“</li><li>Versionsverwaltung</li><li>Revisionskonforme Dokumentenhistorie</li><li>Komfortable Funktion für Backup &amp; Restore</li><li>Zeitlich unbeschränkte Lizenz mit Lebenslanger-Lizenzpreis-Garantie</li><li>Frei skalier- und konfigurierbar für beliebige Benutzerkreise und Größen</li></ul>
+
+
+
+<p><strong>Dies ist nun ein kleiner Auszug der vielen Möglichkeiten mit ecoDMS. Überzeugen Sie sich selbst von den Vorzügen dieses Dokumenten-Management-Systems und testen Sie die Software kostenlos.</strong></p>
+
+
+
+<p>Es gelten die Systemvoraussetzungen und das Lizenzmodell der ecoDMS GmbH. Die Software kann kostenlos unter www.ecodms.de herunterladen und 30 Tage lang getestet werden. Für Privatleute ist das Archiv nach der Demophase als abgespeckte Free4Three-Version weiterhin kostenlos nutzbar. Wer ecoDMS nach der Demophase gewerblich und/oder mit vollem Funktionsumfang weiter verwenden möchte, benötigt eine Lizenz der Vollversion. Diese und weitere Informationen gibt es unter&nbsp;<a href="https://www.ecodms.de/">www.ecodms.de</a>.</p>
+
+
+
+
+
+
+												</div>
+{% include 'website/carousel.html' %}
+{% endblock %}
+
+{% block extrascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+<script>
+    $(document).ready(function()
+{
+
+
+if($('.bbb_viewed_slider').length)
+{
+var viewedSlider = $('.bbb_viewed_slider');
+
+viewedSlider.owlCarousel(
+{
+loop:true,
+
+autoplay:true,
+autoplayTimeout:6000,
+nav:false,
+dots:false,
+
+});
+
+if($('.bbb_viewed_prev').length)
+{
+var prev = $('.bbb_viewed_prev');
+prev.on('click', function()
+{
+viewedSlider.trigger('prev.owl.carousel');
+});
+}
+
+if($('.bbb_viewed_next').length)
+{
+var next = $('.bbb_viewed_next');
+next.on('click', function()
+{
+viewedSlider.trigger('next.owl.carousel');
+});
+}
+}
+
+
+});
+</script>
 {% endblock %}
