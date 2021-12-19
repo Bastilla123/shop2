@@ -1,0 +1,2 @@
+User-Agent: *
+Sitemap: https://beelze-solutions.de/sitemap.xml

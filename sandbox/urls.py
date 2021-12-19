@@ -7,9 +7,14 @@ from django.contrib import admin
 from django.contrib.sitemaps import views
 from django.urls import include, path
 from oscar.views import handler403, handler404, handler500
-
-from apps.sitemaps import base_sitemaps
+from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps import GenericSitemap # new
+from django.contrib.sitemaps.views import sitemap
+from catalogue.models import Product
+from catalogue.sitemap import ProductSitemap
 from globalsettings.urls import urlpatterns as main_urls
+from django.views.generic.base import TemplateView
+
 
 admin.autodiscover()
 from django.urls import reverse_lazy
@@ -28,11 +33,18 @@ urlpatterns = [
     path('i18n/', include(django.conf.urls.i18n)),
 
     # include a basic sitemap
-    path('sitemap.xml', views.index,
-        {'sitemaps': base_sitemaps}),
-    path('sitemap-<slug:section>.xml', views.sitemap,
-        {'sitemaps': base_sitemaps},
-        name='django.contrib.sitemaps.views.sitemap')
+    path('sitemap.xml', sitemap,  # new
+         {'sitemaps': {'blog': GenericSitemap({
+    'queryset': Product.objects.all(),
+}, priority=0.6)}},
+         name='django.contrib.sitemaps.views.sitemap'),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+    #path('sitemap-<slug:section>.xml', views.sitemap,
+    #    {'sitemaps': base_sitemaps},
+    #    name='django.contrib.sitemaps.views.sitemap')
 ]
 
 # Prefix Oscar URLs with language codes
