@@ -17938,6 +17938,12 @@ a.text-lighter:focus {
   padding: 0;
 }
 
+.btn-own-icon-only {
+  width: 5rem;
+  height: 5rem;
+  padding: 0;
+}
+
 a.btn-icon-only {
   line-height: 2.5;
 }
@@ -22620,6 +22626,18 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   top: -10px;
   left: -7px;
   font-size: 14px;
+  position: relative;
+}
+
+.btn.btn-own {
+  background-color: #1da1f2;
+  color: #fff;
+}
+
+.btn.btn-own.btn-icon-only .btn-inner--icon i {
+  top: -10px;
+  left: -7px;
+  font-size: 40px;
   position: relative;
 }
 
