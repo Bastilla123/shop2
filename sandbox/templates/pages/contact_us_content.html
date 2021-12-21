@@ -1,0 +1,137 @@
+{% load i18n %}
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-md-12 text-center mb-5">
+            <h1 class="display-1">{% trans 'Got a question' %}?</h1>
+            <h3 class="lead">{% trans "We'd like to talk more about what you need" %}</h3>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-6">
+            <div class="info info-hover">
+                <div class="icon icon-shape icon-shape-primary icon-lg shadow rounded-circle text-primary">
+                    <i class="ni ni-square-pin"></i>
+                </div>
+                <h4 class="info-title">Address</h4>
+                <p class="description px-0">{% if globalsettings.client_street %}{{globalsettings.client_street}} {% endif %},{% if globalsettings.client_zip %}{{globalsettings.client_zip}} {% endif %}{% if globalsettings.client_city %}{{globalsettings.client_city}}{% endif %}</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-6">
+            <div class="info info-hover">
+                <div class="icon icon-shape icon-shape-primary icon-lg shadow rounded-circle text-primary">
+                    <i class="ni ni-email-83"></i>
+                </div>
+                <h4 class="info-title">Email</h4>
+                <a href="{% if globalsettings.email %}{{globalsettings.email}} {% endif %}">{% if globalsettings.email %}{{globalsettings.email}} {% endif %}</a>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-6">
+            <div class="info info-hover">
+                <div class="icon icon-shape icon-shape-primary icon-lg shadow rounded-circle text-primary">
+                    <i class="ni ni-mobile-button"></i>
+                </div>
+                <h4 class="info-title">Phone</h4>
+                <p class="description px-0">{% if globalsettings.phone %}{{globalsettings.phone}} {% endif %}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="container-fluid">
+        <div class="row mt-5 mb-4 pt-5">
+            <div class="col-md-8 ml-auto mr-auto text-center mt-5">
+                <span class="badge badge-info">Leave a message</span>
+                <h1 class="title">{% trans 'Tell us more about your <b>problem</b>' %}</h1>
+                <h4 class="desc">{% trans 'Whether you have questions or you would just like to say hello, contact us.' %}</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mx-auto ">
+                <form role="form" class="card bg-secondary p-3" id="kontaktform" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>First name</label>
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                                        </div>
+
+                                        <input type="text" class="form-control" name="firstname"
+                                               placeholder="First Name..." aria-label="First Name...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Last name</label>
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-tag"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" name="lastname" id="id_lastname"
+                                               placeholder="Last Name..." aria-label="Last Name...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="id_email" name="email"
+                                       placeholder="Email Here...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Your message</label>
+                            <textarea class="form-control form-control-alternative" name="text" id="message"
+                                      rows="6"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ml-auto">
+                                <button type="submit" id="kontaktsubmit" class="btn btn-primary pull-right">Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="map-contactus-3" class="map skew-separator skew-top"
+     style="height: 500px; position: relative; overflow: hidden;">
+    <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+        <div class="gm-err-container">
+            <div class="gm-err-content">
+                <div class="gm-err-icon"><img src="https://maps.gstatic.com/mapfiles/api-3/images/icon_error.png" alt=""
+                                              draggable="false" style="user-select: none;"></div>
+                <div class="gm-err-title">Oops! Something went wrong.</div>
+                <div class="gm-err-message">This page didn't load Google Maps correctly. See the JavaScript console for
+                    technical details.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="row row-grid align-items-center mb-5">
+            <div class="col-lg-6">
+                <h3 class="text-primary font-weight-light mb-2">{% trans 'Thank you for supporting us'%}!</h3>
+
+            </div>
+
+        </div>
+
+    </div>
+</footer>

@@ -1,3 +1,4 @@
+from catalogue.models import Category,ProductCategory,Product
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.shortcuts import render
@@ -67,13 +68,16 @@ def revocation(request):
 
 
 def ecodms(request):
-    from catalogue.models import Category,ProductCategory,Product
+
     category = Category.objects.filter(name = 'EcoDMS')
     productcategorie = ProductCategory.objects.filter(category__in = category)
     return render(request,'pages/ecodms.html',{'productcategorie':productcategorie})
 
 def impressumview(request):
     return render(request,'pages/impressum.html')
+
+def about_us(request):
+    return render(request,'pages/about_us.html')
 
 def gobdview(request):
     return render(request,'pages/gobd.html')
