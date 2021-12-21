@@ -200,7 +200,7 @@ Coded by www.creative-tim.com
     </div>
 
     <div class="section section-item">
-      <div class="container">
+
         <div class="row">
 
 
@@ -210,36 +210,59 @@ Coded by www.creative-tim.com
 
 
         </div><!-- section -->
-        </div>
+
       </div>
 
        {% include 'website/testimonials.html' %}
 
+
+      <button onclick="location.href='{% url 'pages:contact_us' %}'" style="position:fixed;bottom:160px;right:20px;z-index:1000;" rel="nofollow" class="btn  btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="{% trans 'Contact us' %}">
+              <span class="btn-inner--icon "> <i class="fas fa-phone "></i></span>
+            </button>
+
+      <button onclick="topFunction()" id="myBtn" style="position:fixed;bottom:220px;right:20px;z-index:1000;" rel="nofollow" class="btn  btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="{% trans 'Scroll to top' %}">
+              <span class="btn-inner--icon " > <i class="far fa-arrow-alt-circle-up" ></i></span>
+            </button>
+
+
         <footer class="footer">
-          <div class="container-fluid">
-            <div class="row row-grid align-items-center mb-5">
-
-              </div>
-            </div>
-
-
-
-
+      <div class="container">
+        <div class="row row-grid align-items-center mb-5">
+          <div class="col-lg-6">
+            <h3 class="text-primary font-weight-light mb-2">{% trans 'Thank you for supporting us' %}!</h3>
+            <h4 class="mb-0 font-weight-light">{% trans "Let's get in touch on any of these platforms" %}.</h4>
+          </div>
+          <div class="col-lg-6 text-lg-right btn-wrapper">
+            <button target="_blank" href="https://twitter.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-twitter rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+              <span class="btn-inner--icon"><i class="fa fa-twitter"></i></span>
+            </button>
+            <button target="_blank" href="https://www.facebook.com/CreativeTim/" rel="nofollow" class="btn-icon-only rounded-circle btn btn-facebook" data-toggle="tooltip" data-original-title="Like us">
+              <span class="btn-inner--icon"><i class="fab fa-facebook"></i></span>
+            </button>
+            <button target="_blank" href="https://dribbble.com/creativetim" rel="nofollow" class="btn btn-icon-only btn-dribbble rounded-circle" data-toggle="tooltip" data-original-title="Follow us">
+              <span class="btn-inner--icon"><i class="fa fa-dribbble"></i></span>
+            </button>
+            <button target="_blank" href="https://github.com/creativetimofficial" rel="nofollow" class="btn btn-icon-only btn-github rounded-circle" data-toggle="tooltip" data-original-title="Star on Github">
+              <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+            </button>
+          </div>
+        </div>
         <hr>
-
         <div class="row align-items-center justify-content-md-between">
-
           <div class="col-md-6">
-
-
-                <ul class="nav nav-footer justify-content-end">
-<li class="nav-item">
+            <div class="copyright">
+              © 2021 <a href="" target="_blank">Sebastian Jung</a>.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <ul class="nav nav-footer justify-content-end">
+              <li class="nav-item">
               <a href="{% url 'pages:about_us' %}" class="nav-link" >{% trans 'About us' %}</a>
 
               </li>
 
               <li class="nav-item">
-              <a href="{% url 'pages:impressumview' %}" class="nav-link" >Impressum</a>
+              <a href="{% url 'pages:impressumview' %}" class="nav-link" >{% trans 'Legal notice' %}</a>
 
               </li>
                   <li class="nav-item">
@@ -263,10 +286,9 @@ Coded by www.creative-tim.com
               <a href="{% url 'pages:revocation' %}" class="nav-link" >{% trans 'Revocation' %}</a>
 
               </li>
-
-
             </ul>
-
+          </div>
+        </div>
       </div>
     </footer>
   </div>
@@ -416,6 +438,28 @@ $(function() {
      $("form#language_selector").submit();
    });
  });
+  </script>
+
+  <script>
+      //Get the button:
+mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
   </script>
 
     {# Local scripts #}
