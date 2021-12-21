@@ -17,25 +17,31 @@
                 <p class="description px-0">{% if globalsettings.client_street %}{{globalsettings.client_street}} {% endif %},{% if globalsettings.client_zip %}{{globalsettings.client_zip}} {% endif %}{% if globalsettings.client_city %}{{globalsettings.client_city}}{% endif %}</p>
             </div>
         </div>
+        {% if globalsettings.email %}
         <div class="col-lg-4 col-md-6 col-6">
             <div class="info info-hover">
                 <div class="icon icon-shape icon-shape-primary icon-lg shadow rounded-circle text-primary">
                     <i class="ni ni-email-83"></i>
                 </div>
+
                 <h4 class="info-title">Email</h4>
-                <a href="{% if globalsettings.email %}{{globalsettings.email}} {% endif %}">{% if globalsettings.email %}{{globalsettings.email}} {% endif %}</a>
+                <a href="mailto:{{globalsettings.email}} ">{{globalsettings.email}}</a>
 
             </div>
         </div>
+        {% endif %}
+        {% if globalsettings.phone %}
         <div class="col-lg-4 col-md-6 col-6">
             <div class="info info-hover">
                 <div class="icon icon-shape icon-shape-primary icon-lg shadow rounded-circle text-primary">
                     <i class="ni ni-mobile-button"></i>
                 </div>
                 <h4 class="info-title">Phone</h4>
-                <p class="description px-0">{% if globalsettings.phone %}{{globalsettings.phone}} {% endif %}</p>
+                <a href="tel:{{globalsettings.phone}} ">{{globalsettings.phone}}</a>
+
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 

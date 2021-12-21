@@ -91,10 +91,14 @@ Coded by www.creative-tim.com
         <!-- Left -->
 
         <div class="col-7 text-white">
+            {% if globalsettings.phone %}
+{% trans 'Phone' %}: <a href="tel:{{globalsettings.phone}}" style="color:white; ">{{globalsettings.phone}}</a>{% endif %}
+            {% if globalsettings.email %}
+            E-Mail: <a href="mailto:{{ globalsettings.email }}" style="color:white;">{{ globalsettings.email }}</a>{% endif %}
 
-          Telefon: {{ globalsettings.phone }} E-Mail: {{ globalsettings.email }}
         {# Top-horizontal bar with account, notifictions, dashboard links #}
           </div>
+
         <!-- /Left -->
         <!-- Center -->
 
