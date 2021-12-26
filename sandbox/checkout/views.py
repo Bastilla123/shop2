@@ -1,4 +1,6 @@
+from . import PAYMENT_METHOD_STRIPE, PAYMENT_EVENT_PURCHASE, STRIPE_EMAIL, STRIPE_TOKEN
 #from .docdata import CustomDocdataFacade
+from .facade import Facade
 import logging
 from oscar.apps.payment.models import Source
 from . import gateway
@@ -6,11 +8,11 @@ from oscar.apps.checkout import views as oscar_views
 
 from paypal.payflow import facade
 from django.contrib import messages
-from . import forms
+
 from django.shortcuts import redirect
 from oscar.apps.payment.models import SourceType
 from oscar.apps.payment.forms import BankcardForm
-from .forms import BillingAddressForm
+from .forms import *
 from oscar.apps.checkout import exceptions
 from django.urls import reverse, reverse_lazy
 from oscar.core.loading import get_model, get_class
@@ -62,7 +64,7 @@ class PaymentMethodView(OscarPaymentMethodView, FormView):
     """
     template_name = "oscar/checkout/payment_method.html"
     step = 'payment-method'
-    form_class = forms.PaymentMethodForm
+    form_class = PaymentMethodForm
     pre_conditions = []
     skip_conditions = []
     success_url = reverse_lazy('checkout:payment-details')
@@ -141,10 +143,7 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
         # Override method so the bankcard and billing address forms can be
         # added to the context.
         ctx = super(PaymentDetailsView, self).get_context_data(**kwargs)
-        ctx['bankcard_form'] = kwargs.get(
-            'bankcard_form', BankcardForm())
-        #ctx['billing_address_form'] = kwargs.get(
-        #    'billing_address_form', BillingAddressForm())
+
         if 'billing_address_form' not in kwargs:
             ctx['billing_address_form'] = self.get_billing_address_form(
                 ctx['shipping_address']
@@ -154,6 +153,16 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
             'code': method,
             'title': self.get_payment_method_display(method),
         }
+
+        if (method=='card'):
+
+            if self.preview:
+                ctx['stripe_token_form'] = StripeTokenForm(self.request.POST)
+                ctx['order_total_incl_tax_cents'] = (
+                        ctx['order_total'].incl_tax * 100
+                ).to_integral_value()
+            else:
+                ctx['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
         #print("Context "+str(ctx))
         return ctx
 
@@ -209,6 +218,8 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
         #else:
             return self.handle_payment_details_submission(request)
 
+        return super(PaymentDetailsView, self).post(request, *args, **kwargs)
+
     def do_place_order(self, request):
 
         # Helper method to check that the hidden forms wasn't tinkered
@@ -230,10 +241,35 @@ class PaymentDetailsView(oscar_views.PaymentDetailsView):
             submission['payment_kwargs']['billing_address'] = billing_address_form.cleaned_data
         return self.submit(**submission)
 
+    def payment_description(self, order_number, total, **kwargs):
+        return self.request.POST[STRIPE_EMAIL]
+
+    def payment_metadata(self, order_number, total, **kwargs):
+        return {'order_number': order_number}
+
     def handle_payment(self, order_number, total, **kwargs):
         """
                     Make submission to PayPal
                     """
+        if (self.checkout_session.payment_method() == 'card'):
+
+            stripe_ref = Facade().charge(
+                order_number,
+                total,
+                card=self.request.POST[STRIPE_TOKEN],
+                description=self.payment_description(order_number, total, **kwargs),
+                metadata=self.payment_metadata(order_number, total, **kwargs))
+
+            source_type, __ = SourceType.objects.get_or_create(name=PAYMENT_METHOD_STRIPE)
+            source = Source(
+                source_type=source_type,
+                currency=settings.STRIPE_CURRENCY,
+                amount_allocated=total.incl_tax,
+                amount_debited=total.incl_tax,
+                reference=stripe_ref)
+            self.add_payment_source(source)
+
+            self.add_payment_event(PAYMENT_EVENT_PURCHASE, total.incl_tax)
 
         if (self.checkout_session.payment_method() == 'paypal'):
 

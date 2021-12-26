@@ -100,7 +100,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = env.str('SECRET_KEY', default='UajFCuyjDKmWHe29neauXzHi9eZoRXr6RMbT5JyAdPiACBP6Cra2')
 
-
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51J70RZIdoX21R8N8WpaXMpGHunCYPY2vDMzWaz0zTn0WZCWWoxLo8PQP881hhChhCq2sAGJCkjNIU2AD4EvdIXZS00Nd6V2kDZ'
+STRIPE_SECRET_KEY = 'sk_test_51J70RZIdoX21R8N8bkCaxDciGxonArq5EIAY6LKMQC8FqiHqHoaK3Xffg6Py1kTQGRppCXwrlxMBOuD8TAb6nWUN00FLDzyU6W'
+STRIPE_CURRENCY = "EUR"
 
 TEMPLATES = [
     {

@@ -26,7 +26,7 @@
             template and render it in a hidden div.  Then the payment information will
             get re-submitted when the user confirms the order.
         {% endcomment %}
-        <div style="display:none">
+        <div style="display:none">{{ stripe_token_form }}
             {% block hiddenforms %}{% endblock %}
         </div>
 

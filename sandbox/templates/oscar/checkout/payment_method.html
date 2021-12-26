@@ -9,14 +9,9 @@
 {% endcomment %}
 
 {% block content %}
-    <div class="well">
-    {% if error %}
-        <div class="alert alert-error">
-            {{ error }}
-        </div>
-    {% endif %}
 
-    <form action="" method="post" class="form form-horizontal">
+
+    <form action="" method="post" >
         {% csrf_token %}
 
         {% if form.payment_method.errors %}{{ form.payment_method.errors }}{% endif %}
@@ -28,5 +23,5 @@
 
         <p><button type="submit" class="btn btn-large btn-primary">{% trans "Continue to confirmation" %}</button>
     </form>
-    </div>
+
 {% endblock %}

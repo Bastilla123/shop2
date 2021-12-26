@@ -36,9 +36,15 @@
                 </div>
                 {% endfor %}
             {% endblock %}
-
+        <div class="col-md-12 ">
+<div class="card">
+    <div class="row">
+        <div class="card-body">
             {% block content %}{% endblock %}
-
+            </div>
+        </div>
+        </div>
+</div>
         </div><!-- /page_inner -->
 
     {% include "oscar/partials/footer_checkout.html" %}
